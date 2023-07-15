@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:iOS="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             iOS:Page.UseSafeArea="True"
+             xmlns:Xaml="clr-namespace:LightForms.Xaml;assembly=LightForms"
+             xmlns:Behaviors="clr-namespace:LightForms.Behaviors;assembly=LightForms"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             x:Class="EmergencyTask.View.StatusSupportListPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame Padding="0" Margin="12,6" BackgroundColor="White" CornerRadius="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <BoxView Grid.Column="0" WidthRequest="12">
+                        <BoxView.Triggers>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding Support.IdStatus}" Value="10">
+                                <Setter Property="BackgroundColor" Value="DarkRed"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding Support.IdStatus}" Value="20">
+                                <Setter Property="BackgroundColor" Value="DarkOrange"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding Support.IdStatus}" Value="50">
+                                <Setter Property="BackgroundColor" Value="Gold"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding Support.IdStatus}" Value="100">
+                                <Setter Property="BackgroundColor" Value="DarkGreen"/>
+                            </DataTrigger>
+                        </BoxView.Triggers>
+                    </BoxView>
+                    <StackLayout Grid.Column="1" Padding="12">
+                        <Label Text="{Binding Support.Category}" FontSize="Medium"/>
+                        <Label Text="{Binding Support.DetailService}" TextColor="Black"/>
+                        <Label Text="{Binding Support.Description}"/>
+                    </StackLayout>
+                    <Label Grid.Column="1" Text="{Binding Support.Status}" TextColor="DarkGreen" Margin="5" HorizontalOptions="End" VerticalOptions="Start">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding Support.IdStatus}" Value="10">
+                                <Setter Property="TextColor" Value="DarkRed"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding Support.IdStatus}" Value="20">
+                                <Setter Property="TextColor" Value="DarkOrange"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding Support.IdStatus}" Value="50">
+                                <Setter Property="TextColor" Value="Gold"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding Support.IdStatus}" Value="100">
+                                <Setter Property="TextColor" Value="DarkGreen"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+            </Frame>
+            <ListView ItemsSource="{Binding Status}" SelectedItem="{Binding State}">
+                <ListView.Behaviors>
+                    <Behaviors:ListViewRemoveSelectionBehavior />
+                    <Behaviors:ViewEventToCommandBehavior EventName="ItemSelected" Command="{Binding Command}" CommandParameter="{Binding State}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Padding="0" Margin="12,6" BackgroundColor="White" CornerRadius="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView Grid.Column="0" WidthRequest="12">
+                                        <BoxView.Triggers>
+                                            <DataTrigger TargetType="BoxView" Binding="{Binding Status.Id}" Value="10">
+                                                <Setter Property="BackgroundColor" Value="DarkRed"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="BoxView" Binding="{Binding Status.Id}" Value="20">
+                                                <Setter Property="BackgroundColor" Value="DarkOrange"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="BoxView" Binding="{Binding Status.Id}" Value="50">
+                                                <Setter Property="BackgroundColor" Value="Gold"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="BoxView" Binding="{Binding Status.Id}" Value="100">
+                                                <Setter Property="BackgroundColor" Value="DarkGreen"/>
+                                            </DataTrigger>
+                                        </BoxView.Triggers>
+                                    </BoxView>
+                                    <StackLayout Grid.Column="1" Padding="12">
+                                        <Label Text="{Binding Status}" FontSize="Medium">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status.Id}" Value="10">
+                                                    <Setter Property="TextColor" Value="DarkRed"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status.Id}" Value="20">
+                                                    <Setter Property="TextColor" Value="DarkOrange"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status.Id}" Value="50">
+                                                    <Setter Property="TextColor" Value="Gold"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status.Id}" Value="100">
+                                                    <Setter Property="TextColor" Value="DarkGreen"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <Label Text="{Binding Comentary}" TextColor="Black"/>
+                                        <Label Text="{Binding Date}" TextColor="Gray"/>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

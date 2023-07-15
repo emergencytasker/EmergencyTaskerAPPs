@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.DocumentPage"
+             Title="{i18n:Translate Certificacion}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             BackgroundColor="#eeeeee"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel">
+    <ContentPage.BindingContext>
+        <ViewModel:DocumentViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <!--Pagina para solicitar los Documentos del Trabajador-->
+        <Grid>
+            <ScrollView>
+                <StackLayout Padding="12">
+                    <!--Datos Por Default, Nombre de usuario y foto de Perfil-->
+                    <Frame Margin="0,6">
+                        <StackLayout>
+                            <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding FotoUser}" HeightRequest="80"  WidthRequest="80" Aspect="AspectFill" HorizontalOptions="Center" >
+                                <Controls:ImageLoading.Transformations>
+                                    <Transformations:CircleTransformation />
+                                </Controls:ImageLoading.Transformations>
+                                <Controls:ImageLoading.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding UploadProfileImage}" />                                    
+                                </Controls:ImageLoading.GestureRecognizers>
+                            </Controls:ImageLoading>
+                            <Label Text="{i18n:Translate HazClick}" HorizontalTextAlignment="Center"/>
+                            <Label Text="{Binding NameUser}" TextColor="Gray" HorizontalTextAlignment="Center"/>
+                            <Label Text="{i18n:Translate MensajeDocumentos}" HorizontalTextAlignment="Center" FontSize="Small" WidthRequest="250" TextColor="Gray"
+                                   IsVisible="{Binding IsClient, Converter={StaticResource InvertedBooleanConverter}}" />
+                        </StackLayout>
+                    </Frame>
+                    <!--Solicitar fotos del IFE-->
+                    <Frame Margin="0,6" IsVisible="{Binding IsClient, Converter={StaticResource InvertedBooleanConverter}}">
+                        <Grid HorizontalOptions="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="150" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Text="{i18n:Translate ID}" TextColor="Gray" HorizontalTextAlignment="Center"/>
+                            <Control:CartaView Grid.Row="1" Grid.Column="0" BindingContext="{Binding FrontIne}" />
+                        </Grid>
+                    </Frame>
+                    <!--Solicitar Numero de Seguro Medico-->
+                    <Frame Margin="0,6" IsVisible="{Binding IsClient, Converter={StaticResource InvertedBooleanConverter}}">
+                        <StackLayout>
+                            <Label Text="{i18n:Translate NSS}" TextColor="Gray" HorizontalTextAlignment="Center"/>
+                            <Entry Placeholder="{i18n:Translate NroSeguro}" FontSize="Small" Text="{Binding NroSeguro}" TextColor="Black" PlaceholderColor="Gray"/>
+                        </StackLayout>
+                    </Frame>
+                    <!--Boton de Validación-->
+                    <Frame Margin="0,6">
+                        <Button Text="{i18n:Translate Continuar}" Command="{Binding BtnGuardar}" Style="{StaticResource BtnDefault}" />
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+            <Control:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

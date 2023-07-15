@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.LoginPage"
+             BackgroundColor="White"
+             Title="{i18n:Translate Login}"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Control="clr-namespace:EmergencyTask.Control">
+    <ContentPage.BindingContext>
+        <ViewModel:LoginViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <!--Pagina de Login-->
+        <Grid>
+            <StackLayout Padding="50">
+                <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="eticon.png" HeightRequest="150" WidthRequest="150" Aspect="AspectFit" HorizontalOptions="Center"/>
+                <Label Text="{i18n:Translate IniciarSesion}" FontSize="Medium" TextColor="Gray" HorizontalTextAlignment="Center" />
+                <!--Sing In-->
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{StaticResource Email}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Black" VerticalTextAlignment="Center" FontSize="20"/>
+                    <Entry Placeholder="{i18n:Translate CorreoElectronico}" Text="{Binding Email}" PlaceholderColor="Gray" FontSize="Small" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{StaticResource Key}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Black" VerticalTextAlignment="Center" FontSize="20"/>
+                    <Entry Placeholder="{i18n:Translate Contraseña}" Text="{Binding Password}" PlaceholderColor="Gray" FontSize="Small" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+                <Button Text="{i18n:Translate IniciarSesion}" Style="{StaticResource BtnDefault}" Command="{Binding SignIn}"/>
+                <!--End-->
+                
+                <!--Olvidaste tu Contraseña-->
+                <Label Text="{i18n:Translate ContraseñaOlvidada}" Margin="0,12" TextColor="Gray" HorizontalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapPassword}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <!--End-->
+                
+                <!--Sign Up-->
+                <StackLayout HorizontalOptions="Center" Margin="0,12">
+                    <Label Text="{i18n:Translate SigIn}" TextColor="Gray" HorizontalTextAlignment="Center" FontSize="Small"/>
+                    <Label TextColor="Gray" FontSize="Small" HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{i18n:Translate Registrarme}" FontSize="Small" TextDecorations="Underline"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SignUp}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+                <!--End-->
+                
+                <!--Login con Facebook-->
+                <Button Text="{i18n:Translate Facebook}" Command="{Binding Facebook}" Style="{StaticResource BtnDefault}" IsVisible="False"/>
+                <!--End-->
+                
+                <!--Entrar sin Sesion-->
+                <Label TextColor="Gray" FontSize="Small" Margin="0,20" HorizontalTextAlignment="Center" IsVisible="{Binding IsClient}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{i18n:Translate SinSesion}" TextDecorations="Underline"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapContinue}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <!--End-->
+            </StackLayout>
+            <Control:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

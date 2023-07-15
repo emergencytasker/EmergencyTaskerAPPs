@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.AccesoriesListPage"
+             Title="{i18n:Translate ListaAccesorios}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             BackgroundColor="#eeeeee">
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" Padding="12">
+                <Label Text="{i18n:Translate MensajeAccesorio}" TextColor="Black" HorizontalTextAlignment="Center" FontAttributes="Bold" HorizontalOptions="Center" Margin="12" />
+                <ListView ItemsSource="{Binding Accesorios}" HeightRequest="140">
+                    <ListView.Behaviors>
+                        <Behaviors:ListViewBehavior />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame BackgroundColor="White" Padding="0" Margin="0,6">
+                                    <Grid Padding="12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding Nombre}" HorizontalOptions="StartAndExpand" TextColor="Black" LineBreakMode="TailTruncation" MaxLines="1" />
+                                        <Label Grid.Column="1" Text="{Binding Cantidad, StringFormat='x {0}'}" TextColor="Black" />
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <Button Grid.Row="0" Text="+" TextColor="White" BackgroundColor="{StaticResource Accent}" VerticalOptions="End" HorizontalOptions="End" CornerRadius="20" WidthRequest="40" HeightRequest="40" Command="{Binding AgregarAccesorio}" Margin="12" />
+            <Button Grid.Row="1" Text="{i18n:Translate Continuar}" Command="{Binding Continuar}" Style="{StaticResource BtnDefault}" Margin="12" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

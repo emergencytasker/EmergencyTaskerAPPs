@@ -1,0 +1,60 @@
+﻿@using ETClient.Models;
+@if (showDialog)
+{
+    <div class="modal fade @DialogCssClass" id="serviceModal" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@Title</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>@Message</p>
+                </div>
+
+              
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="button" class="btn btn-success" style="width:120px" @onclick="@(()=> onResponse(true))">YES</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-danger" style="width:120px" @onclick="@(()=> onResponse(false))">NO</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code
+{
+    public EventHandler<bool> OnReturn { set; get; }
+    bool showDialog = false;
+    string? DialogCssClass => showDialog ? "show" : "hide";
+    string? Title, Message;
+
+    public void Show(string title, string message)
+    {
+        Title = title;
+        Message = message;
+        showDialog = true;
+        this.StateHasChanged();
+    }
+
+    public void Close()
+    {
+        showDialog = false;
+        Title = string.Empty;
+        Message = string.Empty;
+        this.StateHasChanged();
+    }
+
+    public async void onResponse(bool _value)
+    {
+        OnReturn?.Invoke(this, _value);
+        Close();
+    }
+}

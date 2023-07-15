@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.WaitingServicePage"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:GoogleMaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+              xmlns:global="clr-namespace:EmergencyTask"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Behaviors="clr-namespace:LightForms.Behaviors;assembly=LightForms"
+             Title="{i18n:Translate Home}"
+             BackgroundColor="#e2e2e2"
+             xmlns:FFImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:Conrtrols="clr-namespace:EmergencyTask.Control" 
+             xmlns:viewModel="clr-namespace:EmergencyTask.ViewModel" 
+             xmlns:ctrl="clr-namespace:EmergencyTask.Controls" 
+             xmlns:dic="clr-namespace:EmergencyTask.Dictionaries">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <dic:ItemServiceWidthToConvert x:Key="ItemServiceWidthToConvert"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <Grid ColumnSpacing="0" RowSpacing="0">
+
+            <GoogleMaps:Map x:Name="Mapa"/>
+
+            <Frame VerticalOptions="Start" HorizontalOptions="End" Margin="12" Padding="12" IsVisible="{Binding InService, Converter={StaticResource InvertedBooleanConverter}}">
+                <StackLayout>
+                    <Switch IsToggled="{Binding UserStatus}" HeightRequest="30" OnColor="{StaticResource Accent}" ThumbColor="White">
+                        <Switch.Behaviors>
+                            <Behaviors:ViewEventToCommandBehavior EventName="Toggled" Command="{Binding UserStatusChanged}" />
+                        </Switch.Behaviors>
+                    </Switch>
+                    <Label Text="{Binding OnlineOffline}" TextColor="Black" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                </StackLayout>
+            </Frame>
+
+            <StackLayout VerticalOptions="Start" HorizontalOptions="End" Spacing="0" Margin="0,0,0,45">
+                <Frame VerticalOptions="Start" HorizontalOptions="End" Margin="12" Padding="12" IsVisible="{Binding InService}">
+                    <Label Text="{i18n:Translate Pagos}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoHitos}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame Margin="12" Padding="12" IsVisible="{Binding InService}" WidthRequest="45" HeightRequest="45" HorizontalOptions="End">
+                    <StackLayout Spacing="0" VerticalOptions="Center" Margin="0,0,0,0">
+                        <Label Text="{StaticResource Info}" FontFamily="{StaticResource MaterialIcons}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Accent}"
+                           FontSize="30">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoInfo}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </Frame>
+                <Frame Margin="12" IsVisible="{Binding InService}" WidthRequest="30" HeightRequest="30" HorizontalOptions="End">
+                    <StackLayout Spacing="0" Margin="0,0,0,0" VerticalOptions="Center">
+                        <Conrtrols:ImageLoading Source="ubicacion.png" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit"
+                                                LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png">
+                            <Conrtrols:ImageLoading.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenMap}" />
+                            </Conrtrols:ImageLoading.GestureRecognizers>
+                        </Conrtrols:ImageLoading>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+            <Frame CornerRadius="25" HorizontalOptions="Start" VerticalOptions="End" Margin="20" Padding="12" IsVisible="{Binding InService, Converter={StaticResource InvertedBooleanConverter}}">
+                <Image>
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GetGPS}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                    <Image.Source>
+                        <FontImageSource Glyph="{StaticResource Gps}" FontFamily="{StaticResource MaterialIcons}" Color="{StaticResource Accent}" Size="30" />
+                    </Image.Source>
+                </Image>
+            </Frame>
+
+
+            <!-- Lista de servicio pendientes -->
+            <ScrollView VerticalOptions="End" Orientation="Horizontal" Margin="12,12, 12, 24" IsVisible="{Binding IsServicesVisible}" HorizontalScrollBarVisibility="Never">
+                <ctrl:ItemsControl ItemsSource="{Binding Services}"  Orientation="Horizontal" Spacing="5" HeightRequest="180" >
+                    <ctrl:ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="0" Padding="0" WidthRequest="{Binding Source={Static global:App.Display}, Path=Info.Width, Converter={StaticResource ItemServiceWidthToConvert}}">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding GoToInfo}" CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                                <Grid Padding="12">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding Imagen}" Grid.Row="0" Grid.Column="0" WidthRequest="50" HeightRequest="50" HorizontalOptions="Start" VerticalOptions="Start">
+                                        <Controls:ImageLoading.Transformations>
+                                            <Transformations:CircleTransformation BorderSize="2" BorderHexColor="{StaticResource HexAccent}" />
+                                        </Controls:ImageLoading.Transformations>
+                                    </Controls:ImageLoading>
+                                    <StackLayout Grid.Row="0" Grid.Column="1" Margin="6,0" Spacing="0" VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{Binding Cliente}" TextColor="{StaticResource Accent}" FontSize="Default" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"  VerticalOptions="Center" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                                            <Label Text="{StaticResource Star}" FontFamily="{DynamicResource MaterialIcons}" FontSize="25" TextColor="{StaticResource Yellow}" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" />
+                                            <Label Text="{Binding Calificacion}" FontSize="Small" HorizontalOptions="End" TextColor="DarkGoldenrod" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                                        </StackLayout>
+                                        <Label Text="{Binding Subcategoria}" TextColor="Black" FontSize="Default" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+                                        <Label TextColor="Black" FontSize="Small">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Distancia}" />
+                                                    <Span Text=" - " />
+                                                    <Span Text="{Binding Fecha}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Text="{Binding Descripcion}" TextColor="Black" FontSize="Small" MaxLines="1" LineBreakMode="TailTruncation" />
+                                    </StackLayout>
+                                    <Grid Grid.Row="1" Grid.ColumnSpan="3" VerticalOptions="Center" ColumnSpacing="12">
+                                        <Button Grid.Column="0" Text="{i18n:Translate Aceptar}" Style="{StaticResource BtnDefault}" CommandParameter="{Binding .}" HeightRequest="40" Command="{Binding Aceptar}" FontSize="Small" />
+                                        <Button Grid.Column="1" Text="{i18n:Translate Delegar}" Style="{StaticResource BtnDefault}" BackgroundColor="{StaticResource Red}" CommandParameter="{Binding .}" HeightRequest="40" Command="{Binding Cancelar}" FontSize="Small" />
+                                    </Grid>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </ctrl:ItemsControl.ItemTemplate>
+                </ctrl:ItemsControl>
+            </ScrollView>
+
+
+            <!-- End lista de servicios pendientes -->
+
+            <Grid VerticalOptions="End" BackgroundColor="{StaticResource Accent}" Padding="12,12, 12, 24" MinimumHeightRequest="80" IsVisible="{Binding InService}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenTaskList}" />
+                </Grid.GestureRecognizers>
+                <Label Grid.Column="0" Text="{i18n:Translate Seguimiento}" TextColor="White"/>
+                <Label Grid.Column="1" Text="{StaticResource Arrow}" VerticalOptions="Center" VerticalTextAlignment="Center" FontFamily="{StaticResource MaterialIcons}" TextColor="White" IsVisible="{Binding IsTaskListOpened, Converter={StaticResource InvertedBooleanConverter}}" />
+                <Label Grid.Column="1" Text="{StaticResource Arrow}" VerticalOptions="Center" VerticalTextAlignment="Center" FontFamily="{StaticResource MaterialIcons}" TextColor="White" IsVisible="{Binding IsTaskListOpened}" Rotation="180" />
+            </Grid>
+
+            <StackLayout VerticalOptions="End" BackgroundColor="{StaticResource Accent}" IsVisible="{Binding IsTaskListOpened}" Margin="0,250,0,0" Spacing="0">
+                <Grid BackgroundColor="{StaticResource Accent}" Margin="0" Padding="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenTaskList}" />
+                    </Grid.GestureRecognizers>
+                    <Label Grid.Column="0" Text="{i18n:Translate MensajeTareas}" TextColor="White" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{StaticResource Arrow}" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontFamily="{StaticResource MaterialIcons}" TextColor="White" IsVisible="{Binding IsTaskListOpened, Converter={StaticResource InvertedBooleanConverter}}" BackgroundColor="White" />
+                    <Label Grid.Column="1" Text="{StaticResource Arrow}" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontFamily="{StaticResource MaterialIcons}" TextColor="White" IsVisible="{Binding IsTaskListOpened}" Rotation="180" />
+                </Grid>
+                <ScrollView BackgroundColor="{StaticResource Accent}">
+                    <StackLayout BackgroundColor="{StaticResource Accent}" Spacing="6" Padding="0,6,0,0">
+                        <Frame Margin="12,6" Padding="12" BackgroundColor="White">
+                            <StackLayout>
+                                <Frame HeightRequest="70" WidthRequest="70" Margin="0" Padding="0" CornerRadius="35" HorizontalOptions="Center" IsClippedToBounds="True">
+                                    <Conrtrols:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png"
+                                        WidthRequest="70" HeightRequest="70" Source="{Binding ClientImage}" Aspect="AspectFill">
+                                        <Controls:ImageLoading.Transformations>
+                                            <Transformations:CircleTransformation />
+                                        </Controls:ImageLoading.Transformations>
+                                    </Conrtrols:ImageLoading>
+                                </Frame>
+                                <Label Text="{Binding ClientName}" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding Address}" HorizontalOptions="Center" TextColor="Black" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Margin="12,6" Padding="12" IsVisible="{Binding Indicaciones, Converter={StaticResource HasDataConverter}}">
+                            <StackLayout>
+                                <Label Text="{i18n:Translate Indicaciones}" HorizontalTextAlignment="Center" TextColor="Black" IsVisible="{Binding Indicaciones, Converter={StaticResource HasDataConverter}}" />
+                                <Label Text="{Binding Indicaciones}" HorizontalTextAlignment="Center"  TextColor="Black" IsVisible="{Binding Indicaciones, Converter={StaticResource HasDataConverter}}" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Margin="12,6" Padding="12" IsVisible="{Binding Descripcion, Converter={StaticResource HasDataConverter}}">
+                            <StackLayout>
+                                <Label Text="{i18n:Translate Descripcion}" HorizontalTextAlignment="Center" TextColor="Black" IsVisible="{Binding Descripcion, Converter={StaticResource HasDataConverter}}" />
+                                <Label Text="{Binding Descripcion}" HorizontalTextAlignment="Center" TextColor="Black" IsVisible="{Binding Descripcion, Converter={StaticResource HasDataConverter}}" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Margin="12,6" Padding="12" IsVisible="{Binding Indicaciones, Converter={StaticResource InvertedBooleanConverter}}">
+                            <StackLayout>
+                                <Label Text="{i18n:Translate ContactarCliente}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                                <Grid>
+                                    <Button Grid.Column="0" Text="{StaticResource Message}" VerticalOptions="Center" FontFamily="{DynamicResource MaterialIcons}" HeightRequest="40" WidthRequest="40" Style="{StaticResource BtnDefault}" FontSize="Small" Command="{Binding BtnMessage}" CommandParameter="{Binding .}" HorizontalOptions="FillAndExpand" />
+                                    <Button Grid.Column="1" Text="{StaticResource Call}" VerticalOptions="Center" FontFamily="{DynamicResource MaterialIcons}" HeightRequest="40" WidthRequest="40" Style="{StaticResource BtnDefault}" FontSize="Small" Command="{Binding BtnCall}" CommandParameter="{Binding .}" HorizontalOptions="FillAndExpand" />
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                        <Frame Margin="12,6" Padding="12" IsVisible="{Binding ShowToolListView}">
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{i18n:Translate ComprarLista}" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"
+                                    TextColor="Black" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                                    <Switch VerticalOptions="Center" OnColor="{StaticResource Accent}" IsToggled="{Binding IsToolListCompleted}" IsEnabled="{Binding IsToolListCompleted, Converter={StaticResource InvertedBooleanConverter}}" />
+                                </StackLayout>
+                                <Button Text="{i18n:Translate VerLista}" Style="{StaticResource BtnDefault}" Command="{Binding GoAccesories}" IsVisible="{Binding IsToolListCompleted, Converter={StaticResource InvertedBooleanConverter}}" />
+                                <Button Text="{i18n:Translate SubirTicket}" Style="{StaticResource BtnDefault}" Command="{Binding GoUploadTickets}" IsVisible="{Binding IsTicketUploadVisible}" />
+                                <Label Text="{i18n:Translate MensajeTasker}" FontSize="Small" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Margin="12,6" Padding="12">
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{i18n:Translate CaminoDomicilio}" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"
+                            TextColor="Black" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                                    <Switch VerticalOptions="Center" OnColor="{StaticResource Accent}" IsToggled="{Binding InRouteToAddress}" IsEnabled="{Binding InRouteToAddress, Converter={StaticResource InvertedBooleanConverter}}" />
+                                </StackLayout>
+                                <Label Text="{i18n:Translate ActivarDomicilio}" FontSize="Small" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Margin="12,0" Padding="12" IsVisible="{Binding InRouteToAddress}">
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{i18n:Translate LlegadaDomicilio}" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"
+                                    TextColor="Black" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                                    <Switch VerticalOptions="Center" OnColor="{StaticResource Accent}" IsToggled="{Binding TaskerArrivalToAddress}" IsEnabled="{Binding TaskerArrivalToAddress, Converter={StaticResource InvertedBooleanConverter}}" />
+                                </StackLayout>
+                                <Label Text="{i18n:Translate ActivarLlegada}" FontSize="Small" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Margin="12,6" Padding="12" IsVisible="{Binding TaskerArrivalToAddress}">
+                            <StackLayout>
+                                <Button Text="{i18n:Translate EmpezarTrabajo}" Style="{StaticResource BtnDefault}" Command="{Binding StartWork}" />
+                            </StackLayout>
+                        </Frame>
+                        <Label />
+                        <Label />
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+
+            <Controls:ProgressView  IsVisible="{Binding IsBusy}" />
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

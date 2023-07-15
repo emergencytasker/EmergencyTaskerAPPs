@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{i18n:Translate DetalleServicio}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             x:Class="EmergencyTask.DetailServicePage"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             BackgroundColor="#eeeeee"
+             xmlns:Google="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:Rating="clr-namespace:EmergencyTask.Views.Rating">
+    <Grid>
+        <ScrollView>
+            <StackLayout Spacing="0">
+                <Frame Margin="12,12,12,6">
+                    <StackLayout>
+                        <Label Text="{Binding Servicio}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                        <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding FotoAsistente}" WidthRequest="80" HeightRequest="80" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Controls:ImageLoading.Transformations>
+                                <Transformations:CircleTransformation />
+                            </Controls:ImageLoading.Transformations>
+                        </Controls:ImageLoading>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                            <Label Text="{i18n:Translate Con}" />
+                            <Label Text="{Binding NombreAsistente}" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{Binding HasSchedule}">
+                            <Label Text="{i18n:Translate ElDia}" />
+                            <Label Text="{Binding Fecha, StringFormat='{0:ddd, dd MMM yyy}'}" />
+                            <Label Text="{i18n:Translate ALas}" />
+                            <Label Text="{Binding HoraText}"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <Frame Margin="12,6" IsVisible="{Binding HasDescription}">
+                    <StackLayout>
+                        <Label Text="{i18n:Translate Descripcion}" HorizontalOptions="Center" HorizontalTextAlignment="Center" IsVisible="{Binding HasDescription}" FontAttributes="Bold" />
+                        <Label Text="{Binding Description}" HorizontalOptions="Center" HorizontalTextAlignment="Center" IsVisible="{Binding HasDescription}" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Calificacion -->
+                <Frame Margin="12,6" IsVisible="{Binding TrabajoTerminado}">
+                    <StackLayout>
+                        <Label Text="{Binding NombreAsistente, StringFormat={i18n:Translate CalificasteA}}" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                        <Rating:StarsReview x:Name="Stars" HeightRequest="50" HorizontalOptions="Center" StarWidth="40" StarHeight="40" CanChange="False" />
+                        <Label Text="{Binding Comentario}" HorizontalOptions="Center" HorizontalTextAlignment="Center" MaxLines="5" LineBreakMode="TailTruncation" />
+                    </StackLayout>
+                </Frame>
+                <!-- End Calificacion -->
+
+                <!-- Costo Final -->
+                <Frame Margin="12,6" IsVisible="{Binding TrabajoTerminado}">
+                    <StackLayout>
+                        <Label Text="{Binding IdServicio}" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding CostoFinal, StringFormat='${0}'}" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                        <Grid>
+                            <Label Grid.Column="0" Text="{i18n:Translate VerPagos}" TextColor="{StaticResource Accent}" HorizontalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding GoToHitos}" NumberOfTapsRequired="1" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Grid.Column="1" Text="{i18n:Translate VerDetalles}" TextColor="{StaticResource Accent}" HorizontalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer  Command="{Binding TapTimeList}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+                <!-- End Costo final -->
+
+                <!-- Costo Calculado -->
+                <Frame Margin="12,6" IsVisible="{Binding IsClient}">
+                    <StackLayout IsVisible="{Binding TrabajoTerminado, Converter={StaticResource InvertedBooleanConverter}}">
+                        <Label Text="{Binding IdServicio}" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                            <Label Text="{i18n:Translate CostoDe}" />
+                            <Label Text="{Binding CostoTime, StringFormat={i18n:Translate CostoSobreHora}}"/>
+                        </StackLayout>
+                        <Label Text="{Binding TiempoEstimado}" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                    </StackLayout>
+                </Frame>
+                <!-- End Costo Calculado -->
+
+                <Frame Margin="12,6" IsVisible="{Binding AccesoriosVisible}" >
+                    <StackLayout>
+                        <Label Text="{i18n:Translate ListaAccesorios}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        <CollectionView ItemsSource="{Binding Accesorios}" BackgroundColor="Transparent" HeightRequest="{Binding AccersoriosListViewHeight}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout VerticalItemSpacing="2" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Orientation="Horizontal" Padding="12">
+                                        <Label Text="{Binding Nombre}" HorizontalOptions="StartAndExpand" TextColor="Black" />
+                                        <Label Text="{Binding Costo, StringFormat='${0} '}" TextColor="Black" />
+                                        <Label Text="{Binding Cantidad, StringFormat='x {0}'}" TextColor="Black" />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Frame>
+
+                <Frame Margin="12,6,12,12">
+                    <StackLayout>
+                        <Label Text="{i18n:Translate Indicaciones}" HorizontalTextAlignment="Center" IsVisible="{Binding Indicaciones, Converter={StaticResource HasDataConverter}}" FontAttributes="Bold"/>
+                        <Label Text="{Binding Indicaciones}" HorizontalTextAlignment="Center" IsVisible="{Binding Indicaciones, Converter={StaticResource HasDataConverter}}"/>
+                        <Google:Map x:Name="Mapa" IsEnabled="False" HasZoomEnabled="False" HeightRequest="150" />
+                        <Label Text="{Binding Ubicacion}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                    </StackLayout>
+                </Frame>
+
+                <Button Text="{Binding Total}" Command="{Binding BtnAceptar}" IsVisible="{Binding Hire}" Style="{StaticResource BtnDefault}" BackgroundColor="DarkGreen" Margin="12,0" HeightRequest="50" CornerRadius="10"/>
+                <Button Text="{i18n:Translate CancelarServicio}" Command="{Binding BtnCancelar}" IsVisible="{Binding CanCancel}" Style="{StaticResource BtnPrimary}" Margin="12,0" BackgroundColor="DarkRed" TextColor="White"
+                        IsEnabled="{Binding IsCanceled, Converter={StaticResource InvertedBooleanConverter}}"/>
+                <Label />
+            </StackLayout>
+        </ScrollView>
+        <Control:ProgressView IsVisible="{Binding IsBusy}" />
+    </Grid>
+</ContentPage>

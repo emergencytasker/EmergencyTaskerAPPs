@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.HistorialPage"
+             Title="{i18n:Translate Historial}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+                          xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel">
+    <ContentPage.BindingContext>
+        <ViewModel:HistorialViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <ListView ItemsSource="{Binding Cartas}" SelectedItem="{Binding Carta}" ItemSelected="ListView_ItemSelected">
+                <ListView.Behaviors>
+                    <Behaviors:ListViewBehavior />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Margin="0,6" Padding="12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Controls:ImageLoading Grid.Column="0" Source="{Binding Image}" VerticalOptions="Center" HeightRequest="80" WidthRequest="80" Aspect="AspectFit" LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" />
+                                    <StackLayout Grid.Column="1" Spacing="0">
+                                        <Label Text="{Binding Title}" TextColor="Black" FontAttributes="Bold"/>
+                                        <StackLayout Spacing="0">
+                                            <Label Text="{Binding Subtitle}" TextColor="Black" Margin="0,-1"/>
+                                            <Label Text="{Binding HoraFecha}" TextColor="Black" Margin="0,-1"/>
+                                            <Label Text="{Binding Asistente}" TextColor="Black" Margin="0,-1"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

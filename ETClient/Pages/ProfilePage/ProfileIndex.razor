@@ -1,0 +1,202 @@
+﻿@page "/profile"
+@using ETClient.API.ER;
+@using ETClient.Models;
+@using Newtonsoft.Json;
+@using SixLabors.ImageSharp;
+@using SixLabors.ImageSharp.Formats.Jpeg;
+@using SixLabors.ImageSharp.Formats.Png;
+@using SixLabors.ImageSharp.Processing;
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}
+else if (sesion.Authenticated)
+{
+
+    <div class="container container-center">
+
+        <div class="margin-5">
+            <div class="file-input-zone" style="background-image: URL(@($"{Client.GetPath(sesion.User.imagen)}"));border-style: solid;border-width: 2px; border-color: gray;">
+                <div class="file-input-camera" />
+                <InputFile OnChange="onAvatarOnChange" />
+            </div>
+        </div>
+
+         <div class="margin-5">
+           <h3><b> @sesion.User.nombre </b></h3> 
+        </div>
+
+          <div class="margin-5">
+
+            @for(int i =0; i < sesion.User.calificacion; i++)
+            {
+                <span class="fa fa-star checked" style="font-size:24px;"></span>
+            }
+            @for (int i = (int)sesion.User.calificacion; i < 5; i++)
+            {
+                <span class="fa fa-star" style="font-size:24px;"></span>
+            }
+
+        </div>
+
+         <div class="margin-5">
+           <p> @sesion.User.tareas Tasks</p> 
+        </div>
+
+        <div class="container container-background margin-5">
+            <p style="color:black"><b>Certifications</b></p>
+
+            <div class="margin-5">
+
+                <div class="row container-content">
+                    <div class="col"><p style="text-align:start;"><b>Phone</b></p></div>
+                    @if(sesion.User.telefonoverificado == 1)
+                    {
+                        <div class="container-80"> <img src="/media/icon_checked.png" style="width:32px;height:32px;"> </div>
+                    }else
+                    {
+                        <div class="container-80"> <img src="/media/icon_uncheck.png" style="width:32px;height:32px;"> </div>
+                    }
+
+                </div>
+                <div class="row container-content">
+                    <div class="col"><p style="text-align:start;"><b>Email</b></p></div>
+                    @if (sesion.User.activado == 1)
+                    {
+                        <div class="container-80"> <img src="/media/icon_checked.png" style="width:32px;height:32px;margin: 0 auto;"> </div>
+                    }
+                    else
+                    {
+                        <div class="container-80"> <img src="/media/icon_uncheck.png" style="width:32px;height:32px;"> </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    SesionModel sesion {set;get;} = new();
+    bool isLoaded;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (!sesion.Authenticated)
+            {
+                //Redireccionamos a la pantalla de login
+                navigationManager.NavigateTo("/login", true);
+                return;
+            }
+
+            var _user = await Client.User.Get(sesion.User.id);
+            // cantidad de servicios completados
+            long CompletedServices = await Client.GetCompletedServices(sesion.User.id, sesion.User.idperfil);
+
+            // obtener estadisticas del usuario
+            double Review = await Client.GetReview(sesion.User.id);
+
+            // obtener ultimos datos de estudy
+            var Study = (await Client.Study.Where(new Study
+                {
+                    idusuario = sesion.User.id
+                })).FirstOrDefault();
+            // obter cv
+
+            var CV = (await Client.Work.Where(new Work
+                {
+                    idusuario = sesion.User.id
+                }));
+
+            sesion.User = _user;
+            sesion.User.calificacion = Review;
+            sesion.User.tareas = CompletedServices;
+
+            //Guardamos la sesion
+            sesion = await sesionService.Save(sessionStorage, sesion.User);
+
+            isLoaded = true;
+            this.StateHasChanged();
+        }
+    }
+
+    public async void onAvatarOnChange(InputFileChangeEventArgs e)
+    {
+        MemoryStream stream = new MemoryStream();
+
+        var buffer = new byte[e.File.Size];
+        await e.File.OpenReadStream(e.File.Size).ReadAsync(buffer);
+
+        int newWidth = 512;
+        int newHeight = 512;
+
+        if (buffer.Length == 0)
+        {
+            toastService.ShowError($"Empty file", "Error");
+            return;
+        }
+
+        try
+        {
+            using (Image image = Image.Load(buffer))
+            {
+                if (image.Width < newWidth && image.Height < newHeight)
+                {
+                    image.Mutate(x => x.Resize(newWidth, newHeight));
+                }
+                else if (image.Width > newWidth && image.Height > newHeight)
+                {
+                    var startX = (Math.Max(image.Width, newWidth) - Math.Min(image.Width, newWidth)) / 2;
+                    var startY = (Math.Max(image.Height, newHeight) - Math.Min(image.Height, newHeight)) / 2;
+
+                    image.Mutate(x => x.Crop(new Rectangle(startX, startY, newWidth, newHeight)));
+
+                }
+                await image.SaveAsync(stream, new JpegEncoder());
+            }
+        }
+        catch (Exception ex)
+        {
+            toastService.ShowError($"Imagen not valid", "Error");
+            return;
+        }
+
+        var upload = await Client.Upload(stream.ToArray());
+
+        if (!upload.status)
+        {
+            toastService.ShowError($"An error occurred when uploading the image, try again", "Upload");
+            return;
+        }
+
+        var path = upload.path;
+
+        var galery = await Client.Galery.Add(new Galery
+        {
+            path = path,
+            descripcion = "avatar",
+            idusuario = sesion.User.id
+        });
+
+        if (galery == null || galery.id <= 0)
+        {
+            toastService.ShowError("An error occurred when uploading the image, try again");
+            return;
+        }
+
+        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        parameters.Add("imagen", path);
+        sesion.User = await Client.User.Update(sesion.User.id, parameters);
+
+        sesion = await sesionService.Save(sessionStorage, sesion.User);
+        this.StateHasChanged();
+    }
+}

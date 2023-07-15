@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 x:Class="EmergencyTask.RequestHoursPopupPage"
+                 xmlns:Pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:i18n="clr-namespace:Plugin.Language"
+                 xmlns:Behaviors="clr-namespace:LightForms.Behaviors;assembly=LightForms">
+    <ContentPage.Content>
+        <Grid>
+            <Grid Margin="30" Padding="12" BackgroundColor="White" VerticalOptions="Center" HorizontalOptions="Center">
+                <StackLayout>
+                    <Label Text="{i18n:Translate SolicitudHorasExtra}" FontSize="Medium" HorizontalTextAlignment="Center" />
+                    <Label Text="{i18n:Translate SeleccionaCantidadHorasExtra}" HorizontalTextAlignment="Center" />
+                    <Picker Title="{i18n:Translate TiempoEstimado}" ItemsSource="{Binding Hours}" SelectedItem="{Binding Hour}" ItemDisplayBinding="{Binding Description}">
+                        <Picker.Behaviors>
+                            <Behaviors:ViewEventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding CalculateCost}" CommandParameter="{Binding Hour}" />
+                        </Picker.Behaviors>
+                    </Picker>
+                    <Frame BorderColor="{OnPlatform Android=Transparent, iOS=LightGray}" Margin="0" Padding="0" CornerRadius="5">
+                        <Editor Text="{Binding Description}" HeightRequest="70" Placeholder="{i18n:Translate Descripcion}" />
+                    </Frame>
+                    <Button Text="{Binding EstimateCost, StringFormat={i18n:Translate SolicitarHorasExtraPor}}" Command="{Binding BtnRequest}" BackgroundColor="{StaticResource Accent}" TextColor="White" />
+                </StackLayout>
+                <Frame Padding="0" VerticalOptions="Start" HorizontalOptions="End" CornerRadius="0" Margin="0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BtnClose}"/>
+                    </Frame.GestureRecognizers>
+                    <Label Text="{StaticResource Times}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Red" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" FontSize="Large"/>
+                </Frame>
+            </Grid>
+            <Grid IsVisible="{Binding IsBusy}">
+                <BoxView Color="Black" Opacity="0.5" />
+                <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"
+                                   IsRunning="{Binding IsBusy}" Color="{StaticResource Accent}" />
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</Pages:PopupPage>

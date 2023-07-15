@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.PDFRenderPage"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:ViewModels="clr-namespace:EmergencyTask.ViewModel">
+    <ContentPage.BindingContext>
+        <ViewModels:PDFRenderViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <!--Carousel Page-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!--Carousel Collection-->
+            <StackLayout Grid.Row="0" HorizontalOptions="Center">
+                <CarouselView ItemsSource="{Binding Terms}" CurrentItem="{Binding Term}">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding TermPage}" Aspect="AspectFit" />
+                            </Grid>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+            </StackLayout>
+            <!--End-->
+
+            <!--Menu Inferior-->
+            <StackLayout Grid.Row="1">
+
+                <!--Saltar Intro-->
+                <Grid Padding="12">
+                    <Button Grid.Column="0" Text="{i18n:Translate Anterior}" Command="{Binding BtnAnterior}" Style="{StaticResource BtnDefault}" FontSize="Small"/>
+                    <Button Grid.Column="1" Text="{i18n:Translate Siguiente}" Command="{Binding BtnSiguiente}" Style="{StaticResource BtnDefault}" FontSize="Small"/>
+                </Grid>
+                <!--End-->
+            </StackLayout>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

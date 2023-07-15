@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.AddPaymentPopUp"
+             xmlns:Popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:FastEntry="clr-namespace:XamarinFastEntrySample.FastEntry;assembly=XamarinFastEntry.Behaviors"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:i18n="clr-namespace:Plugin.Language">
+    <Popup:PopupPage.BindingContext>
+        <ViewModel:AddPaymentPopUpViewModel />
+    </Popup:PopupPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <Grid WidthRequest="300" Margin="35,0" BackgroundColor="White" VerticalOptions="Center" Padding="12">
+                <StackLayout>
+                    <Grid>
+                        <Label Text="{i18n:Translate AgregarTarjeta}" FontSize="Medium" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand"  TextColor="Black"/>
+                    </Grid>
+                    <StackLayout>
+                        <Label Text="{i18n:Translate NombreTitular}" HorizontalTextAlignment="Center" TextColor="Gray"/>
+                        <Entry Text="{Binding Titular}" Placeholder="{i18n:Translate NombreCompleto}" PlaceholderColor="Gray" FontSize="Small" TextColor="Black" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{StaticResource Card}" VerticalTextAlignment="Center" FontFamily="{DynamicResource MaterialIcons}" FontSize="30" TextColor="Gray" />
+                        <Entry Text="{Binding CardNumber}" Placeholder="{i18n:Translate NumeroTarjeta}" HorizontalOptions="FillAndExpand" PlaceholderColor="Gray" FontSize="Small" TextColor="Black" MaxLength="19" Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <FastEntry:XamarinFastEntryBehaviour Mask="####-####-####-####" MaxLength="19" IsNumeric="True" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </StackLayout>
+                    <Grid>
+                        <StackLayout Grid.Column="0">
+                            <Label Text="{i18n:Translate Vencimiento}" TextColor="Gray"/>
+                            <Entry Text="{Binding MMYY}" Placeholder="{i18n:Translate MesAño}" PlaceholderColor="Gray" FontSize="Small" TextColor="Black" MaxLength="5" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <FastEntry:XamarinFastEntryBehaviour Mask="##/##" MaxLength="5" IsNumeric="True" />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1">
+                            <Label Text="{i18n:Translate CodigoCVC}" TextColor="Gray"/>
+                            <Entry Text="{Binding CVC}" Placeholder="{i18n:Translate CVV}" PlaceholderColor="Gray" FontSize="Small" TextColor="Black" MaxLength="3" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <FastEntry:XamarinFastEntryBehaviour Mask="###" MaxLength="3" IsNumeric="True" />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </StackLayout>
+                    </Grid>
+                    <Button Text="{i18n:Translate AgregarTarjeta}" Command="{Binding AddPayment}" Style="{StaticResource BtnDefault}"/>
+                </StackLayout>
+                <Frame Padding="0" VerticalOptions="Start" HorizontalOptions="End" CornerRadius="0" Margin="0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BtnClose}"/>
+                    </Frame.GestureRecognizers>
+                    <Label Text="{StaticResource Times}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Red" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" FontSize="Large"/>
+                </Frame>
+            </Grid>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</Popup:PopupPage>

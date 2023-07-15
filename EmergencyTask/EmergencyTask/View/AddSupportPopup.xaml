@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PopUp:PopupPage  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:PopUp="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" 
+             mc:Ignorable="d"
+             xmlns:iOS="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             iOS:Page.UseSafeArea="True"
+             Visual="Material"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Xaml="clr-namespace:LightForms.Xaml;assembly=LightForms"
+             xmlns:Behaviors="clr-namespace:LightForms.Behaviors;assembly=LightForms"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="EmergencyTask.View.AddSupportPopup">
+    <PopUp:PopupPage.BindingContext>
+        <ViewModel:AddPaymentPopUpViewModel/>
+    </PopUp:PopupPage.BindingContext>
+    <ContentPage.Content>
+        <Grid VerticalOptions="Center" HorizontalOptions="Center" Margin="30" Padding="12" BackgroundColor="White">
+            <StackLayout>
+                <Label Text="{i18n:Translate TechnicalSupport}" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold"/>
+                <Label Text="{i18n:Translate FillInTheRequestedDataSoWeCanHelpYou}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                <Picker SelectedItem="{Binding Categories}" Title="{i18n:Translate Categories}"/>
+                <Picker SelectedItem="{Binding Services}" Title="{i18n:Translate Services}"/>
+                <Editor Text="{Binding Description.Value}" Placeholder="{i18n:Translate Description}" HeightRequest="120">
+                    <Editor.Triggers>
+                        <DataTrigger TargetType="Editor" Binding="{Binding Description.IsValid}" Value="False">
+                            <Setter Property="TextColor" Value="Red" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Editor" Binding="{Binding Description.IsValid}" Value="True">
+                            <Setter Property="TextColor" Value="Black" />
+                        </DataTrigger>
+                    </Editor.Triggers>
+                </Editor>
+                <Button Text="{i18n:Translate Accept}" Command="{Binding BtnAcccept}"/>
+            </StackLayout>
+            <Frame BackgroundColor="Transparent" VerticalOptions="Start" HorizontalOptions="End" Margin="0,-5" Padding="0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BtnClose}"/>
+                </Frame.GestureRecognizers>
+                <Label Text="{StaticResource Times}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Red" FontSize="Large"/>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</PopUp:PopupPage>

@@ -1,0 +1,64 @@
+﻿@page "/"
+@using ETClient.API.Response;
+@using ETClient.Models;
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+
+<PageTitle>Services</PageTitle>
+
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}
+else
+{
+    <div class="container">
+      <div class="row">
+          @foreach(var item in Services)
+          {
+         
+             <div class="col-sm">
+                 <div class="margin-5">
+                     <a href="/category/@item.idcategoria">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" style="max-height:150px" src="@($"{Client.HOST}/{@item.imagencategoria}")" alt="@item.categoria">
+                               <div class="card-body">
+                               <h5 class="card-title">@item.categoria</h5>
+                            </div>
+                        </div>
+                     </a>
+                 </div>
+            </div>
+           
+          }
+        </div>
+    </div>
+}
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    SesionModel sesion { set; get; } = new();
+    bool isLoaded;
+
+    public List<Service> Services { set; get; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        string lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
+        Services = new List<Service>(await Client.GetServices(lang));
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            sesion = await sesionService.Read(sessionStorage);
+            isLoaded = true;
+            this.StateHasChanged();
+        }
+    }
+}

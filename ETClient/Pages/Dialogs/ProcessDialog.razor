@@ -1,0 +1,30 @@
+﻿@if (showDialog)
+{
+    <div class="modal fade @DialogCssCandidates" id="candidatesModal" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+}
+
+@code {
+    bool showDialog = false;
+    string? DialogCssCandidates => showDialog ? "show" : "hide";
+
+    public void Show()
+    {
+        showDialog = true;
+        this.StateHasChanged();
+    }
+
+    public void Close()
+    {
+        showDialog = false;
+        this.InvokeAsync(() =>
+        {
+            this.StateHasChanged();
+        });
+      
+    }
+}

@@ -1,0 +1,312 @@
+﻿@page "/chat/{IdTrabajador:int}"
+@using AKSoftware.Blazor.Utilities;
+@using ETClient.API.ER;
+@using ETClient.API.Enum;
+@using ETClient.Helpers;
+@using Plugin.Net.Socket;
+
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+@inject IJSRuntime JS
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}
+else if (sesion.Authenticated & Tasker != null)
+{
+    <div class="w-100">
+       <div class="chat-card">
+          <div class="chat-card-header">Chat: <b> @Tasker.nombre</b></div>
+
+            <div @ref=chatContent class="card-body height3 chat-content chat w-100">
+                        <ul class="chat-list">
+
+                        @foreach (var item in Messages)
+                        {
+                            @if (item.UserType == UserType.Another)
+                            {
+                                <li class="in">
+                                    <div class="chat-img">
+                                        <img alt="Avtar" src="@item.Image">
+                                    </div>
+                                    <div class="chat-body">
+                                        <div class="chat-message">
+                                            <h5>@item.Name</h5>
+                                            <p>@item.Message</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            else if(item.UserType == UserType.Me)
+                            {
+                                <li class="out">
+                                    <div class="chat-img">
+                                        <img alt="Avtar" src="@item.Image">
+                                    </div>
+                                    <div class="chat-body">
+                                        <div class="chat-message">
+                                            <h5>@item.Name</h5>
+                                            <p>@item.Message</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                         
+                        </ul>
+            </div>
+       </div>
+    </div>
+
+    <div class="answer-add">
+        <form @onsubmit=onSend>
+            <input class="chat-input" @bind-value="txtMessage" placeholder="Write a message">
+            <input class="chat-submit" type="submit" value="send">
+        </form>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int IdTrabajador { set; get; }
+
+    [Inject] IToastService? toastService { set; get; }
+    private bool loggedIn;
+    string? email, password;
+    bool isLoaded;
+    User Tasker { set; get; }
+    public string ChatChannel { get; set; }
+    SesionModel sesion { set; get; } = new();
+    private ISocket Socket { get; set; }
+    List<ChatMessage> Messages { get; set; } = new();
+    ElementReference chatContent;
+    string txtMessage;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (!sesion.Authenticated)
+            {
+                navigationManager.NavigateTo("/login", true);
+                return;
+            }
+
+            var query = new Chat
+                {
+                    cliente = sesion.User.id,
+                    trabajador = IdTrabajador
+                };
+
+            var chat = (await Client.Chat.Where(query)).FirstOrDefault();
+
+            if (chat == null) chat = await Client.Chat.Add(query);
+
+            if (chat == null)
+            {
+                toastService.ShowError("No podemos continuar");
+                return;
+            }
+
+            if (sesion.Perfil == Perfil.Client)
+                Tasker = await Client.User.Get(IdTrabajador);
+            else
+                Tasker = await Client.User.Get(sesion.User.id);
+
+
+            ChatChannel = $"Chat-{sesion.User.id}-{IdTrabajador}";
+
+            Socket = await SocketFactory.Instance.Resolve();
+            await Socket.Subscribe(ChatChannel);
+            Socket.MessageReceived += Socket_MessageReceived;
+            Socket.ConnectionStatus += Socket_ConnectionStatus;
+            await History();
+
+            isLoaded = true;
+            this.StateHasChanged();
+        }
+    }
+
+    async Task History()
+    {
+        if (Socket == null) return;
+
+        var history = await Socket?.History(ChatChannel, 100) ?? new List<Dictionary<string, string>>();
+
+        ClearChat();
+        history.Reverse();
+        foreach (var item in history)
+        {
+            ChatMessage chat = ProcessMessage(item);
+            if (chat == null) continue;
+            AddToChat(chat);
+            ScrollTo(chat);
+        }
+
+    }
+
+    void Socket_ConnectionStatus(object sender, bool e)
+    {
+        if (!e) toastService.ShowInfo("Offline");
+    }
+
+    void Socket_MessageReceived(object sender, Message e)
+    {
+        Dictionary<string, object> data = new Dictionary<string, object>();
+        try
+        {
+            data = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(e.Text);
+        }
+        catch { }
+        if (data == null) return;
+        var chat = ProcessData(data);
+        if (chat == null) return;
+        Notify(chat);
+        AddToChat(chat);
+        ScrollTo(chat);
+    }
+
+    void Notify(ChatMessage chatMessage)
+    {
+        if (chatMessage == null) return;
+        MessagingCenter.Instance.Send<ChatUser, ChatMessage>(this, "Message", chatMessage);
+    }
+
+    void ClearChat()
+    {
+        if (Messages == null) return;
+        Messages.Clear();
+        this.StateHasChanged();
+    }
+
+    async void ScrollTo(ChatMessage chat)
+    {
+        if (chat == null) return;
+        await Task.Delay(100);
+        await this.InvokeAsync(() =>
+        {
+            try
+            {
+                JS.InvokeVoidAsync("scrollToEnd", new object[] { chatContent });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+        });
+    }
+
+    void AddToChat(ChatMessage chat)
+    {
+        this.InvokeAsync(() =>
+        {
+            Messages.Add(chat);
+            this.StateHasChanged();
+        });
+    }
+
+    ChatMessage ProcessMessage(Dictionary<string, string> data)
+    {
+        if (sesion.User == null) return null;
+        if (!data.ContainsKey("message") || !data.ContainsKey("userid")) return null;
+
+        var date = data["date"].FromMySqlDateTimeFormat();
+
+        var chatmessage = new ChatMessage
+            {
+                Message = data["message"],
+                Date = date,
+                Channel = ChatChannel,
+                UserId = int.Parse(data["userid"]),
+                Trabajador = IdTrabajador,
+                Cliente = sesion.User.id
+            };
+
+
+        if (chatmessage.UserId == sesion.User.id)
+        {
+            chatmessage.Name = sesion.User.nombre;
+            chatmessage.UserType = UserType.Me;
+            chatmessage.Image = Client.Path(sesion.User.imagen);
+        }
+        else
+        {
+            chatmessage.Name = Tasker.nombre;
+            chatmessage.UserType = UserType.Another;
+            chatmessage.Image = Client.Path(Tasker.imagen);
+        }
+
+        return chatmessage;
+    }
+
+    ChatMessage ProcessData(Dictionary<string, object> data)
+    {
+        Dictionary<string, string> items = new Dictionary<string, string>();
+        foreach (var item in data)
+        {
+            if (item.Key != null)
+            {
+                items.Add(item.Key, item.Value.ToString());
+            }
+        }
+        return ProcessMessage(items);
+    }
+
+    private async void SendNotification(int idusuario, Dictionary<string, string> data)
+    {
+        if (sesion.User == null) return;
+        await Client.SendNotification(idusuario, string.Format("Chat with {0}", sesion.User.nombre), data["message"], sesion.User.id, 14);
+    }
+
+    async void onSend()
+    {
+
+        if (string.IsNullOrEmpty(txtMessage))
+        {
+            return;
+        }
+
+        if (Socket == null) return;
+
+        var date = DateTime.Now;
+
+        var data = new Dictionary<string, string>
+            {
+                { "message", txtMessage },
+                { "date", date.ToMySqlDateTimeFormat() },
+                { "userid", sesion.User.id.ToString() }
+            };
+
+        var status = await Socket.Send(ChatChannel, data);
+
+        if (!status)
+        {
+            toastService.ShowError("the message could not be sent");
+            return;
+        }
+
+        var idusuario = IdTrabajador;
+        var chat = ProcessMessage(data);
+        SendNotification(idusuario, data);
+
+        Notify(new ChatMessage
+            {
+                Message = txtMessage,
+                Date = date,
+                Channel = ChatChannel,
+                UserId = idusuario,
+                Cliente = sesion.User.id,
+                Trabajador = IdTrabajador
+            });
+
+        txtMessage = string.Empty;
+        this.StateHasChanged();
+
+    }
+}
+
+

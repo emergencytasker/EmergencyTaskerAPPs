@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="#eeeeee"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             Title="{i18n:Translate Calificaciones}"
+             x:Class="EmergencyTask.ReviewListPage"
+             xmlns:Rating="clr-namespace:EmergencyTask.Views.Rating"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             xmlns:FFImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout Padding="12">
+                <ListView ItemsSource="{Binding Reviews}" SelectedItem="{Binding Review}">
+                    <ListView.Behaviors>
+                        <Behaviors:ListViewBehavior />
+                    </ListView.Behaviors>
+                    <ListView.Header>
+                        <Frame>
+                            <StackLayout>
+                                <Label Text="{i18n:Translate Calificacion}" TextColor="Black" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                                <StackLayout Orientation="Horizontal" Spacing="5">
+                                    <Label Text="{Binding Percent}" FontSize="35" TextColor="Black"/>
+                                    <StackLayout HeightRequest="25" Spacing="0" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" WidthRequest="150">
+                                        <Rating:StarsReview CanChange="True" WidthRequest="200" StarWidth="35" StarHeight="35" Value="5" HorizontalOptions="Center" />
+                                    </StackLayout>
+                                </StackLayout>
+                                <StackLayout>
+                                    <StackLayout  Orientation="Horizontal">
+                                        <ProgressBar Progress="{Binding FivePercent}" ProgressColor="{StaticResource Accent}"  WidthRequest="200" HeightRequest="20"/>
+                                        <Label Text="Excelente" />
+                                        <Label Text="{Binding FiveCount, StringFormat='({0})'}" />
+                                    </StackLayout>
+                                    <StackLayout  Orientation="Horizontal">
+                                        <ProgressBar Progress="{Binding FourPercent}" ProgressColor="{StaticResource Accent}" WidthRequest="200" HeightRequest="20"/>
+                                        <Label Text="Buena"/>
+                                        <Label Text="{Binding FourCount, StringFormat='({0})'}"/>
+                                    </StackLayout>
+                                    <StackLayout  Orientation="Horizontal">
+                                        <ProgressBar Progress="{Binding ThreePercent}" ProgressColor="{StaticResource Accent}" WidthRequest="200" HeightRequest="20"/>
+                                        <Label Text="Regular"/>
+                                        <Label Text="{Binding ThreeCount, StringFormat='({0})'}"/>
+                                    </StackLayout>
+                                    <StackLayout  Orientation="Horizontal">
+                                        <ProgressBar Progress="{Binding TwoPercent}" ProgressColor="{StaticResource Accent}" WidthRequest="200" HeightRequest="20"/>
+                                        <Label Text="Mala"/>
+                                        <Label Text="{Binding TwoCount, StringFormat='({0})'}"/>
+                                    </StackLayout>
+                                    <StackLayout  Orientation="Horizontal">
+                                        <ProgressBar Progress="{Binding OnePercent}" ProgressColor="{StaticResource Accent}" WidthRequest="200" HeightRequest="20"/>
+                                        <Label Text="Pesima"/>
+                                        <Label Text="{Binding OneCount, StringFormat='({0})'}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Margin="0,6,0,0">
+                                    <Frame Margin="0" Padding="12">
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal" Spacing="12">
+                                                <FFImage:CachedImage Source="{Binding Imagen}" WidthRequest="40" HeightRequest="40"
+                                                                    VerticalOptions="Start" Margin="0,4,0,0" ErrorPlaceholder="icon.png">
+                                                    <FFImage:CachedImage.Transformations>
+                                                        <Transformations:CircleTransformation />
+                                                    </FFImage:CachedImage.Transformations>
+                                                </FFImage:CachedImage>
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                                                    <StackLayout HorizontalOptions="StartAndExpand" Spacing="0">
+                                                        <Label Text="{Binding Nombre}" FontSize="Medium" TextColor="Black" VerticalOptions="Start" />
+                                                        <Label Text="{Binding Estado}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" Margin="0,0,8,0"/>
+                                                    </StackLayout>
+                                                    <StackLayout Spacing="0" HorizontalOptions="EndAndExpand" VerticalOptions="Start">
+                                                        <StackLayout HeightRequest="25" Spacing="0" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="80">
+                                                            <Rating:StarsReview BindingContext="{Binding Valor}" Value="{Binding Value}" StarHeight="{Binding StarHeight}" StarWidth="{Binding StarWidth}" WidthRequest="75" HorizontalOptions="Start" />
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </StackLayout>
+                                            <Label Text="{Binding Comentario}" Margin="52,0,0,0" MaxLines="5" LineBreakMode="TailTruncation" />
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

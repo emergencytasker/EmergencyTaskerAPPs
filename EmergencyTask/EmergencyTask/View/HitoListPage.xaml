@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="#eeeeee"
+             x:Class="EmergencyTask.HitoListPage"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             Title="{i18n:Translate PagosServicio}">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout>
+                <ListView ItemsSource="{Binding Hitos}" SelectedItem="{Binding Hito}" ItemSelected="ListView_ItemSelected" ItemTapped="ListView_ItemTapped"
+                          Margin="12">
+                    <ListView.Behaviors>
+                        <Behaviors:ListViewBehavior />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                    <Frame Padding="12" Margin="0,0,0,12" BackgroundColor="White">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding TapMenu}" CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Description}" TextColor="Black" FontAttributes="Bold"/>
+                                                <Label Text="{StaticResource Menu}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Medium" HorizontalOptions="EndAndExpand" VerticalOptions="StartAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="End" Margin="-10,0" IsVisible="{Binding IsOptionsVisible}">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding TapMenu}" CommandParameter="{Binding .}"/>
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </StackLayout>
+                                            <Grid>
+                                                <StackLayout Grid.Column="0" HorizontalOptions="StartAndExpand">
+                                                    <Label Text="{i18n:Translate Monto}" TextColor="Black"/>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label Text="{StaticResource Dollar}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Large">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Liberado}">
+                                                                <Setter Property="TextColor" Value="{StaticResource Accent}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Autorizado}">
+                                                                <Setter Property="TextColor" Value="Gold"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate SolicitudReembolso}">
+                                                                <Setter Property="TextColor" Value="Red"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Creado}">
+                                                                <Setter Property="TextColor" Value="DarkGreen"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Reembolsado}">
+                                                                <Setter Property="TextColor" Value="PaleVioletRed"/>
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                    <Label Text="{Binding Amount}" TextColor="Black" FontAttributes="Bold">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Liberado}">
+                                                                <Setter Property="TextColor" Value="{StaticResource Accent}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Autorizado}">
+                                                                <Setter Property="TextColor" Value="Gold"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate SolicitudReembolso}">
+                                                                <Setter Property="TextColor" Value="Red"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Creado}">
+                                                                <Setter Property="TextColor" Value="DarkGreen"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Reembolsado}">
+                                                                <Setter Property="TextColor" Value="PaleVioletRed"/>
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                </StackLayout>
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="1" HorizontalOptions="EndAndExpand">
+                                                    <Label Text="{i18n:Translate Estado}" TextColor="Black" HorizontalTextAlignment="End"/>
+                                                <Label Text="{Binding State}" HorizontalTextAlignment="End" FontAttributes="Bold">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Liberado}">
+                                                            <Setter Property="TextColor" Value="{StaticResource Accent}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Autorizado}">
+                                                            <Setter Property="TextColor" Value="Gold"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate SolicitudReembolso}">
+                                                            <Setter Property="TextColor" Value="Red"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Creado}">
+                                                            <Setter Property="TextColor" Value="DarkGreen"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{i18n:Translate Reembolsado}">
+                                                            <Setter Property="TextColor" Value="PaleVioletRed"/>
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                                </StackLayout>
+                                            </Grid>
+                                        </StackLayout>
+                                    </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <Button BackgroundColor="{StaticResource Accent}" CornerRadius="25" HeightRequest="50" WidthRequest="50" Text="+" VerticalOptions="End" HorizontalOptions="End" Margin="12" Command="{Binding AddHito}" IsVisible="{Binding CanAddHito}" TextColor="White" />
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

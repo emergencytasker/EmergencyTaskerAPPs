@@ -1,0 +1,163 @@
+﻿@page "/register"
+
+@using ETClient.API.ER;
+@using ETClient.API.Enum;
+@using ETClient.API.Response;
+@using ETClient.Controllers;
+@using ETClient.Models;
+@using Newtonsoft.Json;
+@using System.Net.Mail;
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+@inject IStringLocalizer<SharedResource> Loc
+
+@if (isLoaded)
+{
+    <div class="container container-center">
+
+        <div>
+            <img class="img-logo" src="/media/eticon.png" />
+        </div>
+
+        <div>
+            <p class="sub-title"> @Loc["Registrar"] </p>
+        </div>
+
+        <div id="bg"></div>
+
+        <form class="form-register" method="dialog">
+            <div class="form-field">
+                <input type="text" placeholder="Name" autocomplete="on" required @bind-value="name" />
+            </div>
+
+            <div class="form-field">
+                <input type="email" placeholder="Email" autocomplete="on" required @bind-value="email" />
+            </div>
+
+            <div class="form-field">
+                <input type="password" placeholder="Password" required @bind-value="password" />
+            </div>
+
+             <div class="form-field">
+                <input type="password" placeholder="Confirm Password" required @bind-value="password_confirm" />
+            </div>
+
+            <div class="form-field">
+                <button class="btn" @onclick="Register" type="submit"> @Loc["Registrar"] </button>
+            </div>
+        </form>
+    </div>
+
+    <ProcessDialog @ref="@processDialog" />
+    <RegisterOKDialog @ref="@registerOKDialog" />
+}
+
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    private bool loggedIn;
+    string? name, email, password, password_confirm;
+    bool isLoaded;
+    SesionModel sesion { set; get; } = new();
+    ProcessDialog? processDialog;
+    RegisterOKDialog? registerOKDialog;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            isLoaded = true;
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (sesion.Authenticated)
+            {
+                navigationManager.NavigateTo("/", true);
+                return;
+            }
+
+            this.StateHasChanged();
+        }
+    }
+
+    private async Task Register()
+    {
+        processDialog.Show();
+
+        if (string.IsNullOrEmpty(name))
+        {
+            toastService.ShowInfo(Loc["IngresaNombre"]);
+            processDialog.Close();
+            return;
+        }
+        if (string.IsNullOrEmpty(email))
+        {
+            toastService.ShowInfo(Loc["IngresaEmail"]);
+            processDialog.Close();
+            return;
+        }
+
+        try
+        {
+            new MailAddress(email);
+        }
+        catch
+        {
+            toastService.ShowInfo(Loc["IngresaUnEmailValido"]);
+            processDialog.Close();
+            return;
+        }
+
+        if (string.IsNullOrEmpty(password))
+        {
+            toastService.ShowInfo(Loc["IngresaPassword"]);
+            processDialog.Close();
+            return;
+        }
+        if (string.IsNullOrEmpty(password_confirm))
+        {
+            toastService.ShowInfo(Loc["ConfirmarContraseña"]);
+            processDialog.Close();
+            return;
+        }
+
+        if (password != password_confirm)
+        {
+            toastService.ShowInfo(Loc["ContraseñaNoCoincide"]);
+            processDialog.Close();
+            return;
+        }
+
+        email = email.Trim().TrimStart().TrimEnd();
+        password = password.Trim().TrimStart().TrimEnd();
+        password_confirm = password_confirm.Trim().TrimStart().TrimEnd();
+
+        var user = await Client.User.Add(new API.ER.User
+            {
+                email = email,
+                nombre = name,
+                password = password,
+                idperfil = (int)Perfil.Client,
+                lenguaje = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName
+            });
+
+        if (user != null && user.email == email && user.id > 0)
+        {
+            await Client.VerificationMail(user.id, user.email);
+            processDialog.Close();
+            registerOKDialog.OnReturn = onRegisterReturn;
+            registerOKDialog.Show();
+        }
+        else
+        {
+            toastService.ShowError(Loc["CorreoYaRegistrado"]);
+            processDialog.Close();
+        }
+    }
+
+    async void onRegisterReturn(object sender, object e)
+    {
+        navigationManager.NavigateTo("/login");
+        toastService.ShowSuccess(Loc["ActivarCuenta"]);
+    }
+}

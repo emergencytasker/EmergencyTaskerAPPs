@@ -1,0 +1,187 @@
+﻿@using ETClient.Models;
+@using EmergencyTask.Strings;
+@inject IStringLocalizer<SharedResource> Loc
+
+@if (showDialog)
+{
+    <div class="modal fade @DialogCssClass" id="serviceModal" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Service description</h4>
+                    <button type="button" class="close" @onclick="ServiceCancel">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-11">
+                            <p><b>Will the service be at a specific time?</b></p>
+                        </div>
+                        <div class="col-1">
+                            <label class="switch">
+                                <input type="checkbox" @oninput="CheckboxChanged">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                 
+                  
+                </div>
+
+                @if (HasSchedule)
+                {
+                    <div class="modal-body">
+                        <p><b>Schedule Appointment</b></p>
+                        <input type="datetime-local" value="@datetimeLocal.ToString("yyyy-MM-ddTHH:mm")" @oninput="DateTimeChanged" />
+                    </div>
+                }
+                <div class="modal-body">
+                    <p><b>Estimated time</b></p>
+                    <select name="select" class="w-100" style="padding:5px" @onchange="@(e => OnSelectionChange(e.Value))">
+                        @foreach (var item in Hours)
+                        {
+                            <option value="@item.Hour">@item.Description</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="modal-body">
+                    <p><b>Service description</b></p>
+                    <textarea class="w-100" style="min-height:120px" @bind=@Description placeholder="write here the details of the service you request" />
+                </div>
+                <div class="modal-footer w-100">
+                    <button type="button" class="btn btn-primary w-100" @onclick=ServiceCreate>Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code
+{
+    [Inject] IToastService? toastService { set; get; }
+    public ServiceModel Service { get; internal set; }
+    public EventHandler<object> OnReturn { set; get; }
+    bool showDialog = false;
+    string? DialogCssClass => showDialog ? "show" : "hide";
+
+    EstimateTime Hour { set; get; }
+    public List<EstimateTime> Hours { set; get; }
+    string? Description;
+    bool HasSchedule;
+    DateTime datetimeLocal { get; set; } = DateTime.Now;
+    DateTime LimitDate { get; set; } = DateTime.Now;
+    bool CanChangeHasSchedule = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Description = string.Empty;
+        var estimatetimes = new List<EstimateTime>();
+        for (int i = 1; i <= 8; i++)
+        {
+            estimatetimes.Add(new EstimateTime
+                {
+                    Hour = i,
+                    Description = string.Format("{0} hour(s)", i)
+                });
+        }
+        Hours = estimatetimes;
+    }
+
+    void OnSelectionChange(object e)
+    {
+        int index = int.Parse(e.ToString());
+        Hour = Hours[index-1];
+    }
+
+    public void onShow()
+    {
+        HasSchedule = false;
+        Description = string.Empty;
+        showDialog = true;
+        this.StateHasChanged();
+    }
+
+    public void onClose()
+    {
+        showDialog = false;
+        HasSchedule = false;
+        this.StateHasChanged();
+    }
+
+    public async void ServiceCancel()
+    {
+        onClose();
+
+    }
+
+    void CheckboxChanged(ChangeEventArgs e)
+    {
+        var value = e.Value;
+        HasSchedule = bool.Parse(value.ToString());
+    }
+
+    void DateTimeChanged(ChangeEventArgs e)
+    {
+        var value = e.Value;
+        datetimeLocal = DateTime.Parse(value.ToString());
+    }
+
+    public async void ServiceCreate()
+    {
+        if (Hour == null)
+        {
+            Hour = Hours[0];
+        }
+
+
+        if (string.IsNullOrEmpty(Description))
+        {
+            toastService.ShowError("Enter a Description:", "Required");
+            return;
+        }
+
+        if (Description.Length < 15)
+        {
+            toastService.ShowError("The message must be at least 50 characters", "Required");
+            return;
+        }
+
+        if (HasSchedule)
+        {
+            var dateservice = new DateTime(datetimeLocal.Year, datetimeLocal.Month, datetimeLocal.Day, datetimeLocal.Hour, datetimeLocal.Minute, datetimeLocal.Second);
+            if (dateservice <= LimitDate)
+            {
+                if (!CanChangeHasSchedule)
+                {
+                    toastService.ShowError($"{Loc["NoPuedesAgendar"]} {LimitDate}");
+                    return;
+                }
+                toastService.ShowError(Loc["FechaNoValida"]);
+                return;
+            }
+            
+            Service.Date = dateservice;
+        }
+        else
+        {
+            var date = await Client.GetDate();
+            if (date == null)
+            {
+                toastService.ShowError(AppResource.NoPodemosContinuar);
+                return;
+            }
+            var now = date.Value;
+            Service.Date = now;
+        }
+
+        Service.HasSchedule = HasSchedule;
+        Service.Time = Hour.Hour;
+        Service.Description = Description;
+        Service.Start = Service.Date;
+        Service.End = Service.Date.AddHours(Service.Time);
+
+        OnReturn?.Invoke(this, Service);
+        onClose();
+    }
+}

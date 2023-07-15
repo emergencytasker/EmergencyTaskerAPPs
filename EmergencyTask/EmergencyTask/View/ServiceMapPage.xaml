@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{i18n:Translate Ruta}"
+             BackgroundColor="White"
+             x:Class="EmergencyTask.ServiceMapPage"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:GoogleMaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:PullToRefresh="clr-namespace:Refractored.XamForms.PullToRefresh;assembly=Refractored.XamForms.PullToRefresh">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{i18n:Translate Chat}" Command="{Binding GoChat}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <GoogleMaps:Map x:Name="Mapa" Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+                <Frame Grid.Row="0" VerticalOptions="Start" HorizontalOptions="End" Margin="12" Padding="12">
+                    <Label Text="{Binding Fondos}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoHitos}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame Grid.Row="0" VerticalOptions="Start" HorizontalOptions="Start" Margin="12" Padding="12">
+                    <Label Text="{StaticResource Info}" FontFamily="{StaticResource MaterialIcons}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoDetail}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame Grid.Row="1">
+                    <Grid>
+                        <PullToRefresh:PullToRefreshLayout IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsBusy}" RefreshColor="{StaticResource Accent}" RefreshCommand="{Binding RefreshActions}">
+                            <StackLayout Padding="12" Margin="12,0">
+                                <Grid RowSpacing="0" ColumnSpacing="0">
+                                    <Label Grid.Column="0" Text="{StaticResource Message}" FontFamily="{DynamicResource MaterialIcons}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalTextAlignment="Start">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding TapChat}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Grid.Column="1" Text="{i18n:Translate ActividadServicio}" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" HorizontalOptions="CenterAndExpand" TextColor="Black" FontAttributes="Bold"/>
+                                    <Label Grid.Column="2" Text="{StaticResource Call}" FontFamily="{DynamicResource MaterialIcons}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalTextAlignment="End" >
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BtnCall}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </Grid>
+                                <Grid>
+                                    <StackLayout Grid.Column="0" IsVisible="{Binding Activity3, Converter={StaticResource InvertedBooleanConverter}}">
+                                        <Label Text="{i18n:Translate Distancia}" TextColor="Black" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                                        <Label Text="{Binding Distancia}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1" IsVisible="{Binding Activity3, Converter={StaticResource InvertedBooleanConverter}}">
+                                        <Label Text="{i18n:Translate Tiempo}" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                        <Label Text="{Binding Tiempo}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                    </StackLayout>
+                                </Grid>
+                                <Grid ColumnSpacing="0" Margin="12,0">
+                                    <ProgressBar Grid.Row="0" Grid.Column="0" Progress="{Binding ProgressBar}" ProgressColor="{StaticResource Accent}" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="4"/>
+                                    <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="{Binding CircleColor1}" CornerRadius="10" WidthRequest="10" HeightRequest="10" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+                                    <BoxView Grid.Row="0" Grid.Column="1" BackgroundColor="{Binding CircleColor2}" CornerRadius="10" WidthRequest="10" HeightRequest="10" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Margin="14,0" />
+                                    <BoxView Grid.Row="0" Grid.Column="2" BackgroundColor="{Binding CircleColor3}" CornerRadius="10" WidthRequest="10" HeightRequest="10" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="14,0"/>
+                                    <BoxView Grid.Row="0" Grid.Column="3" BackgroundColor="{Binding CircleColor4}" CornerRadius="10" WidthRequest="10" HeightRequest="10" VerticalOptions="Center" HorizontalOptions="EndAndExpand"/>
+                                    <StackLayout Grid.Row="1" Grid.Column="0" HorizontalOptions="StartAndExpand" >
+                                        <Label Text="{StaticResource Play}" FontFamily="{DynamicResource MaterialIcons}" TextColor="{Binding CircleColor1}" FontSize="Default" Margin="-5,0"/>
+                                        <Label Text="{i18n:Translate Inicio}" TextColor="{Binding CircleColor1}" FontSize="Micro" HorizontalTextAlignment="Start" Margin="-12,0"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="1" Grid.Column="1" HorizontalOptions="StartAndExpand" Margin="12,0">
+                                        <Label Text="{StaticResource Tool}" TextColor="{Binding CircleColor2}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Default" HorizontalTextAlignment="Start"/>
+                                        <Label Text="{i18n:Translate Material}" TextColor="{Binding CircleColor2}" FontSize="Micro" Margin="-10,0"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="EndAndExpand" Margin="10,0">
+                                        <Label Text="{StaticResource User}" TextColor="{Binding CircleColor3}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Default" HorizontalTextAlignment="End"/>
+                                        <Label Text="{i18n:Translate Ruta}" TextColor="{Binding CircleColor3}" FontSize="Micro" VerticalTextAlignment="End" Margin="-5,0"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="1" Grid.Column="3" HorizontalOptions="EndAndExpand" >
+                                        <Label Text="{StaticResource Star}" TextColor="{Binding CircleColor4}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Default" HorizontalTextAlignment="End" Margin="-5,0"/>
+                                        <Label Text="{i18n:Translate Destino}" TextColor="{Binding CircleColor4}" FontSize="Micro" HorizontalTextAlignment="End" Margin="-16,0"/>
+                                    </StackLayout>
+                                </Grid>
+                                <Button Text="{i18n:Translate ConfirmarServicio}" Style="{StaticResource BtnDefault}" FontSize="Small" Command="{Binding BtnStartService}" IsVisible="{Binding Activity3}" />
+                            </StackLayout>
+                        </PullToRefresh:PullToRefreshLayout>
+                    </Grid>
+                </Frame>
+            </Grid>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             Title="{i18n:Translate DescripcionServicio}"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             x:Class="EmergencyTask.DescriptionServicePage"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             BackgroundColor="#eeeeee">
+    <ContentPage.BindingContext>
+        <ViewModel:DescriptionServiceViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView>
+                <StackLayout Padding="12">
+                    <Frame>
+                        <StackLayout Spacing="12">
+                            <StackLayout Orientation="Horizontal" Margin="0,0,0,15">
+                                <Label Text="{i18n:Translate PreguntaServicio}" HorizontalOptions="StartAndExpand" FontAttributes="Bold" TextColor="Black" />
+                                <Switch IsToggled="{Binding HasSchedule}" IsEnabled="{Binding CanChangeHasSchedule}" HorizontalOptions="End" />
+                            </StackLayout>
+                            <StackLayout IsVisible="{Binding HasSchedule}">
+                                <Label Text="{i18n:Translate ProgramarCita}" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold"/>
+                                <Grid>
+                                    <StackLayout Grid.Column="0">
+                                        <Label Text="{i18n:Translate Fecha}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                        <DatePicker FontSize="Small" Date="{Binding Fecha}" HorizontalOptions="Center" MinimumDate="{Binding MinimumDate}" MaximumDate="{Binding MaximumDate}" />
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1">
+                                        <Label Text="{i18n:Translate Hora}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                        <TimePicker FontSize="Small" Time="{Binding Hora}" HorizontalOptions="Center" />
+                                    </StackLayout>
+                                </Grid>
+                            </StackLayout>
+                            <Label Text="{i18n:Translate TiempoEstimado}" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="Black"/>
+                            <Picker Title="{i18n:Translate TiempoEstimado}" ItemsSource="{Binding Hours}" SelectedItem="{Binding Hour}" ItemDisplayBinding="{Binding Description}" />
+                            <Label Text="{i18n:Translate DescripcionServicio}" TextColor="Black" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                            <Frame CornerRadius="0" Margin="0" Padding="{OnPlatform Android=0, iOS=5}" BorderColor="DarkGray" BackgroundColor="LightCyan" IsClippedToBounds="True">
+                                <Editor Text="{Binding Description}" FontSize="Small" Placeholder="{i18n:Translate DetallesServicio}" PlaceholderColor="LightGray" TextColor="Black" HeightRequest="120" Margin="-5" BackgroundColor="White"/>
+                            </Frame>
+                            <Button Text="{i18n:Translate Confirmar}" Command="{Binding BtnConfirmar}" Style="{StaticResource BtnDefault}" FontSize="Default"/>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+            <Control:ProgressView IsVisible="{Binding IsBusy}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

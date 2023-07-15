@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{i18n:Translate Notificaciones}"
+             BackgroundColor="#eeeeee"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="EmergencyTask.NotificationPage"
+             xmlns:VieWModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:PullToRefresh="clr-namespace:Refractored.XamForms.PullToRefresh;assembly=Refractored.XamForms.PullToRefresh">
+    <ContentPage.BindingContext>
+        <VieWModel:NotificationViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <PullToRefresh:PullToRefreshLayout IsPullToRefreshEnabled="True" RefreshCommand="{Binding Refresh}" IsRefreshing="{Binding IsBusy}" RefreshColor="{StaticResource Accent}">
+            <Grid Padding="12">
+                <CollectionView ItemsSource="{Binding Notifications}" SelectionMode="Single" SelectedItem="{Binding Notification}" BackgroundColor="Transparent">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="12" Span="1"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid BackgroundColor="#eeeeee">
+                                <Frame>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0">
+                                            <Label Text="{Binding Id, StringFormat='#{0}'}" FontAttributes="Bold" HorizontalOptions="Start" TextColor="Black" HorizontalTextAlignment="Center" />
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start" FontAttributes="Bold" VerticalTextAlignment="Start"/>
+                                            <Label Text="{Binding Subtitle}" TextColor="Black" MaxLines="3" LineBreakMode="TailTruncation"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1">
+                                            <Frame VerticalOptions="Start" HorizontalOptions="EndAndExpand" BackgroundColor="{StaticResource Accent}" Padding="2">
+                                                <Label Text="{Binding HoraFecha}" TextColor="White" MaxLines="1" FontSize="Small" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand" />
+                                            </Frame>
+                                            <lottie:AnimationView Animation="notificationbell.json" HeightRequest="40" WidthRequest="40" HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand"  AutoPlay="True"/>
+                                            <Label Text="{StaticResource Notification}" IsVisible="False" FontFamily="{DynamicResource MaterialIcons}" FontSize="Large" TextColor="Black" HorizontalTextAlignment="End" VerticalTextAlignment="End" VerticalOptions="Start" HorizontalOptions="EndAndExpand" />
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Grid>
+                            <Label Text="{i18n:Translate SinNotificaciones}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" />
+                        </Grid>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </Grid>
+        </PullToRefresh:PullToRefreshLayout>
+    </ContentPage.Content>
+</ContentPage>

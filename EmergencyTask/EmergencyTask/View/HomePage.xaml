@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.HomePage"
+             Title="{i18n:Translate Servicios}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             BackgroundColor="White"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control">
+
+    <ContentPage.BindingContext>
+        <ViewModel:HomeViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{i18n:Translate Buscar}" Command="{Binding Search}" Order="Primary" Priority="1" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <CollectionView ItemsSource="{Binding Cartas}" BackgroundColor="Transparent" SelectedItem="{Binding Carta}" SelectionMode="Single" ItemSizingStrategy="MeasureAllItems" Margin="12">
+            <CollectionView.Header>
+                <Frame Grid.Row="0" HeightRequest="150" Margin="12" Padding="0" CornerRadius="10" IsClippedToBounds="True">
+                    <Image Source="https://cdn.pixabay.com/photo/2015/12/07/10/58/building-1080592_960_720.jpg" Aspect="AspectFill" />
+                </Frame>
+            </CollectionView.Header>
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="2" HorizontalItemSpacing="12" VerticalItemSpacing="12" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="0" BackgroundColor="#eeeeee" Margin="0" Padding="0">
+                        <StackLayout>
+                            <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding Image}" HeightRequest="120" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
+                            <Label Text="{Binding Title}" TextColor="Black" Margin="10" HorizontalTextAlignment="Start"/>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Frame Padding="12" CornerRadius="0" BackgroundColor="{StaticResource Accent}" IsVisible="{Binding InService}" VerticalOptions="End">
+            <Label Text="{i18n:Translate ServicioPendiente}" TextColor="White" MaxLines="1" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToService}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Frame>
+        <Control:ProgressView IsVisible="{Binding IsBusy}" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,107 @@
+﻿@page "/notifications"
+@using ETClient.API.ER;
+@using ETClient.Helpers;
+@using Newtonsoft.Json;
+@using System.Collections.ObjectModel;
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}
+else if (sesion.Authenticated)
+{
+    <div class="container">
+        @if (Notifications.Count == 0)
+        {
+            <div class="content-center">
+                <div style="margin:0;padding:0"><span class="oi oi-bell" style="font-size:80px;color:gray" /></div>
+                <p style="margin:0;padding:0;color:gray;font-size:22px">You don't have notifications yet</p>
+            </div>
+           
+        }
+        else
+        {
+            @foreach (var item in Notifications)
+            {
+               <div>
+                    @item.Title
+               </div>
+            }
+        }
+       
+    </div>
+}
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    private bool loggedIn;
+    string? email, password;
+    bool isLoaded;
+    SesionModel sesion { set; get; } = new();
+
+    public ObservableCollection<NotificationModel> Notifications { get; set; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (!sesion.Authenticated)
+            {
+                navigationManager.NavigateTo("/login", true);
+                return;
+            }
+
+            var nowdb = await Client.GetDate();
+
+            if (nowdb == null)
+            {
+                toastService.ShowError("We cannot set the time");
+                return;
+            }
+
+            var now = nowdb.Value;
+
+            var ApiNotifications = (await Client.Notification.Where(new Notification
+            {
+                idusuario = sesion.User.id
+            }));
+
+            Notifications = new ObservableCollection<NotificationModel>(ApiNotifications.OrderByDescending(n => DateTime.Parse(n.fecha)).Select(n => GetModel(n)).Where(n => n != null));
+      
+            isLoaded = true;
+            this.StateHasChanged();
+        }
+    }
+
+    private NotificationModel GetModel(Notification n)
+    {
+        if (n == null) return null;
+        var horafecha = "Right now";
+        if (DateTime.TryParse(n.fecha, out DateTime notificationdate))
+        {
+            horafecha = notificationdate.ToPrettyDate();
+        }
+        NotificationData data = null;
+        try
+        {
+            data = JsonConvert.DeserializeObject<NotificationData>(n.data);
+        }
+        catch { return null; }
+        var id = data == null ? n.id : data.id;
+        if (id == 0) return null;
+        return new NotificationModel
+            {
+                Title = n.title,
+                Subtitle = n.message,
+                HoraFecha = horafecha,
+                Id = id,
+                IdAction = n.idaction,
+                Data = n.data
+            };
+    }
+}

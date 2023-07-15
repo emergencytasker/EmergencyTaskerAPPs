@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:i18n="clr-namespace:Plugin.Language"
+                 xmlns:Popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 x:Class="EmergencyTask.NuevoTicketPopup"
+                 xmlns:Controls="clr-namespace:EmergencyTask.Control">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout Padding="12" VerticalOptions="Center" Margin="20,0" BackgroundColor="White">
+                <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding Image}" Aspect="AspectFill" HeightRequest="250">
+                    <Controls:ImageLoading.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapImage}"/>
+                    </Controls:ImageLoading.GestureRecognizers>
+                </Controls:ImageLoading>
+                <Label Text="{i18n:Translate HazClick}" FontSize="Small" Margin="5,0" />
+                <Editor Placeholder="{i18n:Translate EscribeDescripcion}" HeightRequest="100" Text="{Binding Descripcion}" TextColor="Black" PlaceholderColor="Gray"/>
+                <Button Text="{i18n:Translate Guardar}" Command="{Binding BtnGuardar}" Style="{StaticResource BtnDefault}"/>
+            </StackLayout>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</Popup:PopupPage>

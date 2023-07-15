@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{i18n:Translate Estado}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             BackgroundColor="White"
+             x:Class="EmergencyTask.StatusPage"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel">
+    <ContentPage.BindingContext>
+        <ViewModel:StatusViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout>
+                <ListView ItemsSource="{Binding Estados}" SelectedItem="{Binding Estado}">
+                    <ListView.Behaviors>
+                        <Behaviors:ListViewBehavior />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{Binding Icon}" FontFamily="{DynamicResource MaterialIcons}" FontSize="50" VerticalTextAlignment="Center"/>
+                                    <StackLayout Grid.Column="1">
+                                        <Label Text="{Binding Title}" TextColor="Black"/>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{Binding Fecha}" TextColor="Black"/>
+                                            <Label Text="{Binding Hora}" TextColor="Black"/>
+                                        </StackLayout>
+                                        <Label Text="{Binding Status}" TextColor="Black"/>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

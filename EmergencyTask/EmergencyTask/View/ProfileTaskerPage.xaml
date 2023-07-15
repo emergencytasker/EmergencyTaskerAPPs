@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="White"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             Title="{i18n:Translate Perfil}"
+             xmlns:Rating="clr-namespace:EmergencyTask.Views.Rating"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             x:Class="EmergencyTask.ProfileTaskerPage">
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView>
+                <Grid Padding="12" BackgroundColor="#eeeeee">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--Menu Superior-->
+                    <Frame Grid.Row="0" HeightRequest="200">
+                        <StackLayout>
+                            <StackLayout>
+                                <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding FotoAsistente}" HorizontalOptions="Center" Margin="0,0,0,0" HeightRequest="80" WidthRequest="80" Aspect="Fill">
+                                    <Controls:ImageLoading.Transformations>
+                                        <Transformations:CircleTransformation />
+                                    </Controls:ImageLoading.Transformations>
+                                </Controls:ImageLoading>
+                            </StackLayout>
+                            <Label Text="{Binding NombreAsistente}" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold"/>
+                            <Rating:StarsReview x:Name="Stars" CanChange="False" Value="5" HeightRequest="35" StarHeight="35" StarWidth="35" IsVisible="{Binding IsStarsVisible}" />
+                            <Label Text="{Binding StadisticReview}" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding GoToReviews}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Grid.Row="1">
+                        <Grid Margin="0,0,0,0" RowSpacing="0">
+                            <StackLayout Grid.Column="0">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TapPersonalInfo}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{StaticResource User}" FontAttributes="Bold" FontFamily="{DynamicResource MaterialIcons}" FontSize="15" HorizontalTextAlignment="Center" TextColor="{Binding PersonalInfoColor}"/>
+                                <Label Text="{i18n:Translate Perfil}" FontAttributes="Bold" TextColor="{Binding PersonalInfoColor}" FontSize="Micro" HorizontalTextAlignment="Center"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TapServiceInfo}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{StaticResource Tool}" FontFamily="{DynamicResource MaterialIcons}" FontAttributes="Bold" TextColor="{Binding ServiceInfoColor}" FontSize="15" HorizontalTextAlignment="Center"/>
+                                <Label Text="{i18n:Translate Servicios}" TextColor="{Binding ServiceInfoColor}" FontAttributes="Bold" FontSize="Micro" HorizontalTextAlignment="Center"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="2">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TapCVInfo}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{StaticResource Portfolio}" FontFamily="{DynamicResource MaterialIcons}" FontAttributes="Bold" FontSize="15" TextColor="{Binding CVInfoColor}" HorizontalTextAlignment="Center"/>
+                                <Label Text="{i18n:Translate Curriculum}" TextColor="{Binding CVInfoColor}" FontSize="Micro" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="3">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TapGaleriaInfo}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{StaticResource Picture}" FontFamily="{DynamicResource MaterialIcons}" FontAttributes="Bold" FontSize="15" TextColor="{Binding CVInfoColor}" HorizontalTextAlignment="Center"/>
+                                <Label Text="{i18n:Translate Galeria}" TextColor="{Binding GaleriaInfoColor}" FontSize="Micro" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                    <!--INFORMACION PERSONAL-->
+                    <ScrollView Grid.Row="2" IsVisible="{Binding IsPersonalInfoVisible}" VerticalOptions="FillAndExpand">
+                        <Frame>
+                            <StackLayout>
+                                <Label Text="{i18n:Translate Descripcion}" TextColor="Gray" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                                <Label Text="{Binding UserDescription}" IsVisible="{Binding IsVisibleDescription}" TextColor="Black"/>
+                                <Label Text="{i18n:Translate Certificaciones}" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="Gray"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{i18n:Translate Identificacion}" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Grid.Column="1" Text="{Binding IdState}" FontFamily="{DynamicResource MaterialIcons}" FontSize="25" TextColor="{StaticResource Accent}"/>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{i18n:Translate NSS}" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Grid.Column="1" Text="{Binding NSSState}" FontFamily="{DynamicResource MaterialIcons}" FontSize="25" TextColor="{StaticResource Accent}"/>
+                                </Grid>
+                                <Grid IsVisible="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{i18n:Translate Telefono}" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Grid.Column="1" Text="{Binding PhoneState}" FontFamily="{DynamicResource MaterialIcons}" FontSize="25" TextColor="{StaticResource Accent}" />
+                                </Grid>
+                                <Grid IsVisible="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{i18n:Translate CorreoElectronico}" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Grid.Column="1" Text="{Binding CorreoState}" FontFamily="{DynamicResource MaterialIcons}" FontSize="25" TextColor="{StaticResource Accent}" />
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                    </ScrollView>
+                    <!--END-->
+
+                    <!--INFORMACION DE SERVICIOS-->
+                    <Grid Grid.Row="2" IsVisible="{Binding IsServiceInfoVisible}" VerticalOptions="FillAndExpand" >
+                        <ListView ItemsSource="{Binding Cartas}" SelectedItem="{Binding Carta}">
+                            <ListView.Behaviors>
+                                <Behaviors:ListViewBehavior />
+                            </ListView.Behaviors>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Frame Margin="0,0,0,6" Padding="0">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding Image}" Aspect="AspectFill" HeightRequest="80" WidthRequest="80"/>
+                                                <StackLayout VerticalOptions="CenterAndExpand" Padding="12">
+                                                    <Label Text="{Binding Subtitle}" TextColor="Black"/>
+                                                    <Label Text="{Binding Title}" TextColor="Black"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <!--END-->
+
+                    <!--CURRICULUM VITAE-->
+                    <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand" IsVisible="{Binding IsCVInfoVisible}">
+                        <StackLayout>
+                            <!--Estudios-->
+                            <Frame>
+                                <StackLayout>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{i18n:Translate Estudios}" TextColor="Black" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                    </Grid>
+                                    <Grid IsVisible="{Binding IsNotStudyInfoVisible}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{i18n:Translate SinRegistro}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                        <Label Grid.Column="1" Text="{StaticResource Arrow}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                    </Grid>
+                                    <StackLayout IsVisible="{Binding IsStudyInfoVisible}">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{i18n:Translate Grado}" FontAttributes="Bold" TextColor="Black"/>
+                                            <Label Text="{Binding Grado}" HorizontalTextAlignment="End" TextColor="Black"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{i18n:Translate Titulo}" FontAttributes="Bold" TextColor="Black"/>
+                                            <Label Text="{Binding Titulo}" HorizontalTextAlignment="End" TextColor="Black"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{i18n:Translate Institucion}" FontAttributes="Bold" TextColor="Black"/>
+                                            <Label Text="{Binding Institucion}" TextColor="Black" HorizontalTextAlignment="End"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                            <!--End-->
+
+                            <!--Trabajos-->
+                            <Frame>
+                                <StackLayout>
+                                        <Label Text="{i18n:Translate Trabajos}" TextColor="Black" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                        <Label Grid.Column="0" Text="{i18n:Translate SinRegistro}" TextColor="Black" IsVisible="{Binding IsNotWorkInfoVisible}" HorizontalTextAlignment="Center"/>
+                                    <CarouselView ItemsSource="{Binding Works}" CurrentItem="{Binding Work}" HeightRequest="160"
+                                                  IndicatorView="Indicator">
+                                        <CarouselView.ItemsLayout>
+                                            <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" SnapPointsAlignment="Center" SnapPointsType="MandatorySingle"  />
+                                        </CarouselView.ItemsLayout>
+                                        <CarouselView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Frame Margin="12" Padding="12">
+                                                    <StackLayout>
+                                                        <Label Text="{Binding Puesto}" TextColor="Black" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                                        <Label Text="{i18n:Translate FechasTrabajos}" FontAttributes="Bold" TextColor="Black" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                                        <Grid HorizontalOptions="Center">
+                                                            <StackLayout Grid.Column="0" Orientation="Horizontal" HorizontalOptions="End">
+                                                                <Label Text="{i18n:Translate De}" TextColor="Black"/>
+                                                                <Label Text="{Binding FechaInicio}" TextColor="Black"/>
+                                                            </StackLayout>
+                                                            <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="Start">
+                                                                <Label Text="{i18n:Translate A}" TextColor="Black"/>
+                                                                <Label Text="{Binding FechaFin}" TextColor="Black"/>
+                                                            </StackLayout>
+                                                        </Grid>
+                                                        <StackLayout>
+                                                            <Label Text="{i18n:Translate Descripcion}" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                                                            <Label Text="{Binding Descripcion}" TextColor="Black" MaxLines="3" LineBreakMode="TailTruncation" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </CarouselView.ItemTemplate>
+                                    </CarouselView>
+                                    <IndicatorView x:Name="Indicator" IndicatorColor="LightGray" SelectedIndicatorColor="{StaticResource Accent}" IndicatorsShape="Circle" IndicatorSize="6" HorizontalOptions="Center" HideSingle="{Binding IsHideSingle}"/>
+                                </StackLayout>
+                            </Frame>
+                            <!--End-->
+                        </StackLayout>
+                    </ScrollView>
+                    <!--END-->
+                    
+                    
+                    <!--GALERIA-->
+                    <Frame Grid.Row="2" VerticalOptions="Start" BackgroundColor="White" Padding="12" IsVisible="{Binding IsGaleriaVisible}">
+                        <StackLayout>
+                            <Label Text="{i18n:Translate Galeria}" TextColor="Black" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                            <CarouselView ItemsSource="{Binding Evidences}" BackgroundColor="Transparent" PeekAreaInsets="50,0" HeightRequest="200">
+                                <CarouselView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal" SnapPointsAlignment="Center" SnapPointsType="MandatorySingle"  />
+                                </CarouselView.ItemsLayout>
+                                <CarouselView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Options}" CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                            <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding Image}" HeightRequest="120" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
+                                            <Grid VerticalOptions="End" IsVisible="{Binding TieneDescripcion}">
+                                                <BoxView Color="Black" Opacity="0.5" />
+                                                <Label Text="{Binding Descripcion}" HorizontalTextAlignment="Center" TextColor="White"
+                                                        MaxLines="2" FontAttributes="Bold" />
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CarouselView.ItemTemplate>
+                            </CarouselView>
+                        </StackLayout>
+                    </Frame>
+                    <!--End GALERIA-->
+
+                </Grid>
+            </ScrollView>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

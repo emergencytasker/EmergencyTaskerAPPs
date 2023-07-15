@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmergencyTask.Views.Rating.StarsReview"
+             xmlns:Control="clr-namespace:EmergencyTask.Views.Rating"
+             HorizontalOptions="Center" ColumnSpacing="1"
+      Margin="0" Padding="0">
+    <Control:StarView Grid.Column="0" Asset="{Binding StarFill}" StarHeight="{Binding StarWidth}" StarWidth="{Binding StarHeight}" Value="1">
+        <Control:StarView.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Control:StarView.GestureRecognizers>
+    </Control:StarView>
+    <Control:StarView Grid.Column="1" Asset="{Binding StarFill}" StarHeight="{Binding StarWidth}" StarWidth="{Binding StarHeight}" Value="2">
+        <Control:StarView.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Control:StarView.GestureRecognizers>
+    </Control:StarView>
+    <Control:StarView Grid.Column="2" Asset="{Binding StarFill}" StarHeight="{Binding StarWidth}" StarWidth="{Binding StarHeight}" Value="3">
+        <Control:StarView.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Control:StarView.GestureRecognizers>
+    </Control:StarView>
+    <Control:StarView Grid.Column="3" Asset="{Binding StarFill}" StarHeight="{Binding StarWidth}" StarWidth="{Binding StarHeight}" Value="4">
+        <Control:StarView.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Control:StarView.GestureRecognizers>
+    </Control:StarView>
+    <Control:StarView Grid.Column="4" Asset="{Binding StarFill}" StarHeight="{Binding StarWidth}" StarWidth="{Binding StarHeight}" Value="5">
+        <Control:StarView.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+        </Control:StarView.GestureRecognizers>
+    </Control:StarView>
+</Grid>

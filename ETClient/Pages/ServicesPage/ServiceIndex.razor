@@ -1,0 +1,618 @@
+﻿@page "/service/{idService:int}"
+@using ETClient.API.ER;
+@using ETClient.API.Enum;
+@using GoogleMapsComponents;
+@using GoogleMapsComponents.Maps;
+@using Plugin.Net.Socket;
+@inject BrowserService Browser
+@inject IJSRuntime JsRuntime
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+@inject IStringLocalizer<SharedResource> Loc
+
+@if (!isLoaded)
+{
+	<WaitDialog />
+}
+else if (sesion.Authenticated)
+{
+	<div style="height:@(string.Format("{0}px",Height))">
+		<GoogleMap @ref="@map1" Id="map1" Options="@mapOptions" Height="@(string.Format("{0}px",Height))" OnAfterInit="@(async () => await OnAfterInitAsync())"  />
+	</div>
+
+	@if (!notFound && !isCancel) 
+	{
+		<div class="container container-center" style="padding:5px;">
+			<p style="text-align:center;"><b>Service activity</b></p>
+			<p style="text-align:center;"><b>@Fondos</b></p>
+
+			<div class="row">
+				<div class="col-6">
+					<p><b>Distance</b></p>
+					<p>@Distancia</p>
+				</div>
+				<div class="col-6">
+					<p><b>Time</b></p>
+					<p>@Tiempo</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="progressbar-wrapper">
+			<ul class="progressbar">
+				@switch ((EstadoServicio)CurrentService.idestadoservicio)
+				{
+					case EstadoServicio.Aceptado:
+						<li class="active">Start</li>
+						<li>Material</li>
+						<li>Route</li>
+						<li>Destine</li>
+						<li>Working</li>
+						<li>Finish</li>
+						break;
+					case EstadoServicio.HerramientasCompradas:
+						<li>Start</li>
+						<li class="active">Material</li>
+						<li>Route</li>
+						<li>Destine</li>
+						<li>Working</li>
+						<li>Finish</li>
+						break;
+					case EstadoServicio.EnCaminoADomicilio:
+						<li>Start</li>
+						<li>Material</li>
+						<li class="active">Route</li>
+						<li>Destine</li>
+						<li>Working</li>
+						<li>Finish</li>
+						break;
+					case EstadoServicio.LlegadaADomicilio:
+						<li>Start</li>
+						<li>Material</li>
+						<li>Route</li>
+						<li class="active">Destine</li>
+						<li>Working</li>
+						<li>Finish</li>
+						break;
+					case EstadoServicio.TrabajoIniciado:
+						<li>Start</li>
+						<li>Material</li>
+						<li>Route</li>
+						<li>Destine</li>
+						<li class="active">Working</li>
+						<li>Finish</li>
+						break;
+					case EstadoServicio.TrabajoTerminado:
+						<li>Start</li>
+						<li>Material</li>
+						<li>Route</li>
+						<li>Destine</li>
+						<li>Working</li>
+						<li class="active">Finish</li>
+						break;
+
+					case EstadoServicio.Finalizado:
+						<li>Start</li>
+						<li>Material</li>
+						<li>Route</li>
+						<li>Destine</li>
+						<li>Working</li>
+						<li class="active">Finish</li>
+						break;
+					default:
+						<li>Start</li>
+						<li>Material</li>
+						<li>Route</li>
+						<li>Destine</li>
+						<li>Working</li>
+						<li>Finish</li>
+						break;
+				}
+
+			</ul>
+		</div>
+
+		<div class="container-center" style="margin-top:150px;">
+			@if ((EstadoServicio)CurrentService.idestadoservicio < EstadoServicio.HerramientasCompradas)
+			{
+			<button class="btn btn-danger w-100" type="button" @onclick="@(() => onCancel())">Cancel Service</button>
+			}
+		</div>
+	}
+
+	<ProcessDialog @ref="@processDialog" />
+	<QuestionDialog @ref="questionDialog" />
+	<ServiceCancelDialog @ref="cancelDialog" />
+	<ServiceCancelOKDialog @ref="cancelOKDialog"/>
+}
+	
+@if (notFound)
+{
+	
+	<div class="container-center"><h1>Service Not Found</h1></div>
+}
+@if (isCancel)
+{
+
+	<div class="container-center"><h1><p style="color:red">The service was cancel</p></h1></div>
+}
+@code {
+	SesionModel sesion { set; get; } = new();
+	[Inject] IToastService? toastService { set; get; }
+	[Parameter]
+	public int idService { set; get; }
+	bool isLoaded;
+	Requestservice? CurrentService { set; get; }
+	ServiceCancelDialog? cancelDialog { set; get; }
+	ProcessDialog? processDialog { set; get; }
+	ServiceCancelOKDialog? cancelOKDialog { set; get; }
+	bool notFound;
+	GoogleMap? map1;
+	MapOptions? mapOptions;
+	int Height { get; set; } = 380;
+	public string? GoogleMapsKey { get; set; }
+	QuestionDialog? questionDialog;
+
+	DirectionsRenderer? dirRend;
+	LatLngLiteral? position;
+	Marker? meMarker;
+	Marker? taskMarker;
+	MarkerOptions? MeMarkerOptions;
+	private string GpsChannel { get; set; }
+	private string ActivityChannel { get; set; }
+	public ISocket Socket { get; set; }
+	string Distancia;
+	string Tiempo;
+	string Fondos;
+	bool isCancel;
+	DirectionsResult _directionsResult;
+	bool isCenter;
+	protected override void OnInitialized()
+	{
+		mapOptions = new MapOptions()
+			{
+				Zoom = 13,
+				Center = new LatLngLiteral()
+				{
+					Lat = 32.731553422849764,
+					Lng = -117.14629272641714
+				},
+				MapTypeId = MapTypeId.Roadmap
+			};
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		GoogleMapsKey = await GetVar<string>("googlemapskey");
+	}
+
+	public async Task<T> GetVar<T>(string key)
+	{
+		return await Client.GetVar<T>(key, (int)sesion.Perfil);
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!isLoaded)
+		{
+			sesion = await sesionService.Read(sessionStorage);
+
+			if (!sesion.Authenticated)
+			{
+				//Redireccionamos a la pantalla de login
+				navigationManager.NavigateTo("/login", true);
+				return;
+			}
+
+			await onloadService();
+			isLoaded = true;
+			this.StateHasChanged();
+		}
+	}
+
+	async Task onloadService()
+	{
+		CurrentService = await Client.Requestservice.Get(idService);
+
+		if (CurrentService == null || CurrentService.cliente != sesion.User.id)
+		{
+			notFound = true;
+			this.StateHasChanged();
+			return;
+		}
+
+		var estadoactual = (EstadoServicio)CurrentService.idestadoservicio;
+
+		if (estadoactual == EstadoServicio.Cancelado)
+		{
+			isCancel = true;
+			this.StateHasChanged();
+			return;
+		}
+
+		GpsChannel = $"GPS-{CurrentService.id}";
+		ActivityChannel = $"Activity-{CurrentService.id}";
+		ConnectToSocket();
+
+		await Load();
+
+		this.StateHasChanged();
+	}
+
+	private async Task Load()
+	{
+		if (CurrentService == null) return;
+		await GetHitosMoney();
+	}
+
+
+	System.Timers.Timer GpsThread { set; get; }
+	private void ThreadGetLocation()
+	{
+		if (GpsThread == null)
+		{
+			GpsThread = new System.Timers.Timer(5000); //5 Segundos
+			GpsThread.Elapsed += onTimerGPS;
+			GpsThread.Enabled = true;
+		}
+		GpsThread.Start();
+	}
+
+	void onTimerGPS(Object source, System.Timers.ElapsedEventArgs e)
+	{
+		this.InvokeAsync(() =>
+		{
+			Socket?.History(GpsChannel, 1).ContinueWith(s =>
+					{
+						var list = s.Result;
+						if (list == null) list = new List<Dictionary<string, string>>();
+						var result = list.FirstOrDefault();
+						SetGps(result);
+					});
+			GpsThread.Enabled = false;
+		});
+	}
+
+	async Task OnAfterInitAsync()
+	{
+		//Create instance of DirectionRenderer
+		dirRend = await DirectionsRenderer.CreateAsync(map1.JsRuntime, new DirectionsRendererOptions()
+			{
+				Map = map1.InteropObject
+			});
+
+		await GetTaskerPosition();
+		ThreadGetLocation();
+	}
+
+	private async Task GetTaskerPosition()
+	{
+		if (CurrentService == null) return;
+		var trabajador = await Client.User.Get(CurrentService.trabajador);
+		if (trabajador == null) 
+		{
+			return;
+		}
+		await SetRoute(CurrentService.latitud, CurrentService.longitud, trabajador.latitud, trabajador.longitud);
+		await GetMatrix(CurrentService.latitud, CurrentService.longitud, trabajador.latitud, trabajador.longitud);
+		SetPins(CurrentService.latitud, CurrentService.longitud, trabajador.latitud, trabajador.longitud, "Service", trabajador.nombre);
+	}
+
+	private async Task GetHitosMoney()
+	{
+		if (CurrentService == null) return;
+		var hitos = await Client.Hito.Query(new Hito
+            {
+                idsolicitudservicio = CurrentService.id
+            }) ?? new List<Hito>();
+		var cantidad = hitos.Sum(h => h.cantidad);
+		Fondos = $"Money ${cantidad}";
+
+	}
+
+	private async void ConnectToSocket()
+	{
+		Socket = await SocketFactory.Instance.Resolve();
+		Socket.MessageReceived += Socket_MessageReceived;
+		await Socket.Subscribe(GpsChannel, ActivityChannel);
+	}
+
+	private void Socket_MessageReceived(object sender, Message e)
+	{
+		if (CurrentService == null) return;
+		Dictionary<string, string> data = null;
+		try
+		{
+			data = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(e.Text);
+		}
+		catch { }
+		if (data == null)
+		{
+			System.Diagnostics.Debug.WriteLine("data is null", e.Channel);
+			return;
+		}
+		if (e.Channel == GpsChannel)
+		{
+			SetGps(data);
+		}
+		else if (e.Channel == ActivityChannel)
+		{
+			SetActivity(data);
+		}
+	}
+
+	private void SetActivity(Dictionary<string, string> data)
+	{
+		if (data == null) return;
+		if (!data.ContainsKey("idestadoservicio")) return;
+		int idestadoservicio;
+		int.TryParse(data["idestadoservicio"].ToString(), out idestadoservicio);
+		CurrentService.idestadoservicio = idestadoservicio;
+
+		this.InvokeAsync(() =>
+		{
+			this.StateHasChanged();
+		});
+	}
+
+	private double lastlat = 0;
+	private double lastlng = 0;
+
+	private async void SetGps(Dictionary<string, string> data)
+	{
+		if (CurrentService == null) return;
+		if (data == null || data.Count <= 0) return;
+		if (!data.ContainsKey("latitud") || !data.ContainsKey("longitud")) return;
+		double.TryParse(data["latitud"], out double latitud);
+		double.TryParse(data["longitud"], out double longitud);
+		if (lastlat == latitud && lastlng == longitud)
+		{
+			return;
+		}
+		lastlat = latitud;
+		lastlng = longitud;
+
+		taskMarker = await AddMeMarker(taskMarker, lastlat, lastlng, "Worker");
+	}
+
+	async void SetPins(double latitud1, double longitud1, double latitud2, double longitud2, string title1, string title2)
+	{	
+		if (map1 == null) return;
+
+		await CenterMap(latitud2, longitud2);
+	}
+
+
+	private async Task SetRoute(double latitud1, double longitud1, double latitud2, double longitud2)
+	{
+		try
+		{
+			if (map1 == null) return;
+			if (await dirRend.GetMap() is null) await dirRend.SetMap(map1!.InteropObject);
+
+			if (!string.IsNullOrEmpty(GoogleMapsKey))
+			{
+
+				//Direction Request
+				DirectionsRequest dr = new DirectionsRequest();
+				dr.Origin = $"{latitud1},{longitud1}";
+				dr.Destination = $"{latitud2},{longitud2}";
+				dr.Waypoints = null;
+				dr.TravelMode = TravelMode.Driving;
+				dr.DrivingOptions = new DrivingOptions()
+					{
+						DepartureTime = DateTime.Now.AddHours(1)
+					};
+
+				//Calculate Route
+				_directionsResult = await dirRend.Route(dr, new DirectionsRequestOptions()
+					{
+						StripLegsStepsLatLngs = false,
+						StripOverviewPath = false,
+						StripOverviewPolyline = false,
+						StripLegsStepsPath = false,
+						StripLegsSteps = false
+					});
+
+				if (_directionsResult != null)
+				{
+					var routes = _directionsResult.Routes.SelectMany(x => x.Legs).ToList();
+
+					foreach (var route in routes)
+					{
+						Distancia += route.DurationInTraffic?.Text;
+						Tiempo += route.Distance.Text;
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine(ex);	
+		}
+	}
+
+	public async Task GetMatrix(double latitud1, double longitud1, double latitud2, double longitud2)
+	{
+		if (!string.IsNullOrEmpty(GoogleMapsKey))
+		{
+			var element = await Client.GoogleApiMatrixRequest(GoogleMapsKey, latitud1, longitud1, latitud2, longitud2);
+			if (element == null)
+			{
+				Distancia = "----";
+				Tiempo = "----";
+			}
+			else
+			{
+				Distancia = element.Distance.Text;
+				Tiempo = element.Duration.Text;
+			}
+		}
+	}
+
+
+	protected async Task<Marker> AddMarker(MarkerOptions TheMarkerOptions)
+	{
+		try
+		{
+			return await Marker.CreateAsync(JsRuntime, TheMarkerOptions);
+		}
+		catch
+		{
+			return null;
+		}
+	}
+
+	protected async Task<Marker> RemoveMarker(Marker TheMarker)
+	{
+		await TheMarker.SetMap(null);
+		return null;
+	}
+
+	public async Task<Marker> AddMeMarker(Marker marker, double Lat, double Long, string Label)
+	{
+		if (marker != null)
+		{
+			await marker.SetPosition(new LatLngLiteral(Lat, Long));
+		}
+		else
+		{
+			MeMarkerOptions = new MarkerOptions { Map = map1.InteropObject, Label = Label, Position = new LatLngLiteral(Lat, Long) };
+			marker = await AddMarker(MeMarkerOptions);
+		}
+
+		return marker;
+	}
+
+	public async Task CenterMap(LatLngLiteral TheCenter)
+	{
+		if (!isCenter)
+		{
+			isCenter = true;
+			if (map1.InteropObject != null)
+			{
+				await map1.InteropObject.SetCenter(TheCenter);
+			}
+		}
+	}
+
+	public async Task CenterMap(double Lat, double Long)
+	{
+		await CenterMap(new LatLngLiteral(Lat, Long));
+	}
+
+	bool istocanceled;
+	bool payfee = false;
+	double amountfee = 0;
+	bool status = false;
+
+	public async void onCancel()
+	{
+		processDialog.Show();
+
+		if (CurrentService == null)
+		{
+			processDialog.Close();
+			return;
+		}
+
+		var date = await Client.GetDate();
+		if (date == null)
+		{
+			toastService.ShowError(Loc["IntentaMasTarde"]);
+			processDialog.Close();
+			return;
+		}
+
+
+		if (CurrentService.idestadoservicio >= (int)EstadoServicio.EnCaminoADomicilio)
+		{
+			toastService.ShowError(Loc["ServicioProgreso"]);
+			await Load();
+			processDialog.Close();
+			return;
+		}
+
+		if (CurrentService.idestadoservicio == (int)EstadoServicio.Cancelado)
+		{
+			toastService.ShowError(Loc["ServicioCancelado"]);
+			processDialog.Close();
+			return;
+		}
+
+		var now = date.Value;
+		var elapsed = (DateTime.Parse(CurrentService.fecha).Subtract(now)).TotalHours;
+
+
+		if (elapsed > 24)
+		{
+			questionDialog.OnReturn = onQuestionCancelReturn;
+			questionDialog.Show("Confirm", "Are you sure you want to cancel the service?");
+
+			istocanceled = true;
+		}
+		else
+		{
+			questionDialog.OnReturn = onQuestionCancelReturn;
+			questionDialog.Show("Confirm", $"{string.Format("The service will be attended in {0} hours", Math.Round(elapsed, 0))}, if you cancel you will be charged the 1 hour rate ${CurrentService.costoporhora}");
+
+			istocanceled = true;
+			payfee = true;
+			amountfee = CurrentService.costoporhora;
+		}
+		processDialog.Close();
+	}
+
+	async void onQuestionCancelReturn(object sender, bool response)
+	{
+		processDialog.Show();
+		if (!response)
+		{
+			processDialog.Close();
+			return;		
+		}
+
+		if (!istocanceled)
+		{
+			toastService.ShowError(Loc["SolicitudNoProcesada"]);
+			processDialog.Close();
+			return;
+		}
+
+		cancelDialog.OnCancel = oncancelDialogCancel;
+		cancelDialog.OnReturn = oncancelDialogReturn;
+		cancelDialog.Show(CurrentService, payfee, amountfee);
+	}
+
+	public void oncancelDialogCancel(object sender, bool status)
+	{
+		if (status)
+		{
+			processDialog.Close();
+		}
+	}
+
+	public void oncancelDialogReturn(object sender, bool status)
+	{
+		processDialog.Close();
+
+		if(!status)
+		{
+			toastService.ShowError("Can't cancel service");
+			return;
+		}
+
+		if (status && payfee)
+		{
+			cancelOKDialog.OnReturn = oncancelOKDialogReturn;
+			cancelOKDialog.Show(string.Format("The service was canceled, we returned ${0} to the card with termination {1}", (CurrentService.costoporhora * CurrentService.tiemposolicitado) - CurrentService.costoporhora, "****"));
+
+		}
+	}
+
+	public void oncancelOKDialogReturn(object sender, object e)
+	{
+		navigationManager.NavigateTo("/calendar");
+	}
+}

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.Control.BubbleView"
+             Padding="0" Margin="0"
+      xmlns:FFImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+      xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+
+    <StackLayout x:Name="Bubble" Orientation="Horizontal" Spacing="12">
+        <FFImage:CachedImage x:Name="Image1" WidthRequest="30" HeightRequest="30" VerticalOptions="Start">
+            <FFImage:CachedImage.Transformations>
+                <Transformations:CircleTransformation BorderHexColor="{StaticResource HexAccent}" BorderSize="2" />
+            </FFImage:CachedImage.Transformations>
+        </FFImage:CachedImage>
+        <StackLayout VerticalOptions="Center" Spacing="0" Margin="0" Padding="0">
+            <Label x:Name="Name" FontAttributes="Bold" TextColor="{StaticResource Accent}" />
+            <Frame x:Name="BubbleMessage" CornerRadius="10" IsClippedToBounds="True" Padding="10" Margin="0">
+                <Label x:Name="Message" FontFamily="Small" FontAttributes="None" HorizontalOptions="Start" HorizontalTextAlignment="Start" Margin="0" />
+            </Frame>
+            <Label x:Name="Fecha" Text="" FontFamily="Small" FontAttributes="None" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" Margin="0" />
+        </StackLayout>
+        <FFImage:CachedImage x:Name="Image2" WidthRequest="30" HeightRequest="30" VerticalOptions="Start">
+            <FFImage:CachedImage.Transformations>
+                <Transformations:CircleTransformation BorderHexColor="{StaticResource HexAccent}" BorderSize="2" />
+            </FFImage:CachedImage.Transformations>
+        </FFImage:CachedImage>
+    </StackLayout>
+</Grid>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.RegisterPage"
+             BackgroundColor="White"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             Title="{i18n:Translate Registro}"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Control="clr-namespace:EmergencyTask.Control">
+    <ContentPage.BindingContext>
+        <ViewModel:RegisterViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <!--Registro de Nuevo Usuario-->
+        <Grid>
+            <ScrollView>
+                <StackLayout Padding="50,12">
+                    <!--Intro-->
+                    <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="icon.png" HeightRequest="150" WidthRequest="150" Aspect="AspectFit" HorizontalOptions="Center" />
+                    <Label Text="{i18n:Translate Registrarse}" FontSize="Medium" TextColor="Gray" HorizontalTextAlignment="Center" />
+                    <!--End-->
+
+                    <!--Sign Up-->
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{StaticResource User}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Black" VerticalTextAlignment="Center" FontSize="20"/>
+                        <Entry Placeholder="{i18n:Translate NombreCompleto}" Text="{Binding NameUser}" PlaceholderColor="Gray" FontSize="Small" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{StaticResource Email}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Black" VerticalTextAlignment="Center" FontSize="20"/>
+                        <Entry Placeholder="{i18n:Translate CorreoElectronico}" Text="{Binding Email}" PlaceholderColor="Gray" FontSize="Small" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{StaticResource Key}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Black" VerticalTextAlignment="Center" FontSize="20"/>
+                        <Entry Placeholder="{i18n:Translate Contraseña}" Text="{Binding Password}" PlaceholderColor="Gray" FontSize="Small" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{StaticResource Key}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Black" VerticalTextAlignment="Center" FontSize="20"/>
+                        <Entry Placeholder="{i18n:Translate ConfirmarContraseña}" Text="{Binding ConfirmPassword}" IsPassword="True" PlaceholderColor="Gray" FontSize="Small" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+
+                    <Button Text="{i18n:Translate Registrar}" Command="{Binding SignUp}" Style="{StaticResource BtnDefault}"/>
+                    <!--End-->
+
+                    <!--Terminos y Condiciones-->
+                    <StackLayout HorizontalOptions="Center" Margin="0,12" VerticalOptions="Center" Orientation="Horizontal">
+                        <Label TextColor="Gray" FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Margin="0,-5">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{i18n:Translate Terminos}" TextDecorations="Underline"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TapTerms}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <CheckBox IsChecked="{Binding IsTermsAndConditionsChecked}" />
+                    </StackLayout>
+                    <!--End-->
+
+                    <!--Sign In-->
+                    <StackLayout HorizontalOptions="Center" Margin="0,12">
+                        <Label Text="{i18n:Translate ConCuenta}" TextColor="Gray" HorizontalTextAlignment="Center" FontSize="Small"/>
+                        <Label TextColor="Gray" FontSize="Small" HorizontalTextAlignment="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{i18n:Translate IniciarSesion}" TextDecorations="Underline"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SignIn}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                    <!--End-->
+
+                </StackLayout>
+            </ScrollView>
+            <Control:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

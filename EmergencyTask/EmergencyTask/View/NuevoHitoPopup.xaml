@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:i18n="clr-namespace:Plugin.Language"
+                 xmlns:Popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 x:Class="EmergencyTask.NuevoHitoPopup">
+    <ContentPage.Content>
+        <StackLayout Padding="12" Margin="20" BackgroundColor="White" VerticalOptions="Center">
+            <Label Text="{i18n:Translate Ingresaunmonto}" TextColor="Gray"/>
+            <StackLayout Orientation="Horizontal" Spacing="0">
+                <Label Text="$" TextColor="Black" VerticalTextAlignment="Center"/>
+                <Entry Placeholder="{i18n:Translate Cantidad}" Text="{Binding Cantidad}" Keyboard="Numeric" PlaceholderColor="Gray" MaxLength="7" FontSize="Small" TextColor="Black"/>
+            </StackLayout>
+            <Label Text="{i18n:Translate IngresaDescripcion}" TextColor="Gray"/>
+            <Editor Placeholder="{i18n:Translate Descripcion}" Text="{Binding Descripcion}" HeightRequest="100" PlaceholderColor="Gray" FontSize="Small" TextColor="Black"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{i18n:Translate Preautorizado}" TextColor="Black" HorizontalOptions="StartAndExpand"/>
+                <Switch OnColor="{StaticResource Accent}" IsToggled="{Binding Preautorizado}"  HorizontalOptions="EndAndExpand"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" IsVisible="{Binding Preautorizado}">
+                <Label Text="{i18n:Translate Liberado}" TextColor="Black" HorizontalOptions="StartAndExpand"/>
+                <Switch OnColor="{StaticResource Accent}" IsToggled="{Binding Liberado}" HorizontalOptions="EndAndExpand"/>
+            </StackLayout>
+            <Button Text="{i18n:Translate Guardar}" Command="{Binding BtnGuardar}" Style="{StaticResource BtnDefault}" FontSize="Small" />
+        </StackLayout>
+    </ContentPage.Content>
+</Popup:PopupPage>

@@ -1,0 +1,155 @@
+﻿@page "/login"
+@using ETClient.API.ER;
+@using ETClient.API.Enum;
+@using ETClient.API.Response;
+@using ETClient.Controllers;
+@using ETClient.Models;
+@using Newtonsoft.Json;
+@using System.Net.Mail;
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+@inject IStringLocalizer<SharedResource> Loc
+
+@if (isLoaded)
+{
+    <div class="container container-center">
+
+        <div>
+            <img class="img-logo" src="/media/eticon.png" />
+        </div>
+
+        <div>
+            <p class="sub-title">@Loc["Login"]</p>
+        </div>
+
+        <div id="bg"></div>
+
+        <form class="form-login" method="dialog">
+            <div class="form-field">
+                <input type="email" placeholder="Email" autocomplete="on" required @bind-value="email" />
+            </div>
+
+            <div class="form-field">
+                <input type="password" placeholder="Password" autocomplete="on" required @bind-value="password" />
+            </div>
+
+            <div class="form-field">
+                <button class="btn" @onclick="Login" type="submit">@Loc["Login"]</button>
+            </div>
+
+        </form>
+
+             <div class="text-center" >
+            <a href="/password_recovery">@Loc["ContraseñaOlvidada"]</a>
+            </div>
+    </div>
+
+    <ProcessDialog @ref="@processDialog" />
+}
+
+@code 
+{
+    [Inject] IToastService? toastService { set; get; }
+    private bool loggedIn;
+    string? email, password;
+    bool isLoaded;
+    SesionModel sesion { set; get; } = new();
+    ProcessDialog? processDialog;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            isLoaded = true;
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (sesion.Authenticated)
+            {
+                navigationManager.NavigateTo("/", true);
+                return;
+            }
+
+            this.StateHasChanged();
+        }
+    }
+
+    private async Task Login()
+    {
+        processDialog.Show();
+
+        if (string.IsNullOrEmpty(email))
+        {
+            toastService.ShowInfo(Loc["IngresaEmail"]);
+            processDialog.Close();
+            return;
+        }
+        if (string.IsNullOrEmpty(password))
+        {
+            toastService.ShowInfo(Loc["IngresaPassword"]);
+            processDialog.Close();
+            return;
+        }
+
+        email = email.TrimEnd().TrimStart().Trim();
+        password = password.TrimEnd().TrimStart().Trim();
+
+        try
+        {
+            new MailAddress(email);
+        }
+        catch
+        {
+            toastService.ShowInfo(Loc["IngresaUnEmailValido"]);
+            processDialog.Close();
+            return;
+        }
+
+        Auth auth = await Client.Auth(email, password, sesion.Lang);
+
+        password = string.Empty;
+
+        if (!auth.status)
+        {
+            await ProcessError(auth);
+            processDialog.Close();
+            return;
+        }
+
+        User user = await Client.User.Get(auth.code);
+
+        if (user == null)
+        {
+            toastService.ShowError(Loc["ErrorInicioSesion"]);
+            processDialog.Close();
+            return;
+        }
+
+        processDialog.Close();
+
+        //Creamos la sesion
+        user.idsession = auth.sessionid;
+        sesion = await sesionService.Save(sessionStorage, user);
+        navigationManager.NavigateTo("/", true);
+    }
+
+    private async Task ProcessError(Auth auth)
+    {
+        if (auth.code == (int)AuthCode.MailNotVerified)
+        {
+            toastService.ShowError(auth.message);
+            return;
+        }
+
+        if (auth.code == (int)AuthCode.PasswordNotMatch)
+        {
+            toastService.ShowError(auth.message);
+            return;
+        }
+        else
+        {
+            toastService.ShowError(auth.message);
+            return;
+        }
+    }
+}

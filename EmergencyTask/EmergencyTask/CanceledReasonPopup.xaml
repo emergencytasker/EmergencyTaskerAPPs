@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 x:Class="EmergencyTask.CanceledReasonPopup"
+                 xmlns:Pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:Controls="clr-namespace:EmergencyTask.Control"
+                 xmlns:i18n="clr-namespace:Plugin.Language">
+    <Grid>
+        <Grid WidthRequest="300" Margin="35,0" BackgroundColor="White" VerticalOptions="Center" Padding="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="1">
+                <Label Text="{i18n:Translate IngresaRazonDeCancelacion}" HorizontalTextAlignment="Center" FontSize="Medium" />
+                <Picker ItemsSource="{Binding Reasons}" SelectedItem="{Binding Reason}" ItemDisplayBinding="{Binding traduccion}" />
+                <Label Text="{i18n:Translate DescripcionDeCancelacion}" />
+                <Frame BackgroundColor="Gray" Margin="1" Padding="0">
+                    <Editor Text="{Binding Description}" BackgroundColor="White" />
+                </Frame>
+                <Button Text="{i18n:Translate SendReason}" Command="{Binding BtnSend}" Style="{StaticResource BtnDefault}"/>
+            </StackLayout>
+            <Frame Grid.Row="0" Padding="0" VerticalOptions="Start" HorizontalOptions="End" CornerRadius="0" Margin="0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BtnClose}"/>
+                </Frame.GestureRecognizers>
+                <Label Text="{StaticResource Times}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Red" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" FontSize="Large"/>
+            </Frame>
+        </Grid>
+        <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+    </Grid>
+</Pages:PopupPage>

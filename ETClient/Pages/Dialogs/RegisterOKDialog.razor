@@ -1,0 +1,46 @@
+﻿@if (showDialog)
+{
+    <div id="ServiceOKModal" class="modal fade @DialogCssCandidates" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE876;</i>
+                    </div>
+                    <h4 class="modal-title w-100">Registered!</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">Check your email and activate your account to access"</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-block w-100" @onclick="onOK">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    public EventHandler<object>? OnReturn { set; get; }
+
+    bool showDialog = false;
+    string? DialogCssCandidates => showDialog ? "show" : "hide";
+
+    public void Show()
+    {
+        showDialog = true;
+        this.StateHasChanged();
+    }
+
+    public void Close()
+    {
+        showDialog = false;
+        this.StateHasChanged();
+    }
+
+    public void onOK()
+    {
+        OnReturn?.Invoke(this, null);
+        Close();
+    }
+}

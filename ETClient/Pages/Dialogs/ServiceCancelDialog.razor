@@ -1,0 +1,124 @@
+﻿@using ETClient.API.ER;
+@using ETClient.API.Enum;
+@using ETClient.Models;
+@using Plugin.Net.Socket;
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+
+@if (showDialog)
+{
+    <div class="modal fade @DialogCssClass" id="serviceModal" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cancel Service</h4>
+                    <button type="button" class="close" @onclick="@(() => Close())">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Enter the reason for the cancellation</p>
+                </div>
+
+                <div class="modal-body">
+                    <p><b>Estimated time</b></p>
+                    <select name="select" class="w-100" style="padding:5px" @onchange="@(e => OnSelectionChange(e.Value))">
+                        <option value="i'm not home">I'm not home</option>
+                        <option value="i'm not available">I'm not available</option>
+                        <option value="i'm not available">I'm not available</option>
+                        <option value="couldn't make it on time">Couldn't make it on time</option>
+                        <option value="i need to reschedule">I need to reschedule</option>
+                        <option value="personal reason">Personal reason</option>
+                        <option value="other">Others</option>
+                    </select>
+                </div>
+
+                <div class="modal-body">
+                    <p><b>Service description</b></p>
+                    <textarea class="w-100" style="min-height:120px" @bind=@Description placeholder="enter a descripction (optional)" />
+                </div>
+                <div class="modal-footer w-100">
+                    <button type="button" class="btn btn-primary w-100" @onclick=ServiceCancel>Send Reason</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    public EventHandler<bool> OnCancel{ set; get; }
+    public EventHandler<bool> OnReturn { set; get; }
+    bool showDialog = false;
+    string? DialogCssClass => showDialog ? "show" : "hide";
+    string? Reason, Description;
+    Requestservice? CurrentService { set; get; }
+    bool payfee;
+    double amountfee;
+
+    public void Show(Requestservice request,bool payfee,  double amountfee)
+    {
+        this.payfee = payfee;
+        this.amountfee = amountfee;
+        CurrentService = request;
+        showDialog = true;
+        this.StateHasChanged();
+    }
+
+    public void Close(bool force = true)
+    {
+        showDialog = false;
+        OnCancel?.Invoke(this, force);
+        this.StateHasChanged();
+    }
+
+    void OnSelectionChange(object e)
+    {
+        Reason = e.ToString();
+    }
+
+    async void ServiceCancel()
+    {
+        Close(false);
+        var status = await Cancel(payfee, amountfee);
+       
+ 
+        var socket = await SocketFactory.Instance.Resolve();
+        if (socket != null)
+        {
+            var action = (int)EstadoServicio.Cancelado;
+            await socket.Send("Service", new Dictionary<string, string>
+                       {
+                        { ServiceModel.Action, (action).ToString() },
+                        { ServiceModel.IdKey, CurrentService.id.ToString() }
+                       });
+        }
+
+        OnReturn?.Invoke(this, status);
+        Close();
+    }
+
+    async Task<bool> Cancel(bool cobrartarifa, double tarifa)
+    {
+       var sesion = await sesionService.Read(sessionStorage);
+        if (sesion == null) return false;
+        if (CurrentService == null) return false;
+
+        var stripe = await App.GetStripeAsync();
+        if (stripe == null) return false;
+
+        var hito = await Client.Hito.Where(new Hito
+            {
+                trabajoterminado = 1,
+                idsolicitudservicio = CurrentService.id
+            }) ?? new List<Hito>();
+
+        var pendingforpay = hito.FirstOrDefault(h => h.estado == (int)HitoStatus.AuthorizedFunds);
+        if (pendingforpay == null) return false;
+        var chargeid = pendingforpay.chargeid;
+        if (!cobrartarifa) return await stripe.CancelCharge(chargeid);
+        long.TryParse((tarifa * 100).ToString(), out long stripecost);
+        if (stripecost <= 0) return false;
+        var refund = await stripe.CaptureCharge(chargeid, stripecost);
+        if (!refund) return false;
+        return await Client.ChangeServiceStatus(CurrentService.id, EstadoServicio.Cancelado, sesion.User.id, CurrentService.latitud, CurrentService.longitud, CurrentService.latitud != 0 && CurrentService.longitud != 0 ? 1 : 0);
+    }
+}

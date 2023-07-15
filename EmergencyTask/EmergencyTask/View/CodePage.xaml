@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="White"
+             Title="{i18n:Translate RecuperaContraseña}"
+             x:Class="EmergencyTask.CodePage"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control">
+    <ContentPage.Content>
+        <!--Vista para Solicitar el Codigo para permitir reestablecer la contraseña-->
+        <Grid>
+            <StackLayout VerticalOptions="Center" Padding="50">
+                <Label Text="{StaticResource Key}" FontFamily="{DynamicResource MaterialIcons}" FontSize="50" HorizontalTextAlignment="Center" />
+                <Label Text="{i18n:Translate MensajeCodigo}" TextColor="Gray" HorizontalTextAlignment="Center" WidthRequest="180"/>
+                <Entry Text="{Binding Codigo}" Placeholder="{i18n:Translate Codigo}" PlaceholderColor="Gray" TextColor="Black" FontSize="Small"/>
+                <Button Text="{i18n:Translate Aceptar}" Command="{Binding BtnAceptar}" Style="{StaticResource BtnDefault}"/>
+            </StackLayout>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

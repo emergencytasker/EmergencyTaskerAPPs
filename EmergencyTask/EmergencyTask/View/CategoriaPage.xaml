@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.CategoriaPage"
+             BackgroundColor="White"
+             Title="{i18n:Translate Tarea}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Control="clr-namespace:EmergencyTask.Control">
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid Padding="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <SearchBar Grid.Row="0" FontSize="Small" Text="{Binding Search}" Placeholder="{i18n:Translate Buscar}">
+                    <SearchBar.BackgroundColor>
+                        <OnPlatform x:TypeArguments="Color" Default="Transparent" iOS="Transparent" Android="#eeeeee" />
+                    </SearchBar.BackgroundColor>
+                </SearchBar>
+                <CollectionView Grid.Row="1" BackgroundColor="Transparent" ItemsSource="{Binding Cartas}" SelectedItem="{Binding Carta}" SelectionMode="Single" ItemSizingStrategy="MeasureAllItems">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Span="2" HorizontalItemSpacing="12" VerticalItemSpacing="12" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#eeeeee" Margin="0" Padding="0" CornerRadius="0">
+                                <StackLayout>
+                                    <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding Image}" HeightRequest="120" Margin="0" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
+                                    <Label Text="{Binding Title}" TextColor="Black" Margin="12"/>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <Control:ProgressView IsVisible="{Binding IsBusy}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

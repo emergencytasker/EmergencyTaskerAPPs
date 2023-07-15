@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.CodeValidationTaskPopup"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Views="clr-namespace:EmergencyTask.Control"
+             xmlns:Popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+    <Grid>
+        <Frame Margin="30" Padding="12" VerticalOptions="Center">
+            <StackLayout>
+                <Label Text="{i18n:Translate Autenticacion}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                <Label Text="{Binding Method}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                <Entry Placeholder="XXXXXX" Text="{Binding Code}" TextColor="Black" HorizontalOptions="FillAndExpand" Keyboard="Numeric" MaxLength="6" />
+                <Button Command="{Binding Validation}" Text="{i18n:Translate Validar}" Style="{StaticResource BtnDefault}" HeightRequest="45" />
+                <Button Command="{Binding ResendCode}" Text="{i18n:Translate ReenviarCod}" FontFamily="{StaticResource MaterialIcons}" Style="{StaticResource BtnDefault}" VerticalOptions="Center" HeightRequest="40" WidthRequest="40" CornerRadius="10" />
+            </StackLayout>
+        </Frame>
+        <Views:ProgressView IsVisible="{Binding IsBusy}" />
+    </Grid>
+</Popup:PopupPage>

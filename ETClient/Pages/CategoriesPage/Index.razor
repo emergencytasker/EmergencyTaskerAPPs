@@ -1,0 +1,75 @@
+﻿@page "/category/{IdCategory:int}"
+@using ETClient.API.Response;
+@using ETClient.Commands;
+@using ETClient.Models;
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}else
+{
+    <div class="container">
+        <div class="row">
+            @if(subcategories != null)
+            {
+                @foreach (var item in subcategories)
+                {
+
+                    <div class="col-sm">
+                        <div class="margin-5">
+                            <a href="/service/@item.idcategoria/@item.idsubcategoria">
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" style="max-height:150px" src="@($"{Client.HOST}/{@item.imagensubcategoria}")" alt="@item.idsubcategoria">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@item.subcategoria</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>
+    </div>
+}
+@code {
+    [Parameter] public int IdCategory { set; get; }
+    public List<Service> Services { set; get; } = new();
+    List<Service> subcategories { get; set; } = new();
+    API.ER.Service Service { set; get; } = new();
+    API.ER.Subcategory SubService { set; get; } = new();
+    bool isLoaded;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Service = await Client.Service.Get(IdCategory);
+
+        if (Service != null)
+        {
+            SubService = await Service.GetSubcategory();
+
+            if (SubService != null)
+            {
+                string lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
+                Services = new List<Service>(await Client.GetServices(lang));
+
+                if (Services != null)
+                {
+                    subcategories = new List<Service>(Services.Where(s => s.idcategoria == IdCategory));
+                }
+            }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isLoaded = true;
+        }
+
+    }
+
+}

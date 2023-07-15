@@ -1,0 +1,139 @@
+﻿@using ETClient.Models;
+@using Newtonsoft.Json;
+@if (showDialog)
+{
+    <div class="modal fade @DialogCssClass" id="serviceModal" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Card</h4>
+                    <button type="button" class="close" @onclick="Close" style="padding-left:5px;padding-right:5px;">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="creditCardForm">
+                        <div class="payment">
+                            <form method="dialog">
+
+                                <div class="form-group owner">
+                                    <label for="owner">Owner</label>
+                                    <input type="text" class="form-control" id="owner" required @bind-value=@card.Owner>
+                                </div>
+
+                                <div class="form-group CVV">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" class="form-control" id="cvv" required pattern="\d*" maxlength="3" @bind-value=@card.Cvv>
+                                </div>
+
+                                <div class="form-group" id="card-number-field">
+                                    <label for="cardNumber">Card Number</label>
+                                    <input type="text" class="form-control" id="cardNumber" pattern="\d*"  maxlength="16" required @bind-value=@card.Numbers>
+                                </div>
+
+                                <div class="form-group" id="expiration-date">
+                                    <label>Expiration Date</label>
+                                    <div class="row">
+
+                                        <div class="col-8">
+                                             <select @onchange="@(e => OnMonthSelectionChange(e.Value))">
+                                                <option value="01">January</option>
+                                                <option value="02">February </option>
+                                                <option value="03">March</option>
+                                                <option value="04">April</option>
+                                                <option value="05">May</option>
+                                                <option value="06">June</option>
+                                                <option value="07">July</option>
+                                                <option value="08">August</option>
+                                                <option value="09">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-4">
+                                              <select @onchange="@(e => OnYearSelectionChange(e.Value))">
+                                                @foreach (var dic in Years)
+                                                {
+                                                    <option value="@dic.Key"> @dic.Value</option>
+                                                }
+
+                                            </select>
+                                        </div>
+                                    </div>
+ 
+                                </div>
+
+                                <div class="form-group" id="credit_cards" style="top: 50%;transform: translateY(50%);">
+                                    <img src="media/card_visa.jpg" id="visa" style="width:48px;">
+                                    <img src="media/card_mastercard.jpg" id="mastercard" style="width:48px;">
+                                    <img src="media/card_amex.jpg" id="amex" style="width:48px;">
+                                </div>
+
+                                <div class="form-group" id="pay-now">
+                                    <button type="submit" class="btn btn-default" id="confirm-purchase" @onclick="onConfirm">Confirm</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    public EventHandler<CardModel> OnReturn { set; get; }
+    bool showDialog = false;
+    string? DialogCssClass => showDialog ? "show" : "hide";
+    Dictionary<string, string> Years = new();
+    CardModel card { set; get; } = new ();
+
+    public void Show()
+    {
+        card = new();
+
+        int start = DateTime.Now.Year;
+        int index = 0;
+
+        Years.Clear();
+
+        @for (int i = start; i < start + 15; i++)
+        {
+            int _year = start + index;
+            Years.Add(_year.ToString(), _year.ToString());
+            index++;
+        }
+
+        card.Month = 1;
+        card.Year = start;
+
+        showDialog = true;
+        this.StateHasChanged();
+    }
+
+    public void Close()
+    {
+        showDialog = false;
+        this.StateHasChanged();
+    }
+
+    void OnMonthSelectionChange(object e)
+    {
+        card.Month = int.Parse(e.ToString());
+    }
+    void OnYearSelectionChange(object e)
+    {
+        card.Year = int.Parse(e.ToString());
+    }
+
+    async void onConfirm()
+    {
+        Console.WriteLine($"[CARD] {JsonConvert.SerializeObject(card)}");
+        OnReturn?.Invoke(this, card);
+        Close();
+    }
+}

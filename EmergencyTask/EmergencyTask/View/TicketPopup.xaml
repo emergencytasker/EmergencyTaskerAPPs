@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.TicketPopup"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             xmlns:Popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+    <Frame CornerRadius="10" IsClippedToBounds="True" HasShadow="False" BackgroundColor="White" Margin="50" VerticalOptions="Center" HorizontalOptions="Center">
+        <StackLayout>
+            <Control:ImageLoading LoadingPlaceHolder="ImageLoading.json" Aspect="AspectFit" Source="{Binding Imagen}" HeightRequest="500" WidthRequest="300" />
+            <Label Text="{Binding Detalle}" HorizontalOptions="Center" HorizontalTextAlignment="Center" MaxLines="3" Margin="12" />
+        </StackLayout>
+    </Frame>
+</Popup:PopupPage>

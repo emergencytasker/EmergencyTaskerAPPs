@@ -1,0 +1,611 @@
+﻿@page "/service/{IdCategory:int}/{IdSubCategory:int}"
+@using ETClient.API.ER;
+@using ETClient.API.Enum;
+@using ETClient.Models;
+@using GoogleMapsComponents
+@using GoogleMapsComponents.Maps
+@using System.Collections.ObjectModel;
+@using GooglePlacesApi;
+@using GooglePlacesApi.Loggers;
+@using GooglePlacesApi.Models;
+@using Plugin.Net.Socket;
+@inject BrowserService Browser
+@inject IJSRuntime JsRuntime
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+@inject IStringLocalizer<SharedResource> Loc
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}
+else if(sesion.Authenticated)
+{
+	<div class="autocomplete w-80 margin-5">
+		<div style="margin:5px">
+			<label><b>@category.nombre</b></label>
+		</div>
+		<input @bind=SearchText @oninput=HandleInput class="form-control filter" placeholder="Search Address" />
+		@if (Locations is not null)
+		{
+			<ul class="options">
+				@if (Locations.Any())
+				{
+					@foreach (var location in Locations)
+					{
+						<li class="option cursor-hand" @onclick=@(_ => LocationSelected(location))>
+							<span class="option-text">@location.Title</span>
+						</li>
+					}
+				}
+				else
+				{
+					<li class="disabled option">No results</li>
+				}
+			</ul>
+		}
+	</div>
+
+	<div class="w-80 margin-5">
+		<p class="text-center">@Direccion</p>
+		<p class="text-center"><b>@Loc["Indicaciones"]</b></p>
+		<textarea class="form-control" style="min-height:42px" @bind=@Detail placeholder="Add details that make it easy to find the address" />
+	</div>
+
+	<div class="w-80 margin-5">
+		<button @onclick="onConfirm" class="btn btn-primary w-100" type="button">@Loc["Confirmar"]</button>
+	</div>
+
+	<div style="height:@(string.Format("{0}px",Height))">
+		<GoogleMap @ref="@map1" Id="map1" Options="@mapOptions" Height="@(string.Format("{0}px",Height))" OnAfterInit="@(async () => await OnAfterInitAsync())"/>
+	</div>
+
+	<ServiceDialog @ref="@serviceDialog" />
+	<CandidatesDialog @ref="@candidatesDialog" />
+	<ServiceDetailDialog @ref="@detailsDialog" />
+	<ServiceOKDialog @ref="@serviceOKDialog" />
+	<ProcessDialog @ref="@processDialog" />
+}
+
+@code
+{
+	SesionModel sesion { set; get; } = new();
+	[Inject] IToastService? toastService { set; get; }
+	[Parameter]
+	public int IdCategory { set; get; }
+	[Parameter]
+	public int IdSubCategory { set; get; }
+	[Parameter]
+	public EventCallback<MouseEvent> MeDragEnd { get; set; }
+	GoogleMap? map1;
+	ServiceDialog? serviceDialog;
+	CandidatesDialog? candidatesDialog;
+	ServiceDetailDialog? detailsDialog;
+	ServiceOKDialog? serviceOKDialog;
+	ProcessDialog? processDialog;
+	MapOptions? mapOptions;
+	DirectionsRenderer? dirRend;
+	int Height { get; set; }
+	int Width { get; set; }
+	LatLngLiteral? position;
+
+	Marker? meMarker;
+	MarkerOptions? MeMarkerOptions;
+
+	string? Detail;
+	public ObservableCollection<LocationModel>? Locations {set;get;}
+	public LocationModel? Location { set; get; }
+
+	string? SearchText;
+	public bool IsSearching { get; set; }
+	public GooglePlacesApiService? GooglePlacesApi { get; private set; }
+	public string? GoogleMapsKey { get; set; }
+	public string? GoogleLanguage { get; set; }
+	public string? GoogleCountry { get; set; }
+	bool IsLocationsVisible;
+	public ServiceModel Service { get; internal set; } = new();
+	string? Direccion;
+	bool isLoaded;
+	int IdRequestService;
+	public CandidateModel Candidate { get; set; }
+	double CostoFinal;
+	public Requestservice CurrentService { get; set; }
+	Category category;
+
+	async Task GetDimensions()
+	{
+		var dimension = await Browser.GetDimensions();
+		Height = dimension.Height - 300;
+		Width = dimension.Width;
+		this.StateHasChanged();
+	}
+
+	public async Task<Marker> AddMeMarker()
+	{
+		return meMarker = await AddMarker(MeMarkerOptions);
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!isLoaded)
+		{
+			await GetDimensions();
+			sesion = await sesionService.Read(sessionStorage);
+
+			if (!sesion.Authenticated)
+			{
+				//Redireccionamos a la pantalla de login
+				navigationManager.NavigateTo("/login", true);
+				return;
+			}
+
+			category = await Client.Category.Get(IdCategory);
+			isLoaded = true;
+			this.StateHasChanged();
+		}
+	}
+
+	protected override void OnInitialized()
+	{
+		mapOptions = new MapOptions()
+		{
+				Zoom = 13,
+				Center = new LatLngLiteral()
+				{
+					Lat = 32.731553422849764,
+					Lng = -117.14629272641714
+				},
+				MapTypeId = MapTypeId.Roadmap
+		};
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		GoogleMapsKey = await GetVar<string>("googlemapskey");
+		GoogleLanguage = await GetVar<string>("googlelanguage");
+		GoogleCountry = await GetVar<string>("googlecountry");
+	}
+
+	public async Task<T> GetVar<T>(string key)
+	{
+		return await Client.GetVar<T>(key, (int)sesion.Perfil);
+	}
+
+	async Task OnAfterInitAsync()
+	{
+		//Create instance of DirectionRenderer
+		dirRend = await DirectionsRenderer.CreateAsync(map1.JsRuntime, new DirectionsRendererOptions()
+			{
+				Map = map1.InteropObject
+			});
+	}
+
+	public async Task<Marker> AddMeMarker(double Lat, double Long, string Label, bool Draggable = false)
+	{
+		if (meMarker == null)
+		{
+			MeMarkerOptions = new MarkerOptions { Map = map1.InteropObject, Label = Label, Draggable = Draggable, Position = new LatLngLiteral(Lat, Long) };
+			meMarker = await AddMarker(MeMarkerOptions);
+		}
+		else
+		{
+			MeMarkerOptions.Label = Label;
+			MeMarkerOptions.Position = new LatLngLiteral(Lat, Long);
+			await meMarker.SetMap(map1.InteropObject);
+		}
+
+		if (Draggable)
+		{
+			await meMarker.AddListener<MouseEvent>("dragend", async e => await OnMakerDragEnd(meMarker, e));
+		}
+
+		if (meMarker != null)
+		{
+			position = MeMarkerOptions.Position;
+			CenterMap(position);
+		}
+
+		return meMarker;
+	}
+
+	private async Task OnMakerDragEnd(Marker meMarker, MouseEvent e)
+	{
+		MeMarkerOptions.Position = e.LatLng;
+		await MeDragEnd.InvokeAsync(e);
+		Direccion = await GetAddressFromPosition(e.LatLng.Lat, e.LatLng.Lng);
+		if (!string.IsNullOrEmpty(Direccion))
+		{
+			SearchText = Direccion;
+			await meMarker.SetLabel(Direccion);
+			position = MeMarkerOptions.Position;
+		}
+	}
+
+	protected async Task<Marker> AddMarker(MarkerOptions TheMarkerOptions)
+	{
+		return await Marker.CreateAsync(JsRuntime, TheMarkerOptions);
+	}
+
+	protected async Task<Marker> RemoveMarker(Marker TheMarker)
+	{
+		await TheMarker.SetMap(null);
+		return null;
+	}
+
+	public async Task CenterMap(LatLngLiteral TheCenter)
+	{
+		if (map1.InteropObject != null)
+			await map1.InteropObject.SetCenter(TheCenter);
+	}
+
+	public async Task CenterMap(double Lat, double Long)
+	{
+		await CenterMap(new LatLngLiteral(Lat, Long));
+	}
+
+	async Task<string> GetAddressFromPosition(double latitudeService, double longitudeService)
+	{
+		var response = await Client.GetAddressByPoint(GoogleMapsKey, latitudeService, longitudeService);
+		if (response == null) return string.Empty;
+		return response.FirstOrDefault();
+	}
+
+	async Task HandleInput(ChangeEventArgs e)
+	{
+		SearchText = e.Value?.ToString();
+
+		if (SearchText?.Length > 2)
+		{
+			ListDirections(SearchText);
+		}
+		else
+		{
+			Locations = null;
+			IsSearching = false;
+		}
+	}
+
+
+	private async void ListDirections(string searchtext)
+	{
+		if (IsSearching) return;
+		try
+		{
+			IsSearching = true;
+			if (searchtext != null) searchtext = searchtext.Trim().TrimStart().TrimEnd();
+			if (string.IsNullOrEmpty(searchtext)) Locations = new ObservableCollection<LocationModel>();
+			else
+			{
+				var parts = searchtext.Split(' ');
+				if (searchtext.Length <= 3 && parts.Length == 0) Locations = new ObservableCollection<LocationModel>();
+				else
+				{
+					if (string.IsNullOrEmpty(GoogleMapsKey) || string.IsNullOrEmpty(GoogleLanguage) || string.IsNullOrEmpty(GoogleCountry))
+					{
+						IsSearching = false;
+						IsLocationsVisible = false;
+						return;
+					}
+
+					GooglePlacesApi = new GooglePlacesApiService(GoogleApiSettings.Builder.WithApiKey(GoogleMapsKey)
+						.WithLanguage(GoogleLanguage)
+						.WithType(PlaceTypes.Address)
+						.AddCountry(GoogleCountry)
+						.Build());
+
+					var result = await GooglePlacesApi.GetPredictionsAsync(searchtext).ConfigureAwait(false);
+					if (result == null || result.Status != "OK") Locations = new ObservableCollection<LocationModel>();
+					else
+					{
+						if (result.Items == null || result.Items.Count <= 0) Locations = new ObservableCollection<LocationModel>();
+						else
+						{
+							Locations = new ObservableCollection<LocationModel>(result.Items.Select(p => new LocationModel
+								{
+									Title = p.Description,
+									PlaceId = p.PlaceId
+								}));
+						}
+					}
+				}
+			}
+			IsLocationsVisible = Locations != null && Locations.Count() > 0;
+			IsSearching = false;
+		}
+		catch
+		{
+
+		}
+		finally
+		{
+			IsSearching = false;
+		}
+
+	}
+
+	public async void LocationSelected(LocationModel location)
+	{
+		processDialog.Show();
+		var details = await GooglePlacesApi.GetDetailsAsync(location.PlaceId).ConfigureAwait(false);
+
+		if (details != null && details.Place != null && details.Place.Geometry != null && details.Place.Geometry.Location != null)
+		{
+			if (meMarker != null)
+			{
+				meMarker = await RemoveMarker(meMarker);
+			}
+
+			Direccion = await GetAddressFromPosition(details.Place.Geometry.Location.Latitude, details.Place.Geometry.Location.Longitude);
+			await AddMeMarker(details.Place.Geometry.Location.Latitude, details.Place.Geometry.Location.Longitude, location.Title, true);
+
+			Location = new LocationModel()
+			{
+					Title = details.Place.Name,
+					PlaceId = details.Place.PlaceId
+			};
+
+
+			IsLocationsVisible = false;
+			IsSearching = false;
+			SearchText = Direccion;
+			Locations = null;
+		}
+		else
+		{
+			toastService.ShowInfo("No se pudo obtener la direccion");
+		}
+
+		processDialog.Close();
+		this.InvokeAsync(() =>
+		{
+			this.StateHasChanged();
+		});
+		
+	}
+
+	public async void onConfirm()
+	{
+		if (meMarker == null)
+		{
+			toastService.ShowError("Location not valid");
+			return;
+		}
+
+
+		Service.IdCategoria = IdCategory;
+		Service.IdSubcategory = IdSubCategory;
+
+		if (category != null)
+		{
+			Service.Category = category.nombre;
+		}
+
+		Service.Id = IdRequestService;
+		Service.SubCategory = "";
+		Service.Direccion = Direccion;
+		Service.Detalles = Detail;
+		Service.Latitud = position.Lat;
+		Service.Longitud = position.Lng;
+
+		serviceDialog.Service = Service;
+		serviceDialog.OnReturn = onServiceDialogReturn;	
+		serviceDialog.onShow();
+	}
+
+	public void onServiceDialogReturn(object sender, object e)
+	{
+
+		candidatesDialog.OnReturn = onCandidatesReturn;
+		candidatesDialog.Show(Service);
+	}
+
+	public void onCandidatesReturn(object sender, object e)
+	{
+		Candidate = e as CandidateModel;
+		detailsDialog.OnReturn = onDetailsReturn;
+		detailsDialog.Show(Service);
+
+	}
+
+	public void onDetailsReturn(object sender, object e)
+	{
+		onRequest();
+	}
+
+	async void onRequest()
+	{
+		processDialog.Show();
+
+		var date = await Client.GetDate();
+		if (date == null)
+		{
+			toastService.ShowError(Loc["SinDate"]);
+			processDialog.Close();
+			return;
+		}
+		var now = date.Value;
+
+		if (Candidate == null)
+		{
+			toastService.ShowError(Loc["SinCandidate"]);
+			processDialog.Close();
+			return;
+		}
+
+		if (Service == null)
+		{
+
+			toastService.ShowError(Loc["SinService"]);
+			processDialog.Close();
+			return;
+		}
+
+		var stripe = await App.GetStripeAsync();
+		if (stripe == null)
+		{
+			toastService.ShowError(Loc["SinStripe"]);
+			processDialog.Close();
+			return;
+		}
+
+		if (!await sesion.User.HasPaymethod())
+		{
+			Console.WriteLine("Configurar tipo de pago");
+			processDialog.Close();
+			return;
+		}
+
+
+		var customerid = await sesion.User.GetCustomerId();
+		if (string.IsNullOrEmpty(customerid))
+		{
+			toastService.ShowError(Loc["SinAgendarServicio"]);
+			processDialog.Close();
+			return;
+		}
+
+
+		var subcategoria = await Client.Subcategory.Get(Service.IdSubcategory);
+		if (subcategoria == null)
+		{
+			toastService.ShowError(Loc["NoAgendarServicio"]);
+			processDialog.Close();
+			return;
+		}
+
+		var cost = subcategoria.GetSchedules().Max(s => s.costo);
+		if (cost <= 0)
+		{
+			toastService.ShowError(Loc["NoAgendarServicio"]);
+			processDialog.Close();
+			return;
+		}
+
+
+		var servicehours = Service.Time;
+		var servicecost = cost * Service.Time;
+		var servicedescription = $"{Service.Category} • {Service.SubCategory}";
+
+		var startservicedate = Service.HasSchedule ? Service.Date.ToMySqlDateTimeFormat() : now.ToMySqlDateTimeFormat();
+		var endservicedate = (Service.HasSchedule ? Service.Date.AddHours(Service.Time) : now.AddHours(Service.Time)).ToMySqlDateTimeFormat();
+
+		var costincentavos = servicecost * 100D;
+		long.TryParse(costincentavos.ToString(), out long stripecost);
+
+		if (stripecost == 0)
+		{
+			toastService.ShowError(Loc["NoAgendarServicio"]);
+			processDialog.Close();
+			return;
+		}
+
+		string chargeid = await stripe.CreateCharge(stripecost, "usd", customerid, servicedescription, sesion.User.email);
+
+		if (string.IsNullOrEmpty(chargeid))
+		{
+			toastService.ShowError(Loc["NoValidoFormaPago"]);
+			processDialog.Close();
+			return;
+		}
+
+		/*
+		if (!Service.HasSchedule)
+			{
+			Console.WriteLine($"[HasSchedule] 1");
+			return;
+		}
+		*/
+
+		CurrentService = await Client.Requestservice.Add(new Requestservice
+			{
+				trabajador = Candidate.Id,
+				categoria = Service.Category,
+				cliente = sesion.User.id,
+				costoporhora = Service.CostoPorHora,
+				tiemposolicitado = Service.Time,
+				descripcion = Service.Description,
+				detalles = Service.Detalles,
+				direccion = Service.Direccion,
+				tienehorario = Service.HasSchedule ? 1 : 0,
+				idcategoria = Service.IdCategoria,
+				idsubcategoria = Service.IdSubcategory,
+				idservicio = Candidate.ServiceId,
+				idestadoservicio = (int)EstadoServicio.Pendiente,
+				longitud = Service.Longitud,
+				latitud = Service.Latitud,
+				subcategoria = Service.SubCategory,
+				fechadeservicio = startservicedate,
+				fechainicio = startservicedate,
+				fechafin = endservicedate,
+				tieneaccesorios = (Service.Accesorios != null && Service.Accesorios.Count > 0) ? 1 : 0
+			});
+
+		if (CurrentService == null || CurrentService.id <= 0)
+		{
+			toastService.ShowError(Loc["IntentarMasTarde"]);
+			processDialog.Close();
+			return;
+		}
+
+		var socket = await SocketFactory.Instance.Resolve();
+		await socket.Send($"NewServiceChannel-{Candidate.Id}", new Dictionary<string, string>
+			{
+				{ "idsolicitudservicio", CurrentService.id.ToString() }
+			});
+
+		var hito = await Client.Hito.Add(new Hito
+			{
+				cantidad = servicecost,
+				cliente = sesion.User.id,
+				trabajador = Candidate.Id,
+				descripcion = CurrentService.categoria + " • " + CurrentService.subcategoria,
+				idsolicitudservicio = CurrentService.id,
+				chargeid = chargeid,
+				estado = (int)HitoStatus.AuthorizedFunds,
+				trabajoterminado = 1,
+				fechadeautorizacion = now.ToMySqlDateTimeFormat()
+			});
+
+		if (Service.Accesorios != null)
+		{
+			var accesorios = Service.Accesorios.Select(a =>
+			{
+				return new Accessory
+					{
+						costo = 0,
+						idsolicitudservicio = CurrentService.id,
+						cantidad = a.Cantidad,
+						nombre = a.Nombre
+					};
+			}).ToList();
+
+			if (accesorios.Count > 0)
+			{
+				var accesories = await Client.Accessory.Add(accesorios) ?? new List<Accessory>();
+				if (accesorios.Count == accesories.Count())
+				{
+					toastService.ShowError(Loc["SinAccesorios"]);
+				}
+			}
+		}
+
+		await Client.ChangeServiceStatus(CurrentService.id, EstadoServicio.Pendiente, Service.Client,Service.Latitud, Service.Longitud, Service.Latitud != 0D && Service.Longitud != 0D ? 1 : 0);
+		/*
+		if (!Service.HasSchedule)
+			{
+			Console.WriteLine($"[HasSchedule] 2");
+			return;
+		}
+		*/
+
+		processDialog.Close();
+		serviceOKDialog.OnReturn = onserviceOKReturn;
+		serviceOKDialog.Show();
+	}
+
+	void onserviceOKReturn(object sender, object e)
+	{
+		navigationManager.NavigateTo($"/service/{CurrentService.id}", true);
+	}
+}

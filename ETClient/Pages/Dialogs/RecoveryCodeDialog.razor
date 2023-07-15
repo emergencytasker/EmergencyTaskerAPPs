@@ -1,0 +1,80 @@
+﻿@inject IStringLocalizer<SharedResource> Loc
+
+@if (showDialog)
+{
+    <div id="ServiceOKModal" class="modal fade @DialogCssCandidates" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE158;</i>
+                    </div>
+                    <h4 class="modal-title w-100">@Loc["RecuperaContraseña"]</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">@Loc["MensajeCodigo"]</p>
+                </div>
+                <div class="modal-body">
+                    <input class="w-100" @bind-value="@codeString" type="text" placeholder="@Loc["Codigo"]" />
+                </div>
+                @if (isPasswordConfirm)
+                {
+                    <hr />
+                    <div class="modal-body">
+                        <input class="w-100" @bind-value="@passwordString" type="password" placeholder="@Loc["NuevaContraseña"]" />
+                    </div>
+                     <div class="modal-body">
+                        <input class="w-100" @bind-value="@ConfirmPasswordString" type="password" placeholder="@Loc["ConfirmarContraseña"]" />
+                    </div>
+                }
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-block w-100" @onclick="onOK">@Loc["Aceptar"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    public EventHandler<object>? OnReturn { set; get; }
+
+    bool showDialog = false;
+    public bool isPasswordConfirm { private set; get; }
+    string? DialogCssCandidates => showDialog ? "show" : "hide";
+    public string code { private set; get; }
+    public int userID { private set; get; }
+    public string codeString { private set; get; }
+    public string passwordString { private set; get; }
+    public string ConfirmPasswordString { private set; get; }
+    
+    public void Show(string _code, int _userID)
+    {
+        code = _code;
+        userID = _userID;
+        codeString = string.Empty;
+        showDialog = true;
+        this.StateHasChanged();
+    }
+
+    public void Close()
+    {
+        showDialog = false;
+        this.StateHasChanged();
+    }
+
+    public void CodeClear()
+    {
+        codeString = string.Empty;
+    }
+
+    public void PasswordContinue()
+    {
+        isPasswordConfirm = true;
+    }
+
+    public void onOK()
+    {
+        OnReturn?.Invoke(this, codeString);
+        this.StateHasChanged();
+    }
+}

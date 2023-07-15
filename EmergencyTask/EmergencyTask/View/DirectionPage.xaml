@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="#eeeeee"
+             Title="{i18n:Translate SolicitarServicio}"
+             x:Class="EmergencyTask.DirectionPage"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             xmlns:GoogleMaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps">
+    <ContentPage.Content>
+        <Grid>
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <GoogleMaps:Map Grid.RowSpan="2" x:Name="Mapa" />
+
+                <SearchBar Grid.Row="0" Text="{Binding SearchText}" SearchCommand="{Binding SearchCommand}" SearchCommandParameter="{Binding SearchText}" Margin="12,12,12,0"
+                           Placeholder="{i18n:Translate Buscar}" VerticalOptions="Start">
+
+                </SearchBar>
+
+                <ListView Grid.Row="1" ItemsSource="{Binding Locations}" SelectedItem="{Binding Location}" SelectionMode="Single" IsVisible="{Binding IsLocationsVisible}"
+                          ItemSelected="ListView_ItemSelected" ItemTapped="ListView_ItemTapped" Margin="12,0,12,12">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid BackgroundColor="White" Padding="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" HeightRequest="30" WidthRequest="30" Text="{StaticResource Pin}" FontFamily="{StaticResource MaterialIcons}" FontSize="Default" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                                    <Label Grid.Column="1" Text="{Binding Title}" TextColor="Black" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Frame Grid.Row="2" Margin="12">
+                    <StackLayout>
+                        <Label Text="{Binding Direccion}" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="20,0" MaxLines="2" TextColor="Black" />
+                        <Label Text="{i18n:Translate Indicaciones}" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="Black"/>
+                        <Frame Margin="0" Padding="{OnPlatform iOS=1, Android=0}" BackgroundColor="Gray" CornerRadius="0">
+                            <Editor Text="{Binding Detail}" Placeholder="{i18n:Translate MensajeIndicaciones}" FontSize="Small" PlaceholderColor="LightGray" HeightRequest="100" BackgroundColor="White"/>
+                        </Frame>
+                        <Button Text="{i18n:Translate Confirmar}" Command="{Binding BtnConfirmar}" Style="{StaticResource BtnDefault}" FontSize="Small" HeightRequest="40 "/>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+            <Control:ProgressView IsVisible="{Binding IsBusy}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

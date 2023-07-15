@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{i18n:Translate Calificacion}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             BackgroundColor="#eeeeee"
+             x:Class="EmergencyTask.ReviewServicePage"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Rating="clr-namespace:EmergencyTask.Views.Rating">
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView>
+                <StackLayout Margin="12">
+                    <Frame>
+                        <StackLayout Padding="12">
+                            <Label Text="{Binding Servicio}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                            <Label Text="{Binding Tarea}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                            <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding FotoAsistente}" HorizontalOptions="Center" HeightRequest="80" WidthRequest="80" Aspect="AspectFit">
+                                <Controls:ImageLoading.Transformations>
+                                    <Transformations:CircleTransformation />
+                                </Controls:ImageLoading.Transformations>
+                            </Controls:ImageLoading>
+                            <Label Text="{Binding NombreAsistente}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame>
+                        <StackLayout Padding="12">
+                            <Label Text="{i18n:Translate Calificacion}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                            <StackLayout HeightRequest="50" Spacing="0" HorizontalOptions="Center" WidthRequest="300">
+                                <Rating:StarsReview x:Name="StarReview" CanChange="True" WidthRequest="300" StarWidth="50" StarHeight="50" HorizontalOptions="Center" />
+                            </StackLayout>
+                            <Label Text="{i18n:Translate Opinion}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                            <Frame BackgroundColor="Gray" Padding="{OnPlatform Android=0, iOS=1}" IsClippedToBounds="True" CornerRadius="0">
+                                <Editor Placeholder="{Binding BoxDescription}" Text="{Binding Opinion}" TextColor="Black" PlaceholderColor="LightGray" HeightRequest="100" BackgroundColor="White" />
+                            </Frame>
+                            <Button Text="{i18n:Translate Aceptar}" Command="{Binding BtnAceptar}" Style="{StaticResource BtnDefault}" FontSize="Default" IsVisible="{Binding IsSaveVisible}" CornerRadius="0" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

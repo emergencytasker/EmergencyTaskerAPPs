@@ -1,0 +1,206 @@
+﻿@using ETClient.API.ER;
+@using ETClient.Controllers;
+@using ETClient.Models;
+@using Microsoft.AspNetCore.Components.Authorization;
+@using Newtonsoft.Json;
+@using Plugin.Net.Socket;
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+@inject IStringLocalizer<SharedResource> Loc
+@inject IJSRuntime JsRuntime
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href=""><img src="/media/icon.png" style="height:48px;margin-left:-15px;margin-top:-10px"/> EmergencyTasker</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Start
+            </NavLink>
+        </div>
+
+        @if (sesion.Authenticated)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="profile">
+                    <span class="oi oi-person" aria-hidden="true"></span> @Loc["Perfil"]
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="calendar">
+                    <span class="oi oi-calendar" aria-hidden="true"></span> @Loc["Calendario"]
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="chat" @onclick="onClearChat">
+                    <span class="oi oi-chat" aria-hidden="true"></span> @Loc["Chat"]
+                    @if (ChatCount > 0)
+                    {
+                        <span class="badge" style="background-color:red; margin-left:10px;"> @ChatCount </span>
+
+                    }
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="rewards">
+                    <span class="oi oi-star" aria-hidden="true"></span> @Loc["Recompensas"]
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="notifications">
+                    <span class="oi oi-bell" aria-hidden="true"></span> @Loc["Notificaciones"]
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="payments">
+                    <span class="oi oi-credit-card" aria-hidden="true"></span> @Loc["Pagos"]
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link cursor-hand" @onclick="onLogout">
+                    <span class="oi oi-account-logout" aria-hidden="true" ></span> @Loc["CerrarSesion"] 
+                </NavLink>
+            </div>
+        }
+        else
+        {
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="login">
+                    <span class="oi oi-account-login" aria-hidden="true"></span> @Loc["Login"]
+                </NavLink>
+            </div>
+
+                  <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="register">
+                    <span class="oi oi-account-logout" aria-hidden="true"></span> @Loc["Registrar"]
+                    </NavLink>
+                </div>
+        }
+    </nav>
+</div>
+
+<audio id="chat-sound" src="/sound/new_message.wav" />
+
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    private bool collapseNavMenu = true;
+    SesionModel sesion { set; get; } = new();
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    bool isLoaded;
+    string ChatChannel;
+    private ISocket Socket { get; set; }
+    int ChatCount;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SesionService.StateReturn = onStateReturn;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            isLoaded = true;
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (sesion.Authenticated)
+            {
+                onLoadSocket();
+            }
+
+            this.StateHasChanged();
+        }
+    }
+
+    async void onClearChat()
+    {
+        ChatCount = 0;
+        this.StateHasChanged();
+    }
+
+    async Task onLoadSocket()
+    {
+        ChatChannel = $"Chat-{sesion.User.id}";
+
+        Socket = await SocketFactory.Instance.Resolve();
+        await Socket.Subscribe(ChatChannel);
+        Socket.MessageReceived += Socket_MessageReceived;
+        Socket.ConnectionStatus += Socket_ConnectionStatus;
+    }
+
+    void Socket_ConnectionStatus(object sender, bool e)
+    {
+        if (!e) toastService.ShowInfo("Offline");
+    }
+
+    async void Socket_MessageReceived(object sender, Message e)
+    {
+        ChatNotification chat = JsonConvert.DeserializeObject<ChatNotification>(e.Text);
+
+        if (chat != null)
+        {
+            ChatCount++;
+            toastService.ShowInfo(chat.Message, "New Message", new Action(() =>
+            {
+                ChatCount = 0;
+                this.InvokeAsync(() =>
+                 {
+                     this.StateHasChanged();
+                 });
+                NavigationManager.NavigateTo($"/chat/{chat.UserID}");
+            }));
+           
+            this.InvokeAsync(async () =>
+            {
+                await JsRuntime.InvokeAsync<string>("PlaySound", "chat-sound");
+                this.StateHasChanged();
+            });
+        }
+    }
+
+    void onStateReturn(object sender, object e)
+    {
+        this.InvokeAsync(() =>
+        {
+            this.StateHasChanged();
+        });
+    }
+
+    async Task onLogout()
+    {
+        if (sesion.User != null)
+        {
+            bool status = await Client.LogOut(sesion.User.idsession.ToString(), sesion.User.id);
+
+            if (status)
+            {
+                sesion = await sesionService.Remove(sessionStorage);
+                NavigationManager.NavigateTo("/", true);
+                return;
+            }
+
+            toastService.ShowError($"Can't logout");
+        }
+        else
+        {
+            toastService.ShowError($"you must log in");
+        }
+    }
+
+}

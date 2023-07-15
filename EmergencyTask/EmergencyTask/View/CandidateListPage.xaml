@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{i18n:Translate Asistentes}"
+             x:Class="EmergencyTask.CandidateListPage"
+             BackgroundColor="#eeeeee"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Control="clr-namespace:EmergencyTask.Control" 
+             xmlns:Behaviors="clr-namespace:LightForms.Behaviors;assembly=LightForms">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{i18n:Translate Filtrar}" Command="{Binding Filter}" Order="Primary" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout Padding="12">
+                <ListView ItemsSource="{Binding Candidates}" SelectedItem="{Binding Candidate}">
+                    <ListView.Behaviors>
+                        <Behaviors:ListViewRemoveSelectionBehavior />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame Margin="0,6" Padding="12">
+                                    <StackLayout>
+                                        <Grid VerticalOptions="Center" ColumnSpacing="15" BackgroundColor="White" Padding="0" Margin="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="70"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackLayout Grid.Column="0" Padding="0" Margin="0" HorizontalOptions="Start" VerticalOptions="Start">
+                                                <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png"
+                                                                Source="{Binding FotoAsistente}" Aspect="AspectFill" HeightRequest="60" WidthRequest="60" HorizontalOptions="Center">
+                                                    <Controls:ImageLoading.Transformations>
+                                                        <Transformations:CircleTransformation />
+                                                    </Controls:ImageLoading.Transformations>
+                                                    <Controls:ImageLoading.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding TapProfile}" CommandParameter="{Binding .}" />
+                                                    </Controls:ImageLoading.GestureRecognizers>
+                                                </Controls:ImageLoading>
+                                                <Label Text="{Binding Distancia, StringFormat='{0} mi'}" TextColor="White" BackgroundColor="{StaticResource Accent}" MaxLines="1" LineBreakMode="TailTruncation" FontSize="Micro" HeightRequest="15" VerticalTextAlignment="End" HorizontalTextAlignment="Center" />
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="1" VerticalOptions="FillAndExpand">
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding TapProfile}" CommandParameter="{Binding .}"/>
+                                                </StackLayout.GestureRecognizers>
+                                                <Label Text="{Binding NombreAsistente}" TextColor="Black" FontSize="Medium" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                <StackLayout Orientation="Horizontal">
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding TapInfoCosto}"/>
+                                                    </StackLayout.GestureRecognizers>
+                                                    <Label Text="{StaticResource Info}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Small" TextColor="Black" VerticalTextAlignment="Center"/>
+                                                    <Label Text="{Binding CostoTime}" TextColor="Black" FontSize="Small" MaxLines="1" LineBreakMode="TailTruncation" />
+                                                </StackLayout>
+                                                <StackLayout Orientation="Horizontal" Spacing="0">
+                                                    <Label Text="{Binding Review}" TextColor="Black" LineBreakMode="TailTruncation" FontSize="Small" />
+                                                    <Label Text="{StaticResource Star}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Default" VerticalTextAlignment="Center" TextColor="{StaticResource Yellow}"/>
+                                                    <Label Text="{i18n:Translate DeMinusculas}" FontSize="Small" />
+                                                    <Label Text="{Binding Task}" TextColor="Black" LineBreakMode="TailTruncation" FontSize="Small" Margin="6,0,0,0" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                            <Button Grid.Column="2" VerticalOptions="Start" HorizontalOptions="End" Text="{StaticResource Messenger}" FontFamily="{DynamicResource MaterialIcons}" HeightRequest="40" WidthRequest="40" Style="{StaticResource BtnDefault}" FontSize="Small" Command="{Binding TapMessage}" CommandParameter="{Binding .}" />
+                                        </Grid>
+                                        <Button Text="{i18n:Translate ContratarServicio}" FontFamily="{DynamicResource MaterialIcons}" HeightRequest="40" Command="{Binding BtnContratar}" Style="{StaticResource BtnDefault}" FontSize="Small" CommandParameter="{Binding .}"/>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <Control:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

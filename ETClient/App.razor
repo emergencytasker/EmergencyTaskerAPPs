@@ -1,0 +1,40 @@
+﻿@using AKSoftware.Blazor.Utilities;
+@using ETClient.API.ER;
+@using ETClient.API.Enum;
+@using ETClient.Pages.ChatPage;
+@using Newtonsoft.Json;
+@using System.Collections.ObjectModel;
+@using Plugin.Net.Socket;
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject NavigationManager NavigationManager
+@inject SesionService sesionService
+@inject IJSRuntime JsRuntime
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code{
+
+    public static async Task<API.Stripe> GetStripeAsync()
+    {
+        var pkey = await Client.GetVar<string>("pkeystripe", (int)Perfil.Client);
+        var skey = await Client.GetVar<string>("skeystripe", (int)Perfil.Client);
+        var modo = await Client.GetVar<string>("modo", (int)Perfil.Client);
+        if (string.IsNullOrEmpty(pkey) || string.IsNullOrEmpty(skey) || string.IsNullOrEmpty(modo)) return null;
+        API.Stripe client = new API.Stripe(pkey, skey);
+        return client;
+    }
+
+
+}

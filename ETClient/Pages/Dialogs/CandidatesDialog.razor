@@ -1,0 +1,126 @@
+﻿@using System.Collections.ObjectModel;
+@using ETClient.Models;
+
+@if (showDialog)
+{
+    <div class="modal fade @DialogCssCandidates" id="candidatesModal" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Assistants</h4>
+                    <button type="button" class="close" @onclick="DialogCancel">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <p><b>Available</b></p>
+
+                    @if (Candidates.Count > 0)
+                    {
+                        @foreach (var item in Candidates)
+                        {
+                            <button class="card margin-5 cursor-hand w-100" @onclick="@(() => onSelect(item))">
+                                <div class="row">
+                                    <div  style="width: 100px;padding:5px;">
+                                        <div style="margin-left:10px;">
+                                            <img src="@item.FotoAsistente" class="avatar" />
+                                        </div>
+                                        <div style="background-color:#1d2169;margin-left:10px;margin-right:auto">
+                                            <p style="color:white;text-align:center;font-size:10px">@item.Distancia mi</p>
+                                        </div>
+                                    </div>  
+                                    <div class="col">
+                                        <div>
+                                            <p><b>@item.NombreAsistente</b></p>
+                                        </div>
+                                        <div>
+                                            <p>@(
+                                             string.Format("{0:C} per hour", item.Cost)
+                                             )</p>
+                                        </div>
+                                        <div>
+                                            <p>@item.Review <span class="fa fa-star checked"></span> from @item.Task</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        }
+                    }
+                    else
+                    {
+                        <div class="container-center">
+                            <h2>
+                                no candidates found
+                            </h2>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    public ServiceModel Service { get; internal set; }
+    public EventHandler<object> OnReturn { set; get; }
+
+    bool showDialog = false;
+    string? DialogCssCandidates => showDialog ? "show" : "hide";
+
+    List<CandidateModel> Candidates { set; get; } = new();
+
+    public async void Show(ServiceModel service)
+    {
+        showDialog = true;
+        Service = service;
+
+        var taskers = await Client.ListTaskersByAvailability(Service.Latitud, Service.Longitud, Service.IdCategoria, Service.IdSubcategory, Service.Date, TimeSpan.FromHours(Service.Time));
+        var Source = new List<CandidateModel>(taskers.Select(t => new CandidateModel(t)
+        {
+            /*
+            BtnContratar = new ExtendCommand(BtnContratar_Clicked, UserValidator, InternetValidator),
+            TapMessage = new ExtendCommand(TapMessage_Clicked, UserValidator, InternetValidator),
+            TapProfile = new ExtendCommand(TapProfile_Clicked, UserValidator, InternetValidator),
+            TapInfoCosto = new Command(TapInfoCosto_Clicked)
+        */
+        }));
+
+        SetSource(Source);
+
+        this.StateHasChanged();
+    }
+
+    void SetSource(IEnumerable<CandidateModel> source)
+    {
+        if (source == null || source.Count() == 0) return;
+        if (Candidates == null) Candidates = new List<CandidateModel>();
+        Candidates.Clear();
+        foreach (var item in source)
+            Candidates.Add(item);
+    }
+
+    public void onClose()
+    {
+        showDialog = false;
+        this.StateHasChanged();
+    }
+
+    public void DialogCancel()
+    {
+        onClose();
+    }
+
+    public void ServiceCreate()
+    {
+
+    }
+
+    public void onSelect(CandidateModel item)
+    {
+        Service.IdUser = item.IdUsuario;
+        Service.CostoPorHora = item.Cost;
+        OnReturn?.Invoke(this, item);
+        onClose();
+    }
+}

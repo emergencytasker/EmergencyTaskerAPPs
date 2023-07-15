@@ -1,0 +1,77 @@
+﻿@using AKSoftware.Blazor.Utilities;
+@using Blazored.Toast.Configuration;
+@using ETClient.Localization;
+@using ETClient.Pages.ChatPage;
+@using System.Globalization
+@using EmergencyTask.Strings;
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+@inject IStringLocalizer<SharedResource> Loc
+
+<PageTitle>ETClient</PageTitle>
+
+<div class="page">
+
+    <BlazoredToasts Position="ToastPosition.BottomRight"
+     
+                    Timeout="2" />
+
+    <div class="sidebar">
+        <NavMenu/>
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <p>
+            <label>
+                    Language:
+                <select @bind="Culture">
+                                @foreach (var culture in supportedCultures)
+                                {
+                            <option value="@culture">@culture.DisplayName</option>
+                                }
+                </select>
+            </label>
+        </p>
+
+            <a href="/services/search" target="_self">@Loc["Buscar"]</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+
+    </main>
+</div>
+
+@code{
+    private CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                var uri = new Uri(Navigation.Uri)
+                    .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+                var cultureEscaped = Uri.EscapeDataString(value.Name);
+                var uriEscaped = Uri.EscapeDataString(uri);
+
+                Navigation.NavigateTo(
+                    $"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+                    forceLoad: true);
+            }
+        }
+    }
+
+    private CultureInfo[] supportedCultures = new[]
+    {
+            new CultureInfo("en-US"),
+            new CultureInfo("es-MX"),
+    };
+
+    protected override void OnInitialized()
+    {
+        Culture = CultureInfo.CurrentCulture;
+    }
+}

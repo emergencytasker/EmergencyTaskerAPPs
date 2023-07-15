@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.SearchServicePage"
+             Title="{i18n:Translate BuscarServicio}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+    <ContentPage.BindingContext>
+        <ViewModel:SearchServiceViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout Padding="12">
+                <SearchBar Text="{Binding Search}" TextColor="Black" Placeholder="{i18n:Translate Buscar}" />
+                <ListView ItemsSource="{Binding Services}" IsGroupingEnabled="True" 
+                          ItemSelected="ListView_ItemSelected" ItemTapped="ListView_ItemTapped" SelectedItem="{Binding Service}"
+                          IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsBusy}" RefreshCommand="{Binding Refresh}" RefreshControlColor="{StaticResource Accent}"
+                          GroupDisplayBinding="{Binding Title}" GroupShortNameBinding="{Binding Subtitle}">
+                    <ListView.Behaviors>
+                        <Behaviors:ListViewBehavior />
+                    </ListView.Behaviors>
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid BackgroundColor="White" Margin="0">
+                                    <Label Text="{Binding Title}" BackgroundColor="White" FontSize="Medium" FontAttributes="Bold" TextColor="{StaticResource Accent}" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame CornerRadius="25" Margin="0,3" Padding="0" BackgroundColor="#eeeeee">
+                                    <Grid Padding="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Grid.Column="0" Source="{Binding Image}" WidthRequest="50" HeightRequest="50">
+                                            <Controls:ImageLoading.Transformations>
+                                                <Transformations:CircleTransformation />
+                                            </Controls:ImageLoading.Transformations>
+                                        </Controls:ImageLoading>
+                                        <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0">
+                                            <Label Text="{Binding Title}" FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start" TextColor="{StaticResource Accent}"  />
+                                            <Label Text="{Binding Taskers}" HorizontalOptions="Start" HorizontalTextAlignment="Start"  />
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="#eeeeee"
+             x:Class="EmergencyTask.RedeemListPage"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors">
+    <ContentPage.BindingContext>
+        <ViewModel:RedeemListViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView>
+                <StackLayout Spacing="0">
+                    <Grid IsVisible="{Binding IsTasker}">
+                        <Frame Grid.Row="0" Margin="12,12,12,12" Padding="0">
+                            <StackLayout Padding="12">
+                                <Label Text="{i18n:Translate EsteEsTuCodigoParaReferir}" />
+                                <Label Text="{Binding Referencia}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ChangeReference}" CommandParameter="{Binding Referencia}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <StackLayout Spacing="0">
+                                    <Label Text="{i18n:Translate IngresaUnCodigo}" />
+                                    <Grid ColumnSpacing="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Entry Grid.Column="0" Text="{Binding Codigo}" FontSize="Small" PlaceholderColor="Gray" TextColor="Black" HorizontalOptions="FillAndExpand" Placeholder="{i18n:Translate Codigo}"/>
+                                        <Button Grid.Column="1" FontSize="Medium" Margin="-5 " Text="{StaticResource Save}" FontFamily="{StaticResource MaterialIcons}" VerticalOptions="EndAndExpand" HorizontalOptions="StartAndExpand" WidthRequest="60" BackgroundColor="Transparent"  Command="{Binding BtnRegistrarReferido}" />
+                                    </Grid>
+                                </StackLayout>
+                                <Button Text="{i18n:Translate CompartirCodigo}" Command="{Binding ShareCode}" CommandParameter="{Binding Referencia}" BackgroundColor="{StaticResource Accent}" CornerRadius="10" TextColor="White" />
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                    <ListView Grid.Row="1" ItemsSource="{Binding Redeems}" Margin="12" SelectionMode="Single">
+                        <ListView.Behaviors>
+                            <Behaviors:ListViewBehavior />
+                        </ListView.Behaviors>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame Padding="0" Margin="0,6" BackgroundColor="{StaticResource Accent}" CornerRadius="10">
+                                        <Grid RowSpacing="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <StackLayout Grid.Row="0" Spacing="0" Margin="12">
+                                                <lottie:AnimationView Animation="Reward.json" WidthRequest="60" HeightRequest="60" HorizontalOptions="Center"  AutoPlay="True" />
+                                                <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                                                    <Label Text="{Binding Title}" HorizontalOptions="StartAndExpand" TextColor="White"/>
+                                                    <Label Text="{Binding Redeem}" HorizontalOptions="EndAndExpand" TextColor="White"/>
+                                                </StackLayout>
+                                                <Label Text="{Binding Detail}" HorizontalOptions="StartAndExpand" TextColor="#eeeeee" FontSize="Micro" LineBreakMode="TailTruncation" MaxLines="2" />
+                                            </StackLayout>
+                                            <StackLayout Grid.Row="1" Spacing="0" BackgroundColor="White">
+                                                <StackLayout Orientation="Horizontal" Margin="12,6,12,0">
+                                                    <Label Text="{Binding Now}" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                                    <Label Text="/" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                                    <Label Text="{Binding Goal}" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                                </StackLayout>
+                                                <ProgressBar ProgressColor="{StaticResource Accent}" Progress="{Binding Progress}" Margin="12,0,12,6"/>
+                                                <Button Style="{StaticResource BtnPrimary}" Text="{i18n:Translate SolictarRecompensa}" Command="{Binding RedeemReward}" CommandParameter="{Binding .}" IsVisible="{Binding IsRedeedRewardVisible}" />
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ScrollView>
+            <Control:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

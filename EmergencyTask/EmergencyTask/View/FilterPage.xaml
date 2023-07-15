@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             Title="{i18n:Translate Filtros}"
+             x:Class="EmergencyTask.FilterPage"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+    <Grid>
+        <StackLayout Padding="12" VerticalOptions="End">
+
+            <Frame Margin="0" Padding="0">
+                <StackLayout Padding="15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="{StaticResource Tool}" FontFamily="{StaticResource MaterialIcons}" FontSize="Large" VerticalOptions="Start" Margin="0,3,0,0" TextColor="{StaticResource Accent}" />
+                        <StackLayout Grid.Column="1" Spacing="0" Margin="0" Padding="0" VerticalOptions="Center">
+                            <Label Text="{i18n:Translate Tareas}" FontSize="Medium" FontAttributes="Bold" TextColor="{StaticResource Accent}" />
+                            <Label Text="{i18n:Translate OrdenarPorTareasCompletadas}" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                        </StackLayout>
+                        <Switch Grid.Column="2" IsToggled="{Binding Filter.Tareas}" />
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+            <Frame Margin="0" Padding="0">
+                <StackLayout Padding="15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="{StaticResource Star}" FontFamily="{StaticResource MaterialIcons}" FontSize="Large" VerticalOptions="Start" Margin="0,3,0,0" TextColor="{StaticResource Accent}" />
+                        <StackLayout Grid.Column="1" Spacing="0" Margin="0" Padding="0" VerticalOptions="Center">
+                            <Label Text="{i18n:Translate Calificacion}" FontSize="Medium" FontAttributes="Bold" TextColor="{StaticResource Accent}" />
+                            <Label Text="{i18n:Translate OrdenarPorCalificaciones}" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                        </StackLayout>
+                        <Switch Grid.Column="2" IsToggled="{Binding Filter.Calificacion}" />
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+            <Frame Margin="0" Padding="0">
+                <StackLayout Padding="15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="{StaticResource Pin}" FontFamily="{StaticResource MaterialIcons}" FontSize="Large" VerticalOptions="Start" Margin="0,3,0,0" TextColor="{StaticResource Accent}" />
+                        <StackLayout Grid.Column="1" Spacing="0" Margin="0" Padding="0" VerticalOptions="Center">
+                            <Label Text="{i18n:Translate Ubicacion}" FontSize="Medium" FontAttributes="Bold" TextColor="{StaticResource Accent}" />
+                            <Label Text="{Binding Distancia, StringFormat={i18n:Translate ToDistance}}" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </Grid>
+                    <Slider Value="{Binding Distancia}" Minimum="0" Maximum="50" ThumbColor="{StaticResource Accent}" MinimumTrackColor="{StaticResource Accent}" MaximumTrackColor="{StaticResource Accent}" />
+                </StackLayout>
+            </Frame>
+
+            <Button Text="{i18n:Translate Aplicar}" Command="{Binding BtnAplicar}" Style="{StaticResource BtnDefault}"/>
+        </StackLayout>
+        <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+    </Grid>
+</Popup:PopupPage>

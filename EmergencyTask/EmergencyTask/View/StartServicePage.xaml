@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.StartServicePage"
+             Title="{i18n:Translate ServicioProceso}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             BackgroundColor="#eeeeee"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Views="clr-namespace:EmergencyTask.Control"
+             xmlns:PullToRefresh="clr-namespace:Refractored.XamForms.PullToRefresh;assembly=Refractored.XamForms.PullToRefresh">
+    <PullToRefresh:PullToRefreshLayout IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsBusy}" RefreshBackgroundColor="{StaticResource Accent}" RefreshColor="White"
+                                       RefreshCommand="{Binding Refresh}">
+        <Grid>
+            <ScrollView>
+                <StackLayout Padding="12">
+                    <Frame>
+                        <StackLayout>
+                            <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding FotoAsistente}" WidthRequest="80" HeightRequest="80" Aspect="AspectFit">
+                                <Controls:ImageLoading.Transformations>
+                                    <Transformations:CircleTransformation />
+                                </Controls:ImageLoading.Transformations>
+                            </Controls:ImageLoading>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label Text="{Binding Id, StringFormat='#{0}'}"/>
+                                <Label Text="{i18n:Translate Con}" />
+                                <Label Text="{Binding NombreAsistente}" />
+                            </StackLayout>
+                            <Grid>
+                                <Button Grid.Column="0" Text="{StaticResource Money}" FontFamily="{DynamicResource MaterialIcons}" HeightRequest="35" WidthRequest="70" Style="{StaticResource BtnDefault}" FontSize="Small" Command="{Binding BtnFondos}" CommandParameter="{Binding .}" HorizontalOptions="Center" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" />
+                                <Button Grid.Column="1" Text="{StaticResource Info}" FontFamily="{DynamicResource MaterialIcons}" HeightRequest="35" WidthRequest="70" Style="{StaticResource BtnDefault}" FontSize="Small" Command="{Binding BtnVerInfo}" CommandParameter="{Binding .}" HorizontalOptions="Center" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"/>
+                                <Button Grid.Column="2" Text="{StaticResource Messenger}" FontFamily="{DynamicResource MaterialIcons}" HeightRequest="35" WidthRequest="70" Style="{StaticResource BtnDefault}" FontSize="Small" Command="{Binding BtnMessenger}" CommandParameter="{Binding .}" HorizontalOptions="Center" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"/>
+                                <Button Grid.Column="3" Text="{StaticResource Call}" FontFamily="{DynamicResource MaterialIcons}" HeightRequest="40" WidthRequest="70" Style="{StaticResource BtnDefault}" FontSize="Small" Command="{Binding BtnCall}" CommandParameter="{Binding .}" HorizontalOptions="Center" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" />
+                            </Grid>
+                            <StackLayout IsVisible="{Binding IsClient}">
+                                <Label Text="{i18n:Translate PendingPayment}" IsVisible="{Binding IsWaitForExtras}" TextColor="DarkRed" HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    <Frame BackgroundColor="{StaticResource Accent}" IsVisible="{Binding HasExtras}">
+                        <Label Text="{Binding HorasExtra}" HorizontalTextAlignment="Center" TextColor="White" />
+                    </Frame>
+                    <Frame IsVisible="{Binding IsClient}">
+                        <Grid>
+                            <Button Text="{StaticResource Time}" Command="{Binding BtnTimeList}" FontFamily="{DynamicResource MaterialIcons}" VerticalOptions="Start" HeightRequest="35" WidthRequest="35" Style="{StaticResource BtnDefault}" FontSize="Small" HorizontalOptions="End" IsVisible="{Binding IsWorkCompleted}"/>
+                            <StackLayout>
+                                <Label Text="{i18n:Translate FechaInicio}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding FechaInicio}" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{i18n:Translate FechaAproximada}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding FechaFin}" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label />
+                                <Label Text="{i18n:Translate FechaDeFinalizacion}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding FechaDeFinalizacion}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{i18n:Translate Tiempo}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding Cronometro, StringFormat='{0}'}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label />
+                                <Label Text="{i18n:Translate Costo}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding CostoTrabajo}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label />
+                                <Button Text="{i18n:Translate CalificarServicio}" CornerRadius="10" TextColor="White" BackgroundColor="{StaticResource Accent}" Command="{Binding ReviewService}" IsVisible="{Binding IsWorkCompleted}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                    <Frame IsVisible="{Binding IsClient, Converter={StaticResource InvertedBooleanConverter}}">
+                        <Grid>
+                            <Button Text="{StaticResource Time}" Command="{Binding BtnTimeList}" FontFamily="{DynamicResource MaterialIcons}" VerticalOptions="Start" HeightRequest="35" WidthRequest="35" Style="{StaticResource BtnDefault}" FontSize="Small" HorizontalOptions="End" IsVisible="{Binding IsWorkCompleted}"/>
+                            <StackLayout>
+                                <Label Text="{i18n:Translate FechaInicio}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding FechaInicio}" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{i18n:Translate FechaAproximada}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding FechaFin}" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsWorkCompleted, Converter={StaticResource InvertedBooleanConverter}}">
+                                    <ImageButton WidthRequest="45" HeightRequest="45" BackgroundColor="Transparent" IsVisible="{Binding IsPlaying, Converter={StaticResource InvertedBooleanConverter}}" Command="{Binding PlayCommand}">
+                                        <ImageButton.Source>
+                                            <FontImageSource Glyph="{StaticResource Play}" FontFamily="{DynamicResource MaterialIcons}" Size="45" Color="{StaticResource Accent}" />
+                                        </ImageButton.Source>
+                                    </ImageButton>
+                                    <ImageButton WidthRequest="45" HeightRequest="45" BackgroundColor="Transparent" IsVisible="{Binding IsPlaying}" Command="{Binding StopCommand}">
+                                        <ImageButton.Source>
+                                            <FontImageSource Glyph="{StaticResource Stop}" FontFamily="{DynamicResource MaterialIcons}" Size="45" Color="{StaticResource Accent}" />
+                                        </ImageButton.Source>
+                                    </ImageButton>
+                                    <Label Text="{Binding Cronometro, StringFormat='{0}'}" FontSize="Large" VerticalOptions="Center" TextColor="Black" />
+                                </StackLayout>
+                                <Label />
+                                <Grid IsVisible="{Binding IsWaitForExtras, Converter={StaticResource InvertedBooleanConverter}}">
+                                    <Button Text="{i18n:Translate SolicitudHorasExtra}" IsVisible="{Binding RequestHoursIsActive}" BackgroundColor="{StaticResource Accent}" TextColor="White"
+                                        Command="{Binding BtnRequestHours}"/>
+                                </Grid>
+                                <Label Text="{i18n:Translate EnEsperaDeAutorizacionHorasExtra}" HorizontalTextAlignment="Center" TextColor="DarkRed" IsVisible="{Binding IsWaitForExtras}" />
+                                <Label />
+                                <Label Text="{i18n:Translate FechaDeFinalizacion}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding FechaDeFinalizacion}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{i18n:Translate Tiempo}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding Cronometro, StringFormat='{0}'}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label />
+                                <Label Text="{i18n:Translate Costo}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label Text="{Binding CostoTrabajo}" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" />
+                                <Label />
+                                <Button Text="{i18n:Translate TrabajoTerminado}" CornerRadius="10" TextColor="White" BackgroundColor="{StaticResource Accent}" Command="{Binding FinishWork}" IsVisible="{Binding CanFinishWork}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" />
+                                <Button Text="{i18n:Translate CalificarServicio}" CornerRadius="10" TextColor="White" BackgroundColor="{StaticResource Accent}" Command="{Binding ReviewService}" IsVisible="{Binding IsWorkCompleted}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+            <Views:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </PullToRefresh:PullToRefreshLayout>
+</ContentPage>

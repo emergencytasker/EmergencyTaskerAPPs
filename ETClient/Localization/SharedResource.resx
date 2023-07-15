@@ -1,0 +1,2391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="A" xml:space="preserve">
+    <value>A</value>
+    <comment>ProfilePage, WorkPopUp</comment>
+  </data>
+  <data name="AbonarSaldoPago" xml:space="preserve">
+    <value>¿Deseas abonar el saldo para este pago?</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="AccesoriosAdicionales" xml:space="preserve">
+    <value>Accesorios Adicionales:</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="Acciones" xml:space="preserve">
+    <value>Acciones</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Aceptado" xml:space="preserve">
+    <value>Aceptado</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="Aceptar" xml:space="preserve">
+    <value>Aceptar</value>
+    <comment>CodePage, LoginPage, PasswordPage, ReviewServicePage, SuccesPopup,WaitingServicePage, WaitingServicePage</comment>
+  </data>
+  <data name="AceptarServicio" xml:space="preserve">
+    <value>Estas seguro de aceptar el servicio</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="ActivarCuenta" xml:space="preserve">
+    <value>Revisa tu correo y activa tu cuenta para acceder</value>
+    <comment>RegisterViewModel</comment>
+  </data>
+  <data name="ActivarDomicilio" xml:space="preserve">
+    <value>(Activa esto cuando vayas hacia el domicilio)</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="ActivarLlegada" xml:space="preserve">
+    <value>(Activa esto cuando estés en el domicilio)</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="ActivarServicio" xml:space="preserve">
+    <value>(Activa esto cuando empieces el servicio)</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="ActividadServicio" xml:space="preserve">
+    <value>Actividad del servicio</value>
+    <comment>ServiceMapPage</comment>
+  </data>
+  <data name="ActualizaFormaPago" xml:space="preserve">
+    <value>Se ha actualizado tu forma de pago</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="Actualizar" xml:space="preserve">
+    <value>Desliza hacia abajo para actualizar</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="AgregarAccesorio" xml:space="preserve">
+    <value>Agregar accesorio</value>
+    <comment>AgregarAccesorioPopup</comment>
+  </data>
+  <data name="AgregarDescripcion" xml:space="preserve">
+    <value>Aun no haz agregado una descripción, da click aquí para agregarla</value>
+    <comment>ProfileServicePage</comment>
+  </data>
+  <data name="AgregarEditar" xml:space="preserve">
+    <value>Agregar / Editar Servicio</value>
+    <comment>NewCategoryPopUp</comment>
+  </data>
+  <data name="AgregarEstudios" xml:space="preserve">
+    <value>Agregar estudios:</value>
+    <comment>StudyPopUp</comment>
+  </data>
+  <data name="AgregarSaldo" xml:space="preserve">
+    <value>¿Deseas agregar saldo para este pago?</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="AgregarTarjeta" xml:space="preserve">
+    <value>Agregar Tarjeta</value>
+    <comment>AddPaymentPopup, PaymentPage</comment>
+  </data>
+  <data name="AgregarTrabajos" xml:space="preserve">
+    <value>Agregar Trabajos</value>
+    <comment>WorkPopup</comment>
+  </data>
+  <data name="AgregoFormaPago" xml:space="preserve">
+    <value>Se ha agregado tu forma de pago</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="Ahora" xml:space="preserve">
+    <value>Ahora</value>
+    <comment>NotificationViewModel</comment>
+  </data>
+  <data name="ALas" xml:space="preserve">
+    <value>a las</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="Anterior" xml:space="preserve">
+    <value>Anterior</value>
+    <comment>PDFRenderPage</comment>
+  </data>
+  <data name="Aplicar" xml:space="preserve">
+    <value>Aplicar</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="ApoyoMereces" xml:space="preserve">
+    <value>El apoyo que mereces y la confianza que necesitas</value>
+    <comment>MainViewModel</comment>
+  </data>
+  <data name="AquiPuedesCambiarTuCodigo" xml:space="preserve">
+    <value>Aquí puedes cambiar tu código</value>
+    <comment>RedeemListViewModel</comment>
+  </data>
+  <data name="Asistentes" xml:space="preserve">
+    <value>Asistentes</value>
+    <comment>CandidateListPage</comment>
+  </data>
+  <data name="Autenticacion" xml:space="preserve">
+    <value>Autenticación de dos pasos</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="Autorizado" xml:space="preserve">
+    <value>Autorizado</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Autorizar" xml:space="preserve">
+    <value>Autorizar</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Ayer" xml:space="preserve">
+    <value>Ayer</value>
+    <comment>ChatListViewModel</comment>
+  </data>
+  <data name="AyudaBuscas" xml:space="preserve">
+    <value>Te ofrecemos la ayuda que buscas</value>
+    <comment>MainViewModel</comment>
+  </data>
+  <data name="Bienvenida" xml:space="preserve">
+    <value>Bienvenido</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="Bienvenido" xml:space="preserve">
+    <value>Bienvenido ¿Necesitas ayuda? Rápido, oportuno y eficaz.</value>
+    <comment>MainViewModel</comment>
+  </data>
+  <data name="Buscar" xml:space="preserve">
+    <value>Buscar</value>
+    <comment>HomePage</comment>
+  </data>
+  <data name="BuscarServicio" xml:space="preserve">
+    <value>Buscar Servicio</value>
+    <comment>SearchServicePage</comment>
+  </data>
+  <data name="Calendario" xml:space="preserve">
+    <value>Calendario</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="Calificacion" xml:space="preserve">
+    <value>Calificación</value>
+    <comment>ProfileClientPage, ReviewServicePage, FilterListPage</comment>
+  </data>
+  <data name="CalificacionGuardada" xml:space="preserve">
+    <value>Tu calificación ha sido guardada, gracias.</value>
+    <comment>ReviewServiceViewModel</comment>
+  </data>
+  <data name="CalificacionInvalida" xml:space="preserve">
+    <value>La calificación no es valida</value>
+    <comment>ReviewServiceViewModel</comment>
+  </data>
+  <data name="Calificado" xml:space="preserve">
+    <value>Calificado</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="CalificarServicio" xml:space="preserve">
+    <value>Calificar Servicio</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="CalificaServicio" xml:space="preserve">
+    <value>Ahora puedes calificar el servicio</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="Cambiar" xml:space="preserve">
+    <value>Cambiar</value>
+    <comment>PaymentPage</comment>
+  </data>
+  <data name="CambiarCodigo" xml:space="preserve">
+    <value>Cambiar código</value>
+    <comment>RedeemListViewModel</comment>
+  </data>
+  <data name="CambiarFoto" xml:space="preserve">
+    <value>Cambiar Foto de Perfil</value>
+    <comment>DocumentViewModel</comment>
+  </data>
+  <data name="CambiosGuardados" xml:space="preserve">
+    <value>Se guardaron los cambios</value>
+    <comment>StudyViewModel</comment>
+  </data>
+  <data name="CaminoDomicilio" xml:space="preserve">
+    <value>En camino a domicilio</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="Cancelado" xml:space="preserve">
+    <value>Cancelado</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="Cancelar" xml:space="preserve">
+    <value>Cancelar</value>
+    <comment>WaitingServicePage, DocumentViewModel, EvidenceListViewModel, HitoListViewModel</comment>
+  </data>
+  <data name="CancelarServicio" xml:space="preserve">
+    <value>Cancelar servicio</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="Cantidad" xml:space="preserve">
+    <value>Cantidad</value>
+    <comment>NuevoHitoPopup</comment>
+  </data>
+  <data name="CantidadDe" xml:space="preserve">
+    <value>Estas seguro de querer crear el pago por la cantidad de</value>
+    <comment>NuevoHitoViewModel</comment>
+  </data>
+  <data name="CantidadNoValida" xml:space="preserve">
+    <value>La cantidad no es válida</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="Categoria" xml:space="preserve">
+    <value>Categoría</value>
+    <comment>NewCategoryPopUp</comment>
+  </data>
+  <data name="CerrarSesion" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="Certificacion" xml:space="preserve">
+    <value>Certificación</value>
+    <comment>DocumentPage</comment>
+  </data>
+  <data name="Certificaciones" xml:space="preserve">
+    <value>Certificaciones</value>
+    <comment>ProfilePage, ProfileClientPage</comment>
+  </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Chat</value>
+    <comment>HamburguerMenuViewModel</comment>
+  </data>
+  <data name="ChatCon" xml:space="preserve">
+    <value>Chat con {0}</value>
+    <comment>ChatListViewModel</comment>
+  </data>
+  <data name="CitaAgendada" xml:space="preserve">
+    <value>Se ha agendado la cita</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="Codigo" xml:space="preserve">
+    <value>Codigo</value>
+    <comment>CodePage,RedeemListPage</comment>
+  </data>
+  <data name="CodigoActualizado" xml:space="preserve">
+    <value>Codigo actualizado, ahora puede usar {0} para invitar amigos</value>
+    <comment>RedeemListViewModel</comment>
+  </data>
+  <data name="CodigoAgregado" xml:space="preserve">
+    <value>Has agregado un código</value>
+    <comment>RedeemListView</comment>
+  </data>
+  <data name="CodigoCVC" xml:space="preserve">
+    <value>Codigo CVC:</value>
+    <comment>AddPaymentPopup</comment>
+  </data>
+  <data name="CodigoInvalido" xml:space="preserve">
+    <value>Codigo no valido</value>
+    <comment>RedeemListView</comment>
+  </data>
+  <data name="CodigoMuyGrande" xml:space="preserve">
+    <value>El código es muy grande, intenta con uno más corto</value>
+    <comment>RedeemListViewModel</comment>
+  </data>
+  <data name="CodigoPais" xml:space="preserve">
+    <value>Debes seleccionar un codigo de país</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="CodigoRecuperacion" xml:space="preserve">
+    <value>Codigo de recuperación</value>
+    <comment>PasswordViewModel</comment>
+  </data>
+  <data name="CodigosMaximos" xml:space="preserve">
+    <value>Haz alcanzado el limite de veces que puedes intentar enviar el codigo de validación, intenta con otro numero</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="CodigosNoCoinciden" xml:space="preserve">
+    <value>Los códigos no coinciden</value>
+    <comment>CodeViewModel</comment>
+  </data>
+  <data name="CodigoYaRegistrado" xml:space="preserve">
+    <value>Ya has agregado este código anteriormente</value>
+    <comment>RedeemListViewModel</comment>
+  </data>
+  <data name="Comenzar" xml:space="preserve">
+    <value>Comenzar</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="ComenzarRuta" xml:space="preserve">
+    <value>¿Deseas comenzar la ruta al domicilio?</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="ComprarLista" xml:space="preserve">
+    <value>Comprar lista de accesorios</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="Con" xml:space="preserve">
+    <value>Con</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="ConCuenta" xml:space="preserve">
+    <value>¿Ya tienes una cuenta?</value>
+    <comment>RegisterPage</comment>
+  </data>
+  <data name="ConfigurarFormaPago" xml:space="preserve">
+    <value>¿Requieres una forma de pago, quieres configurar tu forma de pago?</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="Confirmar" xml:space="preserve">
+    <value>Confirmar</value>
+    <comment>DescriptionServicePage, DirectionPage</comment>
+  </data>
+  <data name="ConfirmarContraseña" xml:space="preserve">
+    <value>Confirmar Contraseña</value>
+    <comment>NewPasswordPage, RegisterPage</comment>
+  </data>
+  <data name="ConfirmarCorreo" xml:space="preserve">
+    <value>Te enviamos un email para confirmar tu correo</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="Continuar" xml:space="preserve">
+    <value>Continuar</value>
+    <comment>DocumentPage, ToolListPage</comment>
+  </data>
+  <data name="Contraseña" xml:space="preserve">
+    <value>Contraseña</value>
+    <comment>LoginPage, RegisterPage</comment>
+  </data>
+  <data name="ContraseñaNoCoincide" xml:space="preserve">
+    <value>Las contraseñas no coinciden</value>
+    <comment>RegisterViewModel</comment>
+  </data>
+  <data name="ContraseñaOlvidada" xml:space="preserve">
+    <value>¿Olvidaste tu Contraseña?</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Contratar" xml:space="preserve">
+    <value>Contratar</value>
+    <comment>CandidateListPage</comment>
+  </data>
+  <data name="ContratarServicio" xml:space="preserve">
+    <value>Contratar servicio</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="CorreoElectronico" xml:space="preserve">
+    <value>Correo Electrónico</value>
+    <comment>LoginPage, RegisterPage</comment>
+  </data>
+  <data name="CorreoYaRegistrado" xml:space="preserve">
+    <value>No podemos registrarte, es posible que el correo ya este registrado</value>
+    <comment>RegisterViewModel</comment>
+  </data>
+  <data name="Costo" xml:space="preserve">
+    <value>Costo</value>
+    <comment>ToolListPage</comment>
+  </data>
+  <data name="CostoDe" xml:space="preserve">
+    <value>Costo de</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="CostoHora" xml:space="preserve">
+    <value>Costo por Hora</value>
+    <comment>NewCategoryPopUp</comment>
+  </data>
+  <data name="CostoPromedio" xml:space="preserve">
+    <value>Costo por hora 100 - 200 USD</value>
+    <comment>NEwCategoryPopup</comment>
+  </data>
+  <data name="CostoServicio" xml:space="preserve">
+    <value>Costo del servicio</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="CostoTiempo" xml:space="preserve">
+    <value>USD x Hora</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="Creado" xml:space="preserve">
+    <value>Creado</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Curriculum" xml:space="preserve">
+    <value>Curriculum</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="CVV" xml:space="preserve">
+    <value>CVV</value>
+    <comment>AddPaymentPopup</comment>
+  </data>
+  <data name="DatosActualizados" xml:space="preserve">
+    <value>Ahora inicia sesión con tus nuevos datos</value>
+    <comment>NewPasswordViewModel</comment>
+  </data>
+  <data name="DatosTarjeta" xml:space="preserve">
+    <value>Datos de la Tarjeta</value>
+    <comment>PaymentPage</comment>
+  </data>
+  <data name="De" xml:space="preserve">
+    <value>De:</value>
+    <comment>ProfilePage, WorkPopUp</comment>
+  </data>
+  <data name="DebesAceptarTerminos" xml:space="preserve">
+    <value>Debes aceptar los términos y condiciones</value>
+    <comment>RegisterViewModel</comment>
+  </data>
+  <data name="DebesConfigurarCuentaParaRecibirFondos" xml:space="preserve">
+    <value>Debes configurar una cuenta para recibir fondos</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="DeMinusculas" xml:space="preserve">
+    <value>de </value>
+    <comment>CandidateListPage</comment>
+  </data>
+  <data name="Descripcion" xml:space="preserve">
+    <value>Descripción</value>
+    <comment>DetailServicePage, ProfileClientPage, ProfilePage, WorkPopUp, NuevoHitoPopup</comment>
+  </data>
+  <data name="DescripcionActualizada" xml:space="preserve">
+    <value>Se actualizó tu descripción</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="DescripcionNoActualizada" xml:space="preserve">
+    <value>No podemos actualizar tu descripción</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="DescripcionServicio" xml:space="preserve">
+    <value>Descripción del Servicio</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="DeseasIniciarServicio" xml:space="preserve">
+    <value>Estamos guardando tu ubicación para saber a que distancia aceptaste el servicio ¿Estas seguro de querer iniciar el servicio?</value>
+    <comment>SearchServiceViewModel</comment>
+  </data>
+  <data name="DeslizaActualizar" xml:space="preserve">
+    <value>Desliza hacia abajo para actualizar</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="Destino" xml:space="preserve">
+    <value>Destino</value>
+    <comment>ServiceMapPage</comment>
+  </data>
+  <data name="Detalle" xml:space="preserve">
+    <value>Detalle</value>
+    <comment>ServiceMapPage</comment>
+  </data>
+  <data name="DetalleServicio" xml:space="preserve">
+    <value>Detalles del Servicio</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="DetallesServicio" xml:space="preserve">
+    <value>Escribe aquí los detalles del servicio que solicitas</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="DetenerTiempo" xml:space="preserve">
+    <value>¿Estas seguro de querer detener el tiempo?</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="DetenTiempo" xml:space="preserve">
+    <value>Detén el tiempo para continuar</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="Direccion" xml:space="preserve">
+    <value>Dirección</value>
+    <comment>DireccionPage</comment>
+  </data>
+  <data name="Direcciones" xml:space="preserve">
+    <value>Direcciones</value>
+    <comment>DireccionPage</comment>
+  </data>
+  <data name="Distancia" xml:space="preserve">
+    <value>Distancia</value>
+    <comment>ServiceMapPage</comment>
+  </data>
+  <data name="Documentos" xml:space="preserve">
+    <value>Documentos:</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="Editar" xml:space="preserve">
+    <value>Editar</value>
+    <comment>ToolListPage</comment>
+  </data>
+  <data name="EditarDocumentos" xml:space="preserve">
+    <value>Editar Documentos</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="EditarNumero" xml:space="preserve">
+    <value>Editar Número</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="ElCodigoNoPuedeEstarVacio" xml:space="preserve">
+    <value>El código no puede estar vacío</value>
+    <comment>RedeemListViewModel</comment>
+  </data>
+  <data name="ElDia" xml:space="preserve">
+    <value>El Día</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="ElegirTiempoEstimado" xml:space="preserve">
+    <value>Debes elegir el tiempo estimado de tu trabajo</value>
+    <comment>DescriptionServiceViewModel</comment>
+  </data>
+  <data name="Eliminar" xml:space="preserve">
+    <value>Eliminar</value>
+    <comment>PaymentPage, ToolListPage</comment>
+  </data>
+  <data name="EliminarAccesorio" xml:space="preserve">
+    <value>¿Estas seguro de querer eliminar este accesorio?</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="EliminarFormaPago" xml:space="preserve">
+    <value>¿Se va a eliminar el método de pago, deseas continuar?</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="EliminarTrabajo" xml:space="preserve">
+    <value>Estas seguro de querer eliminar el trabajo</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+    <comment>PasswordPage</comment>
+  </data>
+  <data name="EmailValido" xml:space="preserve">
+    <value>Ingresa un email valido</value>
+    <comment>PasswordViewModel</comment>
+  </data>
+  <data name="EmpezarTrabajo" xml:space="preserve">
+    <value>Empezar el Trabajo</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="Empresa" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="EnCaminoADomicilio" xml:space="preserve">
+    <value>En Camino A Domicilio</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="EnConstruccion" xml:space="preserve">
+    <value>En construcción</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="EncontramosServicio" xml:space="preserve">
+    <value>Encontramos un servicio pendiente por terminar</value>
+    <comment>HomeViewModel</comment>
+  </data>
+  <data name="EnviarCalificacion" xml:space="preserve">
+    <value>¿Estas seguro de enviar esta calificación?</value>
+    <comment>ReviewServiceViewModel</comment>
+  </data>
+  <data name="EnviarCodigo" xml:space="preserve">
+    <value>Enviar Codigo</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="EnviarPresupuesto" xml:space="preserve">
+    <value>¿Estas seguro de enviar este presupuesto para los accesorios?</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="ErrorBuscar" xml:space="preserve">
+    <value>No podemos buscar... intenta de nuevo mas tarde</value>
+    <comment>SearchServiceViewModel</comment>
+  </data>
+  <data name="ErrorCalificacion" xml:space="preserve">
+    <value>Tenemos un problema al registrar tu calificación, no te preocupes si no puedes hacerlo ahora, puedes ir a tu calendario, seleccionar el servicio y calificarlo despues.</value>
+    <comment>ReviewServiceViewModel</comment>
+  </data>
+  <data name="ErrorEnviarCodigo" xml:space="preserve">
+    <value>Ocurrió un error al enviar el código</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="ErrorFormaPago" xml:space="preserve">
+    <value>Ocurrió un error al registrar tu forma de pago, intenta de nuevo mas tarde</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="ErrorImagen" xml:space="preserve">
+    <value>Ocurrió un error al subir la imagen, intenta de nuevo</value>
+    <comment>EvidenceListViewModel</comment>
+  </data>
+  <data name="ErrorInicioSesion" xml:space="preserve">
+    <value>Error al iniciar sesión, intenta de nuevo</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="ErrorServer" xml:space="preserve">
+    <value>Server Error</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="ErrorServicio" xml:space="preserve">
+    <value>No fue posible aceptar el servicio</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="ErrorTarjeta" xml:space="preserve">
+    <value>Ocurrió un error al guardar tu tarjeta, intenta mas tarde</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="EsApp" xml:space="preserve">
+    <value>, esta es la app del</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="EscribeCodigo" xml:space="preserve">
+    <value>Escribe el codigo que hemos enviado al:</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="EscribeDescripcion" xml:space="preserve">
+    <value>Escribe una Descripción</value>
+    <comment>NuevoTicketPage</comment>
+  </data>
+  <data name="Estado" xml:space="preserve">
+    <value>Estado</value>
+    <comment>HitoListPage, StartServicePage</comment>
+  </data>
+  <data name="EsteCodigo" xml:space="preserve">
+    <value>Hola {0}, este es tu código de recuperación {1}</value>
+    <comment>PasswordViewModel</comment>
+  </data>
+  <data name="EsteEsTuCodigoParaReferir" xml:space="preserve">
+    <value>Este es tu código para referir, comparte el código con un amigo y recibe un recompensa cuando tu amigo lo use.</value>
+    <comment>RedeemListPage</comment>
+  </data>
+  <data name="Estudios" xml:space="preserve">
+    <value>Estudios</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="Evidencia" xml:space="preserve">
+    <value>Evidencia</value>
+    <comment>EvidenceListPage</comment>
+  </data>
+  <data name="EvidenciaAgregada" xml:space="preserve">
+    <value>Se agrego la evidencia</value>
+    <comment>EvidenceListViewModel</comment>
+  </data>
+  <data name="Evidencias" xml:space="preserve">
+    <value>Evidencias</value>
+    <comment>ReviewServicePage</comment>
+  </data>
+  <data name="Facebook" xml:space="preserve">
+    <value>Entrar con Facebook</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="FacebookFallido" xml:space="preserve">
+    <value>No fue posible iniciar sesión con Facebook, intenta de nuevo</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="FaltaConfirmarListaDeCompras" xml:space="preserve">
+    <value>Tienes que confirmar tu lista de compras antes de continuar</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="Fecha" xml:space="preserve">
+    <value>Fecha</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="FechaNoValida" xml:space="preserve">
+    <value>La fecha no es valida</value>
+    <comment>DescriptionServiceViewModel</comment>
+  </data>
+  <data name="FechasTrabajo" xml:space="preserve">
+    <value>Fechas en las que laboró</value>
+  </data>
+  <data name="FechasTrabajos" xml:space="preserve">
+    <value>Fechas en las que laboró</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="Filtrar" xml:space="preserve">
+    <value>Filtrar</value>
+    <comment>CandidateListPage</comment>
+  </data>
+  <data name="Filtros" xml:space="preserve">
+    <value>Filtros</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="Fin" xml:space="preserve">
+    <value>Fin</value>
+    <comment>TimeWorkListPage</comment>
+  </data>
+  <data name="Finalizado" xml:space="preserve">
+    <value>Servicio completo</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="FinalizarServicio" xml:space="preserve">
+    <value>(Activa esto cuando el servicio haya concluido)</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="Fondos" xml:space="preserve">
+    <value>Fondos</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="FormasPago" xml:space="preserve">
+    <value>Formas de Pago</value>
+    <comment>HamburguerMenuViewModel</comment>
+  </data>
+  <data name="FotoGaleria" xml:space="preserve">
+    <value>Seleccionar foto de galería</value>
+    <comment>DocumentViewModel</comment>
+  </data>
+  <data name="FotoId" xml:space="preserve">
+    <value>Haz clic para tomar la foto de tu ID</value>
+    <comment>DocumentViewModel</comment>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Vie</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="GaleriaImagenes" xml:space="preserve">
+    <value>Galería de imágenes</value>
+    <comment>EvidenceListViewModel</comment>
+  </data>
+  <data name="Gracias" xml:space="preserve">
+    <value>¡Gracias!</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="Grado" xml:space="preserve">
+    <value>Grado:</value>
+    <comment>ProfilePage, StudyPopUp</comment>
+  </data>
+  <data name="Guardar" xml:space="preserve">
+    <value>Guardar</value>
+    <comment>StudyPopUp, WorkPopUp, RedeemListPage, NuevoHitoPopup, NuevoticketPopup</comment>
+  </data>
+  <data name="GuardarDescripcion" xml:space="preserve">
+    <value>Guardar Descripción</value>
+    <comment>ProfileClientPage</comment>
+  </data>
+  <data name="GuardarServicio" xml:space="preserve">
+    <value>Guardar Servicio</value>
+    <comment>NewCategoryPopUp</comment>
+  </data>
+  <data name="HaceXHoras" xml:space="preserve">
+    <value>Hace {0} h</value>
+    <comment>DateTimeHelper</comment>
+  </data>
+  <data name="HaceXMinutos" xml:space="preserve">
+    <value>Hace {0} m</value>
+    <comment>DateTimeHelper</comment>
+  </data>
+  <data name="HazClick" xml:space="preserve">
+    <value>Haz Click en la Imagen para Editarla</value>
+    <comment>NuevoTicketPopup</comment>
+  </data>
+  <data name="HazClickParaAgregarUnaDescripcion" xml:space="preserve">
+    <value>Haz clic aquí para agregar una imagen o descripción al ticket</value>
+    <comment>TicketListPage</comment>
+  </data>
+  <data name="HerramientasCompradas" xml:space="preserve">
+    <value>Herramientas Compradas</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="HerramientasMaximo" xml:space="preserve">
+    <value>No puedes solicitar mas herramientas, pero puedes solicita un nuevo pago</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="HerramientasSinPrecio" xml:space="preserve">
+    <value>Hay herramientas sin precio, asignales un precio antes de continuar</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="Historial" xml:space="preserve">
+    <value>Historial</value>
+    <comment>HistorialPage</comment>
+  </data>
+  <data name="HistorialPagos" xml:space="preserve">
+    <value>Historial de Pagos</value>
+    <comment>PaymentHistoryPage</comment>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Inicio</value>
+    <comment>Common</comment>
+  </data>
+  <data name="Hora" xml:space="preserve">
+    <value>Hora:</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+    <comment>DocumentPage</comment>
+  </data>
+  <data name="Identificacion" xml:space="preserve">
+    <value>ID</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="Indicaciones" xml:space="preserve">
+    <value>Indicaciones para llegar al destino</value>
+    <comment>DirectionPage</comment>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info</value>
+    <comment>SuccesPopup</comment>
+  </data>
+  <data name="IngresaCorreo" xml:space="preserve">
+    <value>Ingresa un correo</value>
+    <comment>PasswordViewModel</comment>
+  </data>
+  <data name="IngresaCVC" xml:space="preserve">
+    <value>Debes ingresar el cvc de la tarjeta</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="IngresaDescripcion" xml:space="preserve">
+    <value>Ingresa una Descripción:</value>
+    <comment>NuevoHitoPopup</comment>
+  </data>
+  <data name="IngresaEmail" xml:space="preserve">
+    <value>Ingresa tu email</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="IngresaEmpresa" xml:space="preserve">
+    <value>Ingresa la empresa donde laboraste</value>
+    <comment>WorkViewModel</comment>
+  </data>
+  <data name="IngresaFechaExpiracion" xml:space="preserve">
+    <value>Debes ingresar la fecha en que expira la tarjeta</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="IngresaLaCantidadARetirar" xml:space="preserve">
+    <value>Ingresa la cantidad que deseas retirar, ${0}</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="IngresaNombre" xml:space="preserve">
+    <value>Ingresa tu Nombre</value>
+    <comment>RegisterViewModel</comment>
+  </data>
+  <data name="IngresaNumeroTarjeta" xml:space="preserve">
+    <value>Debes ingresar el numero de la tarjeta</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="IngresaPassword" xml:space="preserve">
+    <value>Ingresa tu password</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="IngresarCodigoVerificacion" xml:space="preserve">
+    <value>Ingresa el codigo de verificación</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="IngresarComentario" xml:space="preserve">
+    <value>Ingresa un comentario</value>
+    <comment>ReviewServiceViewModel</comment>
+  </data>
+  <data name="IngresarDescripcion" xml:space="preserve">
+    <value>Debes ingresar la descripción de tu servicio</value>
+    <comment>DescriptionServiceViewModel</comment>
+  </data>
+  <data name="IngresaTitular" xml:space="preserve">
+    <value>Debes ingresar el titular de la tarjeta</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="IngresaTuNumeroDeCuenta" xml:space="preserve">
+    <value>Ingresa tu número de cuenta</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="IngresaTuRoutingNumber" xml:space="preserve">
+    <value>Ingresa tu routing number</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="IngresaUnaDescripcionDeTrabajo" xml:space="preserve">
+    <value>Ingresa la descripción del trabajo</value>
+    <comment>WorkViewModel</comment>
+  </data>
+  <data name="IngresaUnCodigo" xml:space="preserve">
+    <value>Ingresa el código de referido de un amigo y obtén una recompensa</value>
+    <comment>RedeemListPage</comment>
+  </data>
+  <data name="Ingresaunmonto" xml:space="preserve">
+    <value>Ingresa un Monto:</value>
+    <comment>NuevoHitoPopup</comment>
+  </data>
+  <data name="IngresUnPuesto" xml:space="preserve">
+    <value>Ingresa un puesto de trabajo</value>
+    <comment>WorkViewModel</comment>
+  </data>
+  <data name="IniciarServicio" xml:space="preserve">
+    <value>Iniciar Servicio</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="IniciarSesion" xml:space="preserve">
+    <value>Iniciar Sesión</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="IniciarTiempo" xml:space="preserve">
+    <value>¿Estas seguro de querer iniciar el tiempo?</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="IniciaSesionApp" xml:space="preserve">
+    <value>Inicia sesión en la app del {0}, esta es la aplicación del {1}</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="Inicio" xml:space="preserve">
+    <value>Inicio</value>
+    <comment>ServiceMapPage, HamburguerMenuViewModel</comment>
+  </data>
+  <data name="InicioSesionFallido" xml:space="preserve">
+    <value>No podemos configurar tu inicio de sesión, intenta de nuevo mas tarde</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="Institucion" xml:space="preserve">
+    <value>Institución:</value>
+    <comment>ProfilePage, StudyPopUp</comment>
+  </data>
+  <data name="IntentaMasTarde" xml:space="preserve">
+    <value>No podemos continuar, intenta mas tarde</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="IntentarMasTarde" xml:space="preserve">
+    <value>No fue posible solicitar el servicio, intenta de nuevo mas tarde...</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="Introduccion" xml:space="preserve">
+    <value>Introducción</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="JustoAhora" xml:space="preserve">
+    <value>Justo ahora</value>
+    <comment>DateTimeHelper</comment>
+  </data>
+  <data name="LeisteContrato" xml:space="preserve">
+    <value>¿Leíste todo el contrato, deseas regresar?</value>
+    <comment>PDFRenderViewModel</comment>
+  </data>
+  <data name="Liberado" xml:space="preserve">
+    <value>Liberado</value>
+    <comment>NuevoHitoPopup, HitoListViewModel</comment>
+  </data>
+  <data name="Liberar" xml:space="preserve">
+    <value>Liberar</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="LiberarPago" xml:space="preserve">
+    <value>¿Desea liberar el pago?</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Lista" xml:space="preserve">
+    <value>Lista</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="ListaAccesorios" xml:space="preserve">
+    <value>Lista de accesorios adicionales</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="ListaMateriales" xml:space="preserve">
+    <value>Lista de materiales para el trabajo</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="LlegadaADomicilio" xml:space="preserve">
+    <value>Llegada A Domicilio</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="LlegadaDestino" xml:space="preserve">
+    <value>¿Estas seguro de que has llegado al lugar?</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="LlegadaDomicilio" xml:space="preserve">
+    <value>Llegando al domicilio</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Saliendo de emergency tasker</value>
+    <comment>LogoutPage</comment>
+  </data>
+  <data name="LugaresTrabajos" xml:space="preserve">
+    <value>Ingresa los últimos 3 lugares en los que haz trabajado</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="Mas4h" xml:space="preserve">
+    <value>+ 4 h</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="MasInformacion" xml:space="preserve">
+    <value>Mas Información</value>
+    <comment>PaymentPage</comment>
+  </data>
+  <data name="MasTareas" xml:space="preserve">
+    <value>Mas Tareas Realizadas</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="Material" xml:space="preserve">
+    <value>Material</value>
+    <comment>ServiceMapPage</comment>
+  </data>
+  <data name="MaterialExtra" xml:space="preserve">
+    <value>¿Tu servicio requiere material para el trabajo?</value>
+    <comment>DescriptionServiceViewModel</comment>
+  </data>
+  <data name="Max2h" xml:space="preserve">
+    <value>1-2 h</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="Max4h" xml:space="preserve">
+    <value>2-4 h</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="MayorPrecio" xml:space="preserve">
+    <value>Mayor Precio</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="MenorPrecio" xml:space="preserve">
+    <value>Menor Precio</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="MenosTareas" xml:space="preserve">
+    <value>Menos Tareas Realizadas</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="MensajeAccesorio" xml:space="preserve">
+    <value>Agrega los accesorios adicionales que se podrían requerir</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="MensajeBtnMas" xml:space="preserve">
+    <value>Puedes agregar accesorios haciendo click en el boton +</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="MensajeBuscar" xml:space="preserve">
+    <value>Buscar aquí algun servicio</value>
+    <comment>SearchServicePage</comment>
+  </data>
+  <data name="MensajeCodigo" xml:space="preserve">
+    <value>Escribe el codigo que hemos enviado a tu email, para poder reestablecer tu contraseña</value>
+    <comment>CodePage </comment>
+  </data>
+  <data name="MensajeCorreo" xml:space="preserve">
+    <value>Escribe la dirección email con la que te registraste, te enviaremos un  correo electrónico, para que puedas reestablecer tu contraseña.</value>
+    <comment>PasswordPage</comment>
+  </data>
+  <data name="MensajeDocumentos" xml:space="preserve">
+    <value>Certifícate para comenzar a trabajar con nosotros, recuerda que entre mas documentos certifiques, brindaras mas confianza a tus clientes</value>
+    <comment>DocumentPage</comment>
+  </data>
+  <data name="MensajeEstudios" xml:space="preserve">
+    <value>Ingresa la información solicitada de acuerdo al ultimo grado de estudios que posees</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="MensajeIndicaciones" xml:space="preserve">
+    <value>Agrega detalles que faciliten encontrar la dirección</value>
+    <comment>DirectionPage</comment>
+  </data>
+  <data name="MensajeMinimo" xml:space="preserve">
+    <value>El mensaje debe tener por lo menos 50 caracteres</value>
+    <comment>DescriptionServiceViewModel</comment>
+  </data>
+  <data name="MensajeOpinion" xml:space="preserve">
+    <value>Escribe aquí la tu opinión acerca del servicio que recibiste y que opinas de nuestro asistente</value>
+    <comment>ReviewServicePage</comment>
+  </data>
+  <data name="MensajePassword" xml:space="preserve">
+    <value>Escribe tu nueva contraseña</value>
+    <comment>NewPasswordPage</comment>
+  </data>
+  <data name="Mensajes" xml:space="preserve">
+    <value>Mensajes</value>
+    <comment>ChatListPage</comment>
+  </data>
+  <data name="MensajeTareas" xml:space="preserve">
+    <value>Sigue las tareas para completar el servicio</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="MensajeTasker" xml:space="preserve">
+    <value>(Activa esto cuando empieces a comprar los accesorios)</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="MensajeTelefono" xml:space="preserve">
+    <value>Verifica tu Numero de Teléfono</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="MensajeTiempo" xml:space="preserve">
+    <value>El tiempo máximo de trabajo son 8 horas, no puedes exceder este tiempo por cita</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menú</value>
+    <comment>HamburguerMenuPage</comment>
+  </data>
+  <data name="MenuHamburguesa" xml:space="preserve">
+    <value>Menu Hamburguesa</value>
+    <comment>HamburguerMenuPage</comment>
+  </data>
+  <data name="MesAño" xml:space="preserve">
+    <value>MM/YY</value>
+    <comment>AddPaymentPopup</comment>
+  </data>
+  <data name="MiUbicacion" xml:space="preserve">
+    <value>Mi Ubicacion</value>
+    <comment>DirectionViewModel</comment>
+  </data>
+  <data name="Modificar" xml:space="preserve">
+    <value>Modificar</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Lun</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="Monto" xml:space="preserve">
+    <value>Monto</value>
+    <comment>HitoListPage</comment>
+  </data>
+  <data name="NecesitasInternet" xml:space="preserve">
+    <value>Necesitas una conexión a internet para validar el codigo</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="NoActualizaFormaPago" xml:space="preserve">
+    <value>No podemos actualizar tu forma de pago, intenta de nuevo mas tarde</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="NoAgendarServicio" xml:space="preserve">
+    <value>No podemos agendar el servicio, intenta de nuevo mas tarde</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="NoAgregoFormaPago" xml:space="preserve">
+    <value>No podemos agregar tu forma de pago, intenta de nuevo mas tarde</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="NoConfiguracionHora" xml:space="preserve">
+    <value>No podemos configurar la hora, recarga la página</value>
+    <comment>DescriptionServiceViewModel</comment>
+  </data>
+  <data name="NoConfirmaLlegada" xml:space="preserve">
+    <value>Si el cliente no confirma tu llegada en 5 minutos, puedes empezar a contar tu tiempo</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="NoContoTiempo" xml:space="preserve">
+    <value>No podemos contar el tiempo</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="NoDetuvoTiempo" xml:space="preserve">
+    <value>No podemos detener el tiempo, intenta de nuevo</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="NoEliminoFormaPago" xml:space="preserve">
+    <value>No fue posible eliminar la forma actual de pago, intenta mas tarde</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="NoFinalizoTrabajo" xml:space="preserve">
+    <value>No podemos finalizar el trabajo</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="NoFuePosibleRegistrarElServicio" xml:space="preserve">
+    <value>No fue posible registrar el servicio</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="NoGuardoAccesorio" xml:space="preserve">
+    <value>No podemos guardar el accesorio, intenta de nuevo</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="NoGuardoAccesorios" xml:space="preserve">
+    <value>No pudimos guardar los accesorios, intenta de nuevo mas tarde</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="NoGuardoCambios" xml:space="preserve">
+    <value>No podemos guardar tus cambios, intenta mas tarde</value>
+    <comment>StudyViewModel</comment>
+  </data>
+  <data name="NoGuardoTicket" xml:space="preserve">
+    <value>No se guardo el ticket, intenta de nuevo</value>
+    <comment>NuevoTicketViewModel</comment>
+  </data>
+  <data name="NoGuardoTrabajo" xml:space="preserve">
+    <value>No podemos guardar el trabajo, intenta mas tarde</value>
+    <comment>WorkViewModel</comment>
+  </data>
+  <data name="NoHazAlcanzadoElTiempoMinimoDeServicio" xml:space="preserve">
+    <value>No haz alcanzado los {0} minutos de tiempo minimo para finalizar el servicio</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="NoInicioConteo" xml:space="preserve">
+    <value>No podemos iniciar a contar el tiempo</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="NombreAccesorio" xml:space="preserve">
+    <value>Nombre del accesorio</value>
+    <comment>AgregarAccesorioPopup</comment>
+  </data>
+  <data name="NombreCompleto" xml:space="preserve">
+    <value>Nombre Completo</value>
+    <comment>AddPaymentPopup, RegisterPage</comment>
+  </data>
+  <data name="NombreTitular" xml:space="preserve">
+    <value>Nombre del Titular</value>
+    <comment>AddPaymentPopup</comment>
+  </data>
+  <data name="NoMostrarFormaPago" xml:space="preserve">
+    <value>No podemos mostrar tu forma de pago en este momento</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="NoObtieneLugar" xml:space="preserve">
+    <value>No podemos obtener el lugar</value>
+    <comment>DirectionViewModel</comment>
+  </data>
+  <data name="NoPodemosAcceder" xml:space="preserve">
+    <value>No podemos mostrar esta ventana, intenta de nuevo mas tarde</value>
+    <comment>NuevoHitoViewModel</comment>
+  </data>
+  <data name="NoPodemosContinuar" xml:space="preserve">
+    <value>No podemos continuar</value>
+    <comment>DescriptionServiceViewModel</comment>
+  </data>
+  <data name="NoPodemosDelegarElServicio" xml:space="preserve">
+    <value>No podemos delegar el trabajo ahora, intenta mas tarde</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="NoPodemosEliminarElServicio" xml:space="preserve">
+    <value>No podemos eliminar el servicio</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="NoPodemosEliminarTrabajo" xml:space="preserve">
+    <value>No podemos eliminar este trabajo, intenta de nuevo</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="NoPuedesAgendar" xml:space="preserve">
+    <value>No puedes agendar dentro del tiempo de un servicio en curso, la fecha limite es</value>
+    <comment>DescriptionServiceViewModel</comment>
+  </data>
+  <data name="NoRegistroPago" xml:space="preserve">
+    <value>No podemos registrar el pago</value>
+    <comment>NuevoHitoViewModel</comment>
+  </data>
+  <data name="NoSePuedeAcceder" xml:space="preserve">
+    <value>No es posible acceder a esta vista, tu forma de pago no es valida, actualiza tus datos en el menú</value>
+    <comment>NuevoHitoViewModel</comment>
+  </data>
+  <data name="NoSubirImagen" xml:space="preserve">
+    <value>No fue posible subir la imagen, intenta subir de nuevo</value>
+    <comment>DocumentViewModel</comment>
+  </data>
+  <data name="Notificaciones" xml:space="preserve">
+    <value>Notificaciones</value>
+    <comment>HamburguerMenuViewModel</comment>
+  </data>
+  <data name="NoValidoCodigo" xml:space="preserve">
+    <value>No podemos validar el codigo, intenta de nuevo</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="NoValidoFormaPago" xml:space="preserve">
+    <value>No podemos agendar el servicio, no podemos validar tu forma de pago</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="NroSeguro" xml:space="preserve">
+    <value>Nro. Seguro Medico</value>
+    <comment>DocumentPage</comment>
+  </data>
+  <data name="NSS" xml:space="preserve">
+    <value>Número de Seguro Medico</value>
+    <comment>DocumentPage,ProfilePage</comment>
+  </data>
+  <data name="NssGuardado" xml:space="preserve">
+    <value>Numero de seguro social guardado</value>
+    <comment>DocumentViewModel</comment>
+  </data>
+  <data name="NuevaContraseña" xml:space="preserve">
+    <value>Nueva Contraseña</value>
+    <comment>NewPasswordPage</comment>
+  </data>
+  <data name="NullList" xml:space="preserve">
+    <value>La lista no puede ser null</value>
+    <comment>NewCategoryViewModel</comment>
+  </data>
+  <data name="NumeroDeCuentaNoValido" xml:space="preserve">
+    <value>Tu número de cuenta no es válido</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="NumeroInvalido" xml:space="preserve">
+    <value>El numero que intentas validar, no ha superado la prueba en el pasado, intenta con otro numero</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="NumeroTarjeta" xml:space="preserve">
+    <value>Número de Tarjeta</value>
+    <comment>AddPaymentPopup</comment>
+  </data>
+  <data name="NumeroTelefonico" xml:space="preserve">
+    <value>Número Telefónico</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="OffLine" xml:space="preserve">
+    <value>Estas temporalmente offline, los servicios en tiempo real estan desactivados</value>
+    <comment>HomeViewModel</comment>
+  </data>
+  <data name="Opinion" xml:space="preserve">
+    <value>Opinión (opcional)</value>
+    <comment>ReviewServicePage</comment>
+  </data>
+  <data name="Opiniones" xml:space="preserve">
+    <value>Opiniones</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="OrdenarPorCalificaciones" xml:space="preserve">
+    <value>Ordenar por calificacion</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="OrdenarPorTareasCompletadas" xml:space="preserve">
+    <value>Ordenar por tareas completadas</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="Otros" xml:space="preserve">
+    <value>Otros</value>
+    <comment>SearchServiceViewModel</comment>
+  </data>
+  <data name="PagoNoAutorizado" xml:space="preserve">
+    <value>No podemos autorizar el pago</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="PagoNoLiberado" xml:space="preserve">
+    <value>No podemos liberar el saldo</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Pagos" xml:space="preserve">
+    <value>Pagos</value>
+    <comment>ViewModelBase</comment>
+  </data>
+  <data name="PagosServicio" xml:space="preserve">
+    <value>Pagos de Servicios</value>
+    <comment>HitoListPage</comment>
+  </data>
+  <data name="PasswordNoActualizado" xml:space="preserve">
+    <value>No podemos actualizar el password</value>
+    <comment>NewPasswordViewModel</comment>
+  </data>
+  <data name="Pendiente" xml:space="preserve">
+    <value>En espera</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="Perfil" xml:space="preserve">
+    <value>Perfil</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="PermisoGPS" xml:space="preserve">
+    <value>Requerimos el permiso del GPS para mostrar tu ubicación en el mapa, intenta de nuevo</value>
+    <comment>DirectionViewModel</comment>
+  </data>
+  <data name="Preautorizado" xml:space="preserve">
+    <value>Preautorizado</value>
+    <comment>NuevoHitoPopup</comment>
+  </data>
+  <data name="PrecioInvalido" xml:space="preserve">
+    <value>El precio de tu servicio no es valido</value>
+    <comment>NewCategoryViewModel</comment>
+  </data>
+  <data name="PrecioMinimo" xml:space="preserve">
+    <value>El precio de tu servicio no puede ser menor a $1</value>
+    <comment>NewCategoryViewModel</comment>
+  </data>
+  <data name="PrecioTiempo" xml:space="preserve">
+    <value>Precio por Tiempo</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="PreguntaServicio" xml:space="preserve">
+    <value>¿El servicio será en una hora especifica?</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="PresupuestoEnviado" xml:space="preserve">
+    <value>Se ha enviado el presupuesto</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="PrettyDateFormat" xml:space="preserve">
+    <value>MM/dd/yyyy</value>
+    <comment>DateTimeHelper</comment>
+  </data>
+  <data name="ProgramarCita" xml:space="preserve">
+    <value>Programar Cita</value>
+    <comment>DescriptionServicePage</comment>
+  </data>
+  <data name="Puesto" xml:space="preserve">
+    <value>Puesto</value>
+  </data>
+  <data name="QuiresCancelarLaOperacion" xml:space="preserve">
+    <value>¿Quieres cancelar la operacion?</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="RecompensaInvalida" xml:space="preserve">
+    <value>No podemos reclamar esta recompensa</value>
+    <comment>RedeemListView</comment>
+  </data>
+  <data name="Recompensas" xml:space="preserve">
+    <value>Recompensas</value>
+    <comment>HamburguerMenuViewModel</comment>
+  </data>
+  <data name="RecuerdaPrecioFinal" xml:space="preserve">
+    <value>Recuerda que el precio final puede variar de acuerdo al tiempo registrado, el tiempo estimado es de {0} hora(s)</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="RecuperaContraseña" xml:space="preserve">
+    <value>Recuperar Contraseña</value>
+    <comment>CodePage</comment>
+  </data>
+  <data name="RecuperarContraseña" xml:space="preserve">
+    <value>¿Deseas recuperar tu contraseña?</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="Reembolsado" xml:space="preserve">
+    <value>Reembolsado</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Reembolso" xml:space="preserve">
+    <value>Reembolso del servicio</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="ReembolsoNoAceptado" xml:space="preserve">
+    <value>No fue posible solicitar un reembolso, intenta mas tarde</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Reembolzar" xml:space="preserve">
+    <value>Reembolsar</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="ReenviarCod" xml:space="preserve">
+    <value>Reenviar Código</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="ReenviarCodigo" xml:space="preserve">
+    <value>Reenviar código en</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="ReestablecerContraseña" xml:space="preserve">
+    <value>Reestablecer Contraseña</value>
+    <comment>NewPasswordPage</comment>
+  </data>
+  <data name="ReferenciaInvalida" xml:space="preserve">
+    <value>Referencia no valida</value>
+    <comment>RedeemListView</comment>
+  </data>
+  <data name="Registrar" xml:space="preserve">
+    <value>Registrar</value>
+    <comment>RegisterPage</comment>
+  </data>
+  <data name="Registrarme" xml:space="preserve">
+    <value>Registrarme</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Registrarse" xml:space="preserve">
+    <value>Registrarse</value>
+    <comment>RegisterPage</comment>
+  </data>
+  <data name="Registro" xml:space="preserve">
+    <value>Registro</value>
+    <comment>RegisterPage</comment>
+  </data>
+  <data name="RegistroPago" xml:space="preserve">
+    <value>Se registro el pago</value>
+    <comment>NuevoHitoViewModel</comment>
+  </data>
+  <data name="RequeresInternet" xml:space="preserve">
+    <value>Requieres una conexión a internet</value>
+    <comment>AgregarAccesoriosViewModel</comment>
+  </data>
+  <data name="RequieresFormaPago" xml:space="preserve">
+    <value>¿Requieres una forma de pago, quieres configurar tu forma de pago?</value>
+    <comment>CategoriaViewModel</comment>
+  </data>
+  <data name="RequieresPago" xml:space="preserve">
+    <value>Para acceder a esta vista requieres una forma de pago, ve al menú y revisa tus métodos de pago</value>
+    <comment>NuevoHitoViewModel</comment>
+  </data>
+  <data name="RetirarDinero" xml:space="preserve">
+    <value>Retirar dinero</value>
+    <comment>PaymentPage</comment>
+  </data>
+  <data name="RetiroEnProceso" xml:space="preserve">
+    <value>El retiro está en progreso puede demorar hasta 7 días en completarse</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="RevisaEmail" xml:space="preserve">
+    <value>Revisa el email para continuar</value>
+    <comment>PasswordViewModel</comment>
+  </data>
+  <data name="RoutingNumberNoValido" xml:space="preserve">
+    <value>Tu routing number no es válido</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="Ruta" xml:space="preserve">
+    <value>Ruta</value>
+    <comment>ServiceMapPage</comment>
+  </data>
+  <data name="SaldoNoAbonado" xml:space="preserve">
+    <value>No podemos abonar el saldo</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Sab</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="SeAgregoLaRecompensaDeLosTrabajos" xml:space="preserve">
+    <value>Ya has agregado un codigo por la recompenza de los {0} trabajos</value>
+    <comment>RedeemListViewModel</comment>
+  </data>
+  <data name="SeCambioFoto" xml:space="preserve">
+    <value>Se ha cambiado la imagen de perfil</value>
+    <comment>DocumentViewModel</comment>
+  </data>
+  <data name="SeEliminoFormaPago" xml:space="preserve">
+    <value>Se ha eliminado tu forma de pago actual, ya no usaremos mas la tarjeta</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="Seguimiento" xml:space="preserve">
+    <value>Seguimiento del servicio, haz click para ver</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="SeguroCancelarServicio" xml:space="preserve">
+    <value>¿Estas seguro de querer cancelar el servicio?</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="SeguroDeEliminarServicio" xml:space="preserve">
+    <value>¿Estas seguro de querer eliminar el servicio?</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="SeHaActualizadoElServicio" xml:space="preserve">
+    <value>Se ha actualizado el servicio</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="SeHaEliminadoElServicio" xml:space="preserve">
+    <value>Se ha eliminado el servicio</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="SeHaRegistradoElServicio" xml:space="preserve">
+    <value>Se ha registrado el servicio</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="SeleccionaCategoria" xml:space="preserve">
+    <value>Selecciona una categoría</value>
+    <comment>NewCategoryViewModel</comment>
+  </data>
+  <data name="SeleccionarGrado" xml:space="preserve">
+    <value>Selecciona un grado</value>
+    <comment>StudyViewModel</comment>
+  </data>
+  <data name="SeleccionarOpcionParaFoto" xml:space="preserve">
+    <value>Elige la fuente de la imagen</value>
+    <comment>ProfileViewModel, ProfileClientViewModel</comment>
+  </data>
+  <data name="SeleccionaSubcategoria" xml:space="preserve">
+    <value>Selecciona una subcategoría</value>
+    <comment>NewCategoryViewModel</comment>
+  </data>
+  <data name="SeleccionaUnaFechaDeFin" xml:space="preserve">
+    <value>Selecciona la fecha de fin del trabajo</value>
+    <comment>WorkViewModel</comment>
+  </data>
+  <data name="SeleccionaUnaFechaDeInicio" xml:space="preserve">
+    <value>Selecciona la fecha de inicio del trabajo</value>
+    <comment>WorkViewModel</comment>
+  </data>
+  <data name="Servicio" xml:space="preserve">
+    <value>Servicio</value>
+  </data>
+  <data name="ServicioAtendidoEn" xml:space="preserve">
+    <value>El servicio será atendido en {0} horas</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="ServicioCancelado" xml:space="preserve">
+    <value>El servicio fue cancelado</value>
+    <comment>CalendarViewModel</comment>
+  </data>
+  <data name="ServicioCompletado" xml:space="preserve">
+    <value>Servicio Completado</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="ServicioEnProceso" xml:space="preserve">
+    <value>Tu servicio esta en proceso, recuerda que puede tardar hasta 30 minutos en ser atendido</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="ServicioFinalizado" xml:space="preserve">
+    <value>Servicio finalizado</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="ServicioPendiente" xml:space="preserve">
+    <value>Tienes un servicio pendiente</value>
+    <comment>HitoListPage</comment>
+  </data>
+  <data name="ServicioPendienteDeCalificacion" xml:space="preserve">
+    <value>¿Tienes un servicio pendiente por calificar, deseas calificarlo?</value>
+    <comment>ViewModelBase</comment>
+  </data>
+  <data name="ServicioProceso" xml:space="preserve">
+    <value>Tu servicio esta en Proceso</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="ServicioProgreso" xml:space="preserve">
+    <value>Servicio en Proceso</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="Servicios" xml:space="preserve">
+    <value>Servicios</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="SesionCaducada" xml:space="preserve">
+    <value>Tu sesión ha caducado</value>
+    <comment>DocumentViewModel</comment>
+  </data>
+  <data name="SeSubioImagen" xml:space="preserve">
+    <value>Se ha subido la imagen</value>
+    <comment>DocumentViewModel</comment>
+  </data>
+  <data name="SiCancelas" xml:space="preserve">
+    <value>si cancelas se te cobrara la tarifa de 1 hora $</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>¿Aun no tienes cuenta?</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Siguiente" xml:space="preserve">
+    <value>Siguiente</value>
+    <comment>PDFRenderPage</comment>
+  </data>
+  <data name="SinAccesoChat" xml:space="preserve">
+    <value>No podemos acceder al chat</value>
+    <comment>CandidateListViewModel</comment>
+  </data>
+  <data name="SinAccesorios" xml:space="preserve">
+    <value>No pudimos subir los accesorios, puedes dejar esta responsabilidad al tasker</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="SinAccesoTiempo" xml:space="preserve">
+    <value>El trabajo será terminado y no volverás a tener acceso a contar el tiempo</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="SinAgendarServicio" xml:space="preserve">
+    <value>No podemos agendar el servicio, revisa tu forma de pago o intenta mas tarde</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="SinConcluirTrabajo" xml:space="preserve">
+    <value>No podemos concluir el trabajo, intenta mas tarde</value>
+    <comment>StartServiceViewModel</comment>
+  </data>
+  <data name="SinConfigurarHora" xml:space="preserve">
+    <value>No podemos configurar la hora</value>
+    <comment>ChatListViewModel, DetailServiceViewModel</comment>
+  </data>
+  <data name="SinContinuar" xml:space="preserve">
+    <value>No podemos continuar, intenta mas tarde</value>
+    <comment>PasswordViewModel</comment>
+  </data>
+  <data name="SinEliminarEvidencia" xml:space="preserve">
+    <value>No podemos eliminar la evidencia, intenta mas tarde</value>
+    <comment>EvidenceListViewModel</comment>
+  </data>
+  <data name="SinForma" xml:space="preserve">
+    <value>Sin forma de pago</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="SinFormaPago" xml:space="preserve">
+    <value>No podemos configurar la forma de pago</value>
+    <comment>AddPaymentPopupViewModel</comment>
+  </data>
+  <data name="SinInternet" xml:space="preserve">
+    <value>Requieres una conexión a internet para continuar...</value>
+    <comment>LoginViewModel</comment>
+  </data>
+  <data name="SinNotificaciones" xml:space="preserve">
+    <value>Aun no tienes notificaciones</value>
+    <comment>NotificationPage</comment>
+  </data>
+  <data name="SinRegistro" xml:space="preserve">
+    <value>Aún no existe ningún registro</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="SinServicio" xml:space="preserve">
+    <value>No se ha asignado un servicio</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="SinSesion" xml:space="preserve">
+    <value>Continuar sin Iniciar Sesión</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="SinSesionIniciada" xml:space="preserve">
+    <value>No hay una sesión en la app, intenta de nuevo mas tarde</value>
+    <comment>NuevoHitoViewModel</comment>
+  </data>
+  <data name="SinVista" xml:space="preserve">
+    <value>En este momento no podemos mostrar la vista, intenta de nuevo mas tarde</value>
+    <comment>NuevoHitoViewModel</comment>
+  </data>
+  <data name="SolicitarNuevoCodigo" xml:space="preserve">
+    <value>Solicitar nuevo código</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="SolicitarServicio" xml:space="preserve">
+    <value>Solicitar Servicio</value>
+    <comment>DirectionPage</comment>
+  </data>
+  <data name="SolicitudDePagoA" xml:space="preserve">
+    <value>Solicitud de pago a {0}/{1}</value>
+    <comment>PaymentViewModel</comment>
+  </data>
+  <data name="SolicitudNoProcesada" xml:space="preserve">
+    <value>No se puede procesar la solicitud, intenta mas tarde</value>
+    <comment>DetailServiceViewModel</comment>
+  </data>
+  <data name="SolicitudProceso" xml:space="preserve">
+    <value>Tu solicitud esta en proceso, espere...</value>
+    <comment>WaitForAcceptingPopup</comment>
+  </data>
+  <data name="SolicitudReembo" xml:space="preserve">
+    <value>Solicitud de reembolso</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="SolicitudReembolso" xml:space="preserve">
+    <value>Solicitud de Reembolso</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="SolictarRecompensa" xml:space="preserve">
+    <value>Solicitar recompensa</value>
+    <comment>RedeemListPage</comment>
+  </data>
+  <data name="Subcategoria" xml:space="preserve">
+    <value>Subcategoría</value>
+    <comment>NewCategoryPopUp</comment>
+  </data>
+  <data name="SubirEvidencia" xml:space="preserve">
+    <value>Seleccione desde donde quieres subir la evidencia</value>
+    <comment>EvidenceListViewModel</comment>
+  </data>
+  <data name="SubirTicket" xml:space="preserve">
+    <value>Subir Tickets de Compra</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Dom</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="Tarea" xml:space="preserve">
+    <value>Tarea</value>
+    <comment>CategoriaPage</comment>
+  </data>
+  <data name="Tareas" xml:space="preserve">
+    <value>Tareas</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="TareasPendientes" xml:space="preserve">
+    <value>Tareas Pendientes</value>
+    <comment>TaskPage</comment>
+  </data>
+  <data name="TareasRealizadas" xml:space="preserve">
+    <value>Tareas Realizadas:</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="Taskers" xml:space="preserve">
+    <value>Trabajadores</value>
+    <comment>SearchServiceViewModel</comment>
+  </data>
+  <data name="Telefono" xml:space="preserve">
+    <value>Teléfono</value>
+    <comment>ProfileClientPage, ProfilePage</comment>
+  </data>
+  <data name="TenSeguridad" xml:space="preserve">
+    <value>Ten la seguridad de que estas en las mejores manos</value>
+    <comment>MainViewModel</comment>
+  </data>
+  <data name="TerminarListaCompras" xml:space="preserve">
+    <value>Ya has terminado de hacer la lista de compras?</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="Terminos" xml:space="preserve">
+    <value>He leído y acepto la política de privacidad y los términos de uso.</value>
+    <comment>RegisterPage</comment>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Jue</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="TicketsCompra" xml:space="preserve">
+    <value>Tickets de Compra</value>
+    <comment>TicketListPage</comment>
+  </data>
+  <data name="Tiempo" xml:space="preserve">
+    <value>Tiempo</value>
+    <comment>ServiceMapPage</comment>
+  </data>
+  <data name="TiempoEstimado" xml:space="preserve">
+    <value>Tiempo Estimado</value>
+    <comment>DescriptionServicePage, DetailServicePage</comment>
+  </data>
+  <data name="TiempoTranscurrido" xml:space="preserve">
+    <value>Tiempo Transcurrido</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="Titulo" xml:space="preserve">
+    <value>Titulo</value>
+    <comment>ProfilePage, StudyPopUp</comment>
+  </data>
+  <data name="TomarFoto" xml:space="preserve">
+    <value>Tomar Foto</value>
+    <comment>DocumentViewModel, DocumentViewModel</comment>
+  </data>
+  <data name="ToolList" xml:space="preserve">
+    <value>Lista de Materiales</value>
+    <comment>ToolListPage</comment>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+    <comment>TimeWorkListPage</comment>
+  </data>
+  <data name="Trabajar" xml:space="preserve">
+    <value>Trabajar</value>
+    <comment>RegisterViewModel</comment>
+  </data>
+  <data name="Trabajoeliminado" xml:space="preserve">
+    <value>Se ha eliminado el trabajo</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="TrabajoGuardado" xml:space="preserve">
+    <value>Se guardo el trabajo</value>
+    <comment>WorkViewModel</comment>
+  </data>
+  <data name="TrabajoIncompleto" xml:space="preserve">
+    <value>Trabajo Incompleto</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="TrabajoIniciado" xml:space="preserve">
+    <value>Trabajo Iniciado</value>
+    <comment>EstadoServicio</comment>
+  </data>
+  <data name="Trabajos" xml:space="preserve">
+    <value>Trabajos</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="TrabajosMaximos" xml:space="preserve">
+    <value>Haz alcanzado el limite de trabajos que puedes agregar, si necesitas cambiar tu información, puedes eliminar o editar tus trabajos actuales.</value>
+    <comment>ProfileViewModel</comment>
+  </data>
+  <data name="TrabajoTerminado" xml:space="preserve">
+    <value>Trabajo terminado</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="TransferenciaRealizada" xml:space="preserve">
+    <value>Se ha transferido el dinero a tu cuenta</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="TransferirABalance" xml:space="preserve">
+    <value>¿Quieres transferir este dinero a tu balance?</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Mar</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="Ubicacion" xml:space="preserve">
+    <value>Ubicación</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="UbicacionNoValida" xml:space="preserve">
+    <value>La ubicación del mapa no es válida, verifica que hayas seleccionado una ubicación</value>
+    <comment>DirectionViewModel</comment>
+  </data>
+  <data name="UsaEsteCodigo" xml:space="preserve">
+    <value>usa este código {0}</value>
+    <comment>VerifyPhoneViewModel</comment>
+  </data>
+  <data name="Vence" xml:space="preserve">
+    <value>Vence</value>
+    <comment>PaymentPage</comment>
+  </data>
+  <data name="Vencimiento" xml:space="preserve">
+    <value>Vencimiento</value>
+    <comment>AddPaymentPopup</comment>
+  </data>
+  <data name="VerDetalle" xml:space="preserve">
+    <value>¿Ver detalle?</value>
+    <comment>CalendarViewModel</comment>
+  </data>
+  <data name="VerDetalles" xml:space="preserve">
+    <value>Ver Detalles</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="Verificacion" xml:space="preserve">
+    <value>Verificación</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="VerificandoRecompensa" xml:space="preserve">
+    <value>Estamos verificando la recompensa, te notificaremos cuando este validada</value>
+    <comment>RedeemListView</comment>
+  </data>
+  <data name="VerifyPhone" xml:space="preserve">
+    <value>Verificación Numero Teléfonico</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="VerInfo" xml:space="preserve">
+    <value>Ver Info</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="VerLista" xml:space="preserve">
+    <value>Ver lista de compras</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="VerTicket" xml:space="preserve">
+    <value>Ver Ticket</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="ConfirmarServicio" xml:space="preserve">
+    <value>Confirmar servicio</value>
+    <comment>ServiceMapPage</comment>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Mie</value>
+    <comment>CalendarPage</comment>
+  </data>
+  <data name="Horarios" xml:space="preserve">
+    <value>Horarios</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="ClienteSinTelefono" xml:space="preserve">
+    <value>El cliente no ha registrado un teléfono</value>
+    <comment>Common</comment>
+  </data>
+  <data name="TrabajadorSinTelefono" xml:space="preserve">
+    <value>El trabajador no ha registrado un telefono</value>
+    <comment>Common</comment>
+  </data>
+  <data name="Buena" xml:space="preserve">
+    <value>Buena</value>
+    <comment>ReviewListPage</comment>
+  </data>
+  <data name="Calificaciones" xml:space="preserve">
+    <value>Calificaciones</value>
+    <comment>ReviewListPage</comment>
+  </data>
+  <data name="Excelente" xml:space="preserve">
+    <value>Excelente</value>
+    <comment>ReviewListPage</comment>
+  </data>
+  <data name="Mala" xml:space="preserve">
+    <value>Mala</value>
+    <comment>ReviewListPage</comment>
+  </data>
+  <data name="Pesima" xml:space="preserve">
+    <value>Pesima</value>
+    <comment>ReviewListPage</comment>
+  </data>
+  <data name="Regular" xml:space="preserve">
+    <value>Regular</value>
+    <comment>ReviewListPage</comment>
+  </data>
+  <data name="AgregarHorario" xml:space="preserve">
+    <value>+ Agregar horarios</value>
+    <comment>ScheduleEditPage</comment>
+  </data>
+  <data name="ContactarCliente" xml:space="preserve">
+    <value>Contactar al Cliente</value>
+    <comment>WaitingServicePage</comment>
+  </data>
+  <data name="Saltar" xml:space="preserve">
+    <value>Saltar</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="Verificar" xml:space="preserve">
+    <value>Verificar</value>
+    <comment>VerifyPhonePage</comment>
+  </data>
+  <data name="PresupuestoInvalido" xml:space="preserve">
+    <value>No puedes enviar un presupuesto por un valor de $0</value>
+    <comment>ToolListViewModel</comment>
+  </data>
+  <data name="CodeMessage" xml:space="preserve">
+    <value>Hola {0}, usa este codigo {1}</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="CodigoDeVerificacion" xml:space="preserve">
+    <value>Código de verificación</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="CodigoEnviadoAEmail" xml:space="preserve">
+    <value>Se envio un código a tu email</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="CodigoEnviadoATelefono" xml:space="preserve">
+    <value>Se envio un código a tu teléfono</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="CodigoNoCoincideConElIngresado" xml:space="preserve">
+    <value>El código no coincide con el que has ingresado</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="CodigoNoValido" xml:space="preserve">
+    <value>Código no valido</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="ErrorAlEnviarElCodigo" xml:space="preserve">
+    <value>No podemos enviar el código, intenta de nuevo</value>
+    <comment>CodeValidationTaskPopup</comment>
+  </data>
+  <data name="FechaDeFinalizacion" xml:space="preserve">
+    <value>Fecha real de finalización del trabajo</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="FechaAproximada" xml:space="preserve">
+    <value>Fecha aproximada de finalización</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="FechaInicio" xml:space="preserve">
+    <value>Fecha de inicio del trabajo</value>
+    <comment>StartServicePage</comment>
+  </data>
+  <data name="SeguroDeEliminarElHorario" xml:space="preserve">
+    <value>¿Estas seguro de querer eliminar el horario?</value>
+    <comment>ScheduleEditViewModel</comment>
+  </data>
+  <data name="ErrorAlGuardarLosHorarios" xml:space="preserve">
+    <value>No se guardaron los horarios, intenta de nuevo</value>
+    <comment>ScheduleEditViewModel</comment>
+  </data>
+  <data name="HorarioInvalido" xml:space="preserve">
+    <value>Uno de los horarios del dia {0} no es válido, los intervalos de tiempo estan mal.</value>
+    <comment>ScheduleEditViewModel</comment>
+  </data>
+  <data name="HorariosGuardados" xml:space="preserve">
+    <value>Se han guardado todos los horarios</value>
+    <comment>ScheduleEditViewModel</comment>
+  </data>
+  <data name="LimiteHorario" xml:space="preserve">
+    <value>Sólo puedes agregar dos rangos horarios</value>
+    <comment>ScheduleEditViewModel</comment>
+  </data>
+  <data name="Galeria" xml:space="preserve">
+    <value>Galería</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="AgregarFotos" xml:space="preserve">
+    <value>Agrega aquí fotografías para mostrar la calidad de tu trabajo</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="HorarioA" xml:space="preserve">
+    <value>De 8 a.m. a 8 p.m.</value>
+    <comment>CostPerHourPopup</comment>
+  </data>
+  <data name="HorarioB" xml:space="preserve">
+    <value>De 8 p.m. a 8 a.m.</value>
+    <comment>CostPerHourPopup</comment>
+  </data>
+  <data name="HorarioDia" xml:space="preserve">
+    <value>Horario de dia $100</value>
+    <comment>CostPerHourPopup</comment>
+  </data>
+  <data name="HorarioNoche" xml:space="preserve">
+    <value>Horario de noche $200</value>
+    <comment>CostPerHourPopup</comment>
+  </data>
+  <data name="Tarifas" xml:space="preserve">
+    <value>Tarifas</value>
+    <comment>CostPerHourPopup</comment>
+  </data>
+  <data name="TiposTarifas" xml:space="preserve">
+    <value>Existen dos tarifas de cobro en la app basada en dos horarios</value>
+    <comment>CostPerHourPopup</comment>
+  </data>
+  <data name="VerPagos" xml:space="preserve">
+    <value>Ver Pagos</value>
+  </data>
+  <data name="SeguroDeEliminarLaImagen" xml:space="preserve">
+    <value>¿Estas seguro de querer eliminar la imagen?</value>
+    <comment>ProfilePage</comment>
+  </data>
+  <data name="PorHora" xml:space="preserve">
+    <value>por hora</value>
+    <comment>CandidateList</comment>
+  </data>
+  <data name="Tarifa" xml:space="preserve">
+    <value>Tarifa</value>
+    <comment>TimeWorkListPage</comment>
+  </data>
+  <data name="ReembolsoDeServicio" xml:space="preserve">
+    <value>El servicio fue cancelado, te devolvimos ${0} a la tarjeta con terminacion {1}</value>
+  </data>
+  <data name="SolicitudDeReembolso" xml:space="preserve">
+    <value>Quieres mandar una solicitud de reembolso?</value>
+    <comment>HitoListViewModel</comment>
+  </data>
+  <data name="Delegar" xml:space="preserve">
+    <value>Delegar</value>
+    <comment>Waiting Service Page</comment>
+  </data>
+  <data name="ActivarCuentaTasker" xml:space="preserve">
+    <value>Espera mientras validamos tu cuenta, te avisaremos por correo cuando estes validado</value>
+    <comment>RegisterviewModel</comment>
+  </data>
+  <data name="Mes" xml:space="preserve">
+    <value>Mes</value>
+    <comment>Mes</comment>
+  </data>
+  <data name="CompartirCodigo" xml:space="preserve">
+    <value>Compartir código</value>
+    <comment>RedeemList</comment>
+  </data>
+  <data name="EresElUnicoQuePuedeTomarElServicio" xml:space="preserve">
+    <value>Eres el único que puede tomar el servicio</value>
+    <comment>WaitingService</comment>
+  </data>
+  <data name="CalificasteA" xml:space="preserve">
+    <value>Calificaste a {0}</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="TeAcabasteElTiempoDeTrabajo" xml:space="preserve">
+    <value>Te acabaste el tiempo de trabajo estimado</value>
+  </data>
+  <data name="QuieresSolicitarMasTiempo" xml:space="preserve">
+    <value>¿Quieres solicitar más tiempo?</value>
+    <comment>Start Service</comment>
+  </data>
+  <data name="HorasExtras" xml:space="preserve">
+    <value>Ahora el tiempo a contar es de tus horas extras</value>
+  </data>
+  <data name="Horas" xml:space="preserve">
+    <value>{0} hora(s)</value>
+  </data>
+  <data name="HorasExtra" xml:space="preserve">
+    <value>Horas extra</value>
+  </data>
+  <data name="HorasExtraSolicitasCorrectamente" xml:space="preserve">
+    <value>Se han solicitado correctamente {0} hours</value>
+  </data>
+  <data name="SeleccionaCantidadHorasExtra" xml:space="preserve">
+    <value>Selecciona las horas a solicitar</value>
+  </data>
+  <data name="SolicitarHorasExtraPor" xml:space="preserve">
+    <value>Solicitar horas extras por ${0}</value>
+  </data>
+  <data name="SolicitudHorasExtra" xml:space="preserve">
+    <value>Solicitud de horas extras</value>
+  </data>
+  <data name="TaskerSolicitaHorasExtra" xml:space="preserve">
+    <value>El tasker ha solicitado {0} horas extras</value>
+  </data>
+  <data name="CodigoEnviado" xml:space="preserve">
+    <value>Código enviado, revisa tu correo electrónico o tu teléfono</value>
+  </data>
+  <data name="EnEsperaDeAutorizacionHorasExtra" xml:space="preserve">
+    <value>En espera para la autorizacion de las horas extra</value>
+  </data>
+  <data name="PendingPayment" xml:space="preserve">
+    <value>Tienes un pago pendiente, haz clic en el icono de dólar para saber mas</value>
+  </data>
+  <data name="Omitir" xml:space="preserve">
+    <value>Omitir</value>
+    <comment>CofirmPopup</comment>
+  </data>
+  <data name="SignUpForEmergencyTaskerAndGet50WhenYouHireYourFirstService" xml:space="preserve">
+    <value>Regístrate en emergency tasker y recibe 50 USD al contratar tu primer servicio</value>
+  </data>
+  <data name="UseThisCodeAndReceive500WhenYouPerform10Jobs" xml:space="preserve">
+    <value>Usa este código "{0}" y recibe 500 USD al realizar 10 trabajos</value>
+  </data>
+  <data name="ToDistance" xml:space="preserve">
+    <value>En un radio de {0} mi</value>
+    <comment>FilterPage</comment>
+  </data>
+  <data name="EsteServicioNoCuentaConFondosParaRealizarse" xml:space="preserve">
+    <value>Este servicio no cuenta con fondos o los fondos fueron reembolsados</value>
+    <comment>WaitingServiceViewModel</comment>
+  </data>
+  <data name="ConClient" xml:space="preserve">
+    <value>Con el cliente {0}</value>
+    <comment>TimeRegisterView</comment>
+  </data>
+  <data name="ConTasker" xml:space="preserve">
+    <value>Con el tasker {0}</value>
+    <comment>TimeRegisterView</comment>
+  </data>
+  <data name="FechaDeFin" xml:space="preserve">
+    <value>Fecha de finalización</value>
+  </data>
+  <data name="FechaDeInicio" xml:space="preserve">
+    <value>Fecha de inicio</value>
+  </data>
+  <data name="HoraDeFin" xml:space="preserve">
+    <value>Hora de finalización</value>
+  </data>
+  <data name="HoraDeInicio" xml:space="preserve">
+    <value>Hora de inicio</value>
+  </data>
+  <data name="RecuerdaTiempoMaximo8Horas" xml:space="preserve">
+    <value>Recuerda que el tiempo máximo de trabajo son 8 horas</value>
+  </data>
+  <data name="RevisaLaHoraYFechaDeTuTrabajo" xml:space="preserve">
+    <value>Revisa bien la hora de inicio y finalización de tu trabajo, ya que a través de estos datos validaremos tu tiempo.</value>
+  </data>
+  <data name="ElTrabajoHaEmpezado" xml:space="preserve">
+    <value>El trabajo ha empezado, espera a que el tasker termine</value>
+    <comment>TimeRegisterPage</comment>
+  </data>
+  <data name="ElTrabajoHaTerminado" xml:space="preserve">
+    <value>El trabajo se ha terminado, ahora califica al tasker</value>
+    <comment>TimeRegisterPage</comment>
+  </data>
+  <data name="Accept" xml:space="preserve">
+    <value>Aceptar</value>
+    <comment>AddSupportPopup</comment>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categorias</value>
+    <comment>AddSupportPopup</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+    <comment>AddSupportPopup</comment>
+  </data>
+  <data name="FillInTheRequestedDataSoWeCanHelpYou" xml:space="preserve">
+    <value>Llena los datos que se solicitan para que podamos ayudarte</value>
+    <comment>AddSupportPopup</comment>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+    <comment>AddSupportPopup</comment>
+  </data>
+  <data name="TechnicalSupport" xml:space="preserve">
+    <value>Soporte tecnico</value>
+    <comment>AddSupportPopup</comment>
+  </data>
+  <data name="CantRetrieveServiceStatus" xml:space="preserve">
+    <value>No podemos recuperar el estado del servico</value>
+  </data>
+  <data name="UserCancelService" xml:space="preserve">
+    <value>{0} cancelo el servicio</value>
+  </data>
+  <data name="ConfirmGoToPendingPayment" xml:space="preserve">
+    <value>Tienes un pago pendiente por hacer, ¿quieres pagarlo ahora?</value>
+  </data>
+  <data name="ConfirmUploadEvidenceWithoutDescription" xml:space="preserve">
+    <value>¿Quieres subir la foto sin comentario?</value>
+  </data>
+  <data name="InputEvidenceDescription" xml:space="preserve">
+    <value>Ingresa una descripción para la foto</value>
+    <comment>EvidenceList</comment>
+  </data>
+  <data name="InvalidFinishDate" xml:space="preserve">
+    <value>El tiempo de finalización no es válido</value>
+  </data>
+  <data name="NewHitoMessage" xml:space="preserve">
+    <value>Te falta cobrar ${0}, avisa al cliente de esto o crea una petición de pago en la sección de pagos</value>
+  </data>
+  <data name="Validar" xml:space="preserve">
+    <value>Válidar</value>
+  </data>
+  <data name="CanceledReasonViewModel_BtnSend_Clicked_EligeUnaRazón" xml:space="preserve">
+    <value>Elige una razón</value>
+  </data>
+  <data name="CanceledReasonViewModel_BtnSend_Clicked_NoPodemosGuardarTuRazónDeCancelaciónIntentaDeNuevo" xml:space="preserve">
+    <value>We cannot save your reason for cancellation, please try again</value>
+  </data>
+  <data name="DescripcionDeCancelacion" xml:space="preserve">
+    <value>Enter a description (optional)</value>
+  </data>
+  <data name="IngresaRazonDeCancelacion" xml:space="preserve">
+    <value>Enter the reason for the cancellation</value>
+  </data>
+  <data name="SendReason" xml:space="preserve">
+    <value>Send reason</value>
+  </data>
+  <data name="AddService" xml:space="preserve">
+    <value>Agregar servicio</value>
+  </data>
+  <data name="CostoSobreHora" xml:space="preserve">
+    <value>${0} / hora</value>
+    <comment>DetailServicePage</comment>
+  </data>
+  <data name="OpinionDelCliente" xml:space="preserve">
+    <value>¿Qué opinas del cliente?</value>
+    <comment>ReviewServiceViewModel</comment>
+  </data>
+  <data name="OpinionDelServicio" xml:space="preserve">
+    <value>¿Qué opinas del servicio?</value>
+    <comment>ReviewServiceViewModel</comment>
+  </data>
+  <data name="CobroDeServicios" xml:space="preserve">
+    <value>Cobro de servicios</value>
+    <comment>HamburguerMenuViewModel</comment>
+  </data>
+  <data name="IngresaUnEmailValido" xml:space="preserve">
+    <value>Ingresa un email válido</value>
+  </data>
+</root>

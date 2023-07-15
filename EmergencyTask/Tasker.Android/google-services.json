@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "412486586787",
+    "firebase_url": "https://emergencytasker-1567727148570.firebaseio.com",
+    "project_id": "emergencytasker-1567727148570",
+    "storage_bucket": "emergencytasker-1567727148570.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412486586787:android:3f811f73355616401dca16",
+        "android_client_info": {
+          "package_name": "com.devazt.emergencytasker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412486586787-3v9je8dkfpo99mqi8p8hho6uo8i4e5c7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdss70IhkItmRIHZyLJmv1hWtWT5xj3gg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412486586787-3v9je8dkfpo99mqi8p8hho6uo8i4e5c7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412486586787:android:7b7ad2254c9f4d4b1dca16",
+        "android_client_info": {
+          "package_name": "com.devazt.tasker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412486586787-3v9je8dkfpo99mqi8p8hho6uo8i4e5c7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdss70IhkItmRIHZyLJmv1hWtWT5xj3gg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412486586787-3v9je8dkfpo99mqi8p8hho6uo8i4e5c7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

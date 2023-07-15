@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.ProfileClientPage"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Rating="clr-namespace:EmergencyTask.Views.Rating"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+    <ContentPage.Content>
+        <Grid>
+            <Grid Padding="12" BackgroundColor="#eeeeee">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <!--Menu Superior-->
+                <Frame Grid.Row="0" Padding="0">
+                    <StackLayout Padding="12">
+                        <Grid VerticalOptions="CenterAndExpand">
+                            <StackLayout>
+                                <Controls:ImageLoading Source="{Binding ImageUser}" LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" HorizontalOptions="Center" Margin="0,0,0,0" HeightRequest="100" WidthRequest="100" Aspect="AspectFill" >
+                                    <Controls:ImageLoading.Transformations>
+                                        <Transformations:CircleTransformation />
+                                    </Controls:ImageLoading.Transformations>
+                                </Controls:ImageLoading>
+                            </StackLayout>
+                            <Button Text="{StaticResource Edit}" Command="{Binding BtnEditProfile}" FontFamily="{DynamicResource MaterialIcons}"  FontSize="Micro" VerticalOptions="Start" TextColor="White" BackgroundColor="{StaticResource Accent}" HorizontalOptions="End" CornerRadius="18" HeightRequest="35" WidthRequest="35" />
+                        </Grid>
+                        <Label Text="{Binding NameUser}" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold"/>
+                        <Rating:StarsReview x:Name="Stars" CanChange="False" Value="5" HeightRequest="35" StarHeight="35" StarWidth="35" />
+                        <Label Text="{Binding StadisticReview}" TextColor="Black" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToReviews}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </Frame>
+                <!--INFORMACION PERSONAL-->
+                <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+                    <Frame Padding="12">
+                        <StackLayout>
+                            <Label Text="{i18n:Translate Certificaciones}" HorizontalTextAlignment="Center" TextColor="Gray"/>
+                            <Grid IsVisible="True">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BtnTelefono}" />
+                                </Grid.GestureRecognizers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{i18n:Translate Telefono}" VerticalTextAlignment="Center" TextColor="Black"/>
+                                <Label Grid.Column="1" Text="{Binding PhoneState}" FontFamily="{DynamicResource MaterialIcons}" FontSize="25" TextColor="{StaticResource Accent}" />
+                            </Grid>
+                            <Grid IsVisible="True">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BtnCorreo}" />
+                                </Grid.GestureRecognizers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{i18n:Translate CorreoElectronico}" VerticalTextAlignment="Center" TextColor="Black"/>
+                                <Label Grid.Column="1" Text="{Binding CorreoState}" FontFamily="{DynamicResource MaterialIcons}" FontSize="25" TextColor="{StaticResource Accent}" />
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </ScrollView>
+                <!--END-->
+            </Grid>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

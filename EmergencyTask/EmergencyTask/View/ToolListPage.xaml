@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="#eeeeee"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             Title="{i18n:Translate ToolList}"
+             x:Class="EmergencyTask.ToolListPage"
+             xmlns:Control="clr-namespace:EmergencyTask.Control">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddCommand}" Order="Primary" Priority="1" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid Padding="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListView Grid.Row="0" ItemsSource="{Binding Tools}" SelectedItem="{Binding Tool}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="{i18n:Translate Eliminar}" IsDestructive="True" Command="{Binding Delete}" CommandParameter="{Binding .}" />
+                                    <MenuItem Text="{i18n:Translate Editar}" IsDestructive="False" Command="{Binding Update}" CommandParameter="{Binding .}" />
+                                </ViewCell.ContextActions>
+                                <Frame Margin="0,6">
+                                    <Grid ColumnSpacing="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="20"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0">
+                                            <Label Text="{Binding Nombre}" TextColor="Black"/>
+                                            <Label Text="{Binding Cantidad, StringFormat='Cantidad: {0}'}" FontSize="Small" />
+                                        </StackLayout>
+                                        <Grid Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" VerticalTextAlignment="Start" Text="$ " TextColor="Black" />
+                                            <Entry Grid.Column="1" IsVisible="{Binding IsSubtitleEntryVisible}" Placeholder="{i18n:Translate Costo}" Text="{Binding Costo}" VerticalOptions="Start" Margin="0,-12" FontSize="Small" MaxLength="7" PlaceholderColor="Gray"/>
+                                            <Label Grid.Column="1" IsVisible="{Binding IsSubtitleLabelVisible}" VerticalTextAlignment="Start" Text="{Binding Costo}" TextColor="Black">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Command}" CommandParameter="{Binding .}"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                        </Grid>
+                                        <Label Grid.Column="2" Text="{StaticResource Save}" FontFamily="{DynamicResource MaterialIcons}" IsVisible="{Binding IsActionVisible}" VerticalTextAlignment="Start" TextColor="{StaticResource Accent}" FontSize="Medium">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Action}" CommandParameter="{Binding .}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button Grid.Row="1" Text="{i18n:Translate Continuar}" Command="{Binding BtnContinuar}" FontSize="Small" Style="{StaticResource BtnDefault}"/>
+            </Grid>
+            <Control:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:iOS="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             iOS:Page.UseSafeArea="True"
+             xmlns:Xaml="clr-namespace:LightForms.Xaml;assembly=LightForms"
+             xmlns:Behaviors="clr-namespace:LightForms.Behaviors;assembly=LightForms"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="EmergencyTask.View.SupportListPage">
+    <ContentPage.Content>
+        <Grid>
+            <ListView ItemsSource="{Binding Supports}" SelectedItem="{Binding Support}">
+                <ListView.Behaviors>
+                    <Behaviors:ListViewRemoveSelectionBehavior />
+                    <Behaviors:ViewEventToCommandBehavior EventName="ItemSelected" Command="{Binding SupportCommand}" CommandParameter="{Binding Support}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Padding="0" Margin="12,6" BackgroundColor="White" CornerRadius="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView Grid.Column="0" WidthRequest="12">
+                                        <BoxView.Triggers>
+                                            <DataTrigger TargetType="BoxView" Binding="{Binding Support.IdStatus}" Value="10">
+                                                <Setter Property="BackgroundColor" Value="DarkRed"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="BoxView" Binding="{Binding Support.IdStatus}" Value="20">
+                                                <Setter Property="BackgroundColor" Value="DarkOrange"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="BoxView" Binding="{Binding Support.IdStatus}" Value="50">
+                                                <Setter Property="BackgroundColor" Value="Gold"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="BoxView" Binding="{Binding Support.IdStatus}" Value="100">
+                                                <Setter Property="BackgroundColor" Value="DarkGreen"/>
+                                            </DataTrigger>
+                                        </BoxView.Triggers>
+                                    </BoxView>
+                                    <StackLayout Grid.Column="1" Padding="12">
+                                        <Label Text="{Binding Category}" FontSize="Medium"/>
+                                        <Label Text="{Binding DetailService}" TextColor="Black"/>
+                                        <Label Text="{Binding Description}" MaxLines="3" LineBreakMode="TailTruncation"/>
+                                    </StackLayout>
+                                    <Label Grid.Column="1" Text="{Binding Support.Status}" TextColor="DarkGreen" Margin="5" HorizontalOptions="End" VerticalOptions="Start">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Support.IdStatus}" Value="10">
+                                                <Setter Property="TextColor" Value="DarkRed"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Support.IdStatus}" Value="20">
+                                                <Setter Property="TextColor" Value="DarkOrange"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Support.IdStatus}" Value="50">
+                                                <Setter Property="TextColor" Value="Gold"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Support.IdStatus}" Value="100">
+                                                <Setter Property="TextColor" Value="DarkGreen"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="+" Command="{Binding AddSupport}" VerticalOptions="End" Margin="12" FontSize="Large" HorizontalOptions="End" HeightRequest="60" WidthRequest="60" CornerRadius="{OnPlatform Android='100', Default='30'}" TextColor="White" BackgroundColor="{StaticResource Accent}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

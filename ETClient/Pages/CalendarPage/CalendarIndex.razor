@@ -1,0 +1,102 @@
+﻿@page "/calendar"
+@using ETClient.API.ER;
+@using ETClient.API.Response;
+@using ETClient.Commands;
+@using ETClient.Interfaces;
+@using ETClient.Models;
+@using System.Collections.ObjectModel;
+@inject BrowserService Browser
+@inject IJSRuntime JsRuntime
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}
+else if(sesion.Authenticated)
+{
+    if (Events.Count > 0)
+    {
+        @foreach (var item in Events)
+        {
+            <a href="/service/@item.Id" target="_self">
+                <div class="card margin-5 border-radius-5 cursor-hand">
+                    <div class="cross-shadow-ribbon ">#@item.Id</div>
+                    <div class="card-body">
+                        <h6 class="card-title"><p style="color:#242423"><b>@item.Title</b></p></h6>
+                        <h6 class="card-subtitle mb-2 text-muted"><p style="color:#616161"><span class="oi oi-location" style="font-size:22px;" />  @item.Detail</p></h6>
+                        <h6 class="card-subtitle mb-2 text-muted"><p style="color:@item.Color.ToHex()">  <b>@item.Status</b></p></h6>
+                        <h6 class="card-subtitle mb-2 text-muted"><p style="color:#616161"> <span class="oi oi-calendar" style="font-size:22px;"/> @item.StartDate.ToString("dd MMMM yyyy") <span class="oi oi-timer" style="font-size:22px;"/>  [@item.StartHour - @item.EndHour]</p></h6>
+                    </div>
+                </div>
+            </a>
+        }
+
+    }
+    else
+    {
+       <div class="container-center">
+           <h2>No hay Eventos</h2>
+       </div> 
+    
+    }
+}
+
+@code {
+    bool isLoaded;
+    SesionModel sesion { set; get; } = new();
+    public IEnumerable<Requestservice> Services { get; set; }
+    List<IEvent> Events { set; get; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (!sesion.Authenticated)
+            {
+                //Redireccionamos a la pantalla de login
+                navigationManager.NavigateTo("/login", true);
+                return;
+            }
+            if (!await EnsureApi())
+            {
+                isLoaded = true;
+                this.StateHasChanged();
+                return;   
+            }
+
+            await onLoadEvents();
+            isLoaded = true;
+            this.StateHasChanged();
+        }
+    }
+
+    private async Task<bool> EnsureApi()
+    {
+        if (sesion.User == null) return false;
+        var requestservice = new Requestservice
+            {
+                cliente = sesion.User.id
+            };
+        Services = await Client.Requestservice.Where(requestservice) ?? new List<Requestservice>();
+        return Services.Count() > 0;
+    }
+
+    async Task onLoadEvents()
+    {
+        var idlenguaje = await Client.GetLanguage(sesion.User.lenguaje);
+        var categories = await Client.GetCategoriesByLanguage(idlenguaje) ?? new List<Categorylanguage>();
+        var subcategories = await Client.GetSubCategoriesByLanguage(idlenguaje) ?? new List<Subcategorylanguage>();
+
+        foreach (var service in Services)
+        {
+            Events.Add(new EmergencyEvent(service, categories, subcategories));
+        }
+        this.StateHasChanged();
+    }
+
+}

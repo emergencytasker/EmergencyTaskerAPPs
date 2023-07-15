@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.AgregarAccesorioPopup"
+             Visual="Material"
+             xmlns:Popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Animation="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup">
+    <Popup:PopupPage.Animation>
+        <Animation:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </Popup:PopupPage.Animation>
+    <Grid WidthRequest="300" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White" Padding="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Frame Grid.Row="0" Padding="0" VerticalOptions="Start" HorizontalOptions="End" CornerRadius="0" Margin="0" HeightRequest="30" WidthRequest="30">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding BtnClose}"/>
+            </Frame.GestureRecognizers>
+            <Label Text="{StaticResource Times}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Red" VerticalOptions="Center" HorizontalOptions="EndAndExpand" FontSize="Large" />
+        </Frame>
+        <StackLayout Grid.Row="1">
+            <Entry Placeholder="{i18n:Translate NombreAccesorio}" PlaceholderColor="Gray" Text="{Binding Nombre}" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{Binding Cantidad, StringFormat='x {0}'}" HorizontalOptions="StartAndExpand" VerticalOptions="Center" FontSize="Medium" />
+                <Stepper Minimum="0" Maximum="100" Value="{Binding Cantidad}" />
+            </StackLayout>
+            <Button Text="{i18n:Translate AgregarAccesorio}" Command="{Binding Agregar}" Style="{StaticResource BtnPrimary}" CommandParameter="{Binding Model}" IsEnabled="{Binding IsValid}"/>
+        </StackLayout>
+    </Grid>
+</Popup:PopupPage>

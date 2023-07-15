@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PopUp:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:PopUp="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="EmergencyTask.View.NewCategoryPopUp"
+             xmlns:i18n="clr-namespace:Plugin.Language">
+    <ContentPage.Content>
+        <Grid>
+            <BoxView BackgroundColor="Black" Opacity="0.5"/>
+            <Grid Margin="20,0" VerticalOptions="Center">
+                <StackLayout Padding="12" BackgroundColor="White" VerticalOptions="Center">
+                    <Label Text="{i18n:Translate AgregarEditar}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                    <Label Text="{i18n:Translate Categoria}" TextColor="Gray"/>
+                    <Picker FontSize="Small" SelectedItem="{Binding Categoria}" ItemsSource="{Binding Categorias}" ItemDisplayBinding="{Binding Name}" />
+                    <Label Text="{i18n:Translate Subcategoria}" TextColor="Gray"/>
+                    <Picker FontSize="Small" SelectedItem="{Binding Subcategoria}" ItemsSource="{Binding Subcategorias}" ItemDisplayBinding="{Binding Name}"/>
+                    <Button Text="{i18n:Translate GuardarServicio}" Style="{StaticResource BtnDefault}" Command="{Binding CommitService}" CommandParameter="{Binding Service}" />
+                </StackLayout>
+                <Frame Padding="0" VerticalOptions="Start" HorizontalOptions="End" CornerRadius="0" Margin="0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBack}"/>
+                    </Frame.GestureRecognizers>
+                    <Label Text="{StaticResource Times}" Margin="12" FontFamily="{DynamicResource MaterialIcons}" TextColor="Red" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" FontSize="Large"/>
+                </Frame>
+            </Grid>
+            <Grid IsVisible="{Binding IsBusy}">
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" WidthRequest="30" HeightRequest="30" />
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</PopUp:PopupPage>

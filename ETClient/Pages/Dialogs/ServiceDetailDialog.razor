@@ -1,0 +1,75 @@
+﻿@using ETClient.API.ER;
+@if (showDialog)
+{
+    <div class="modal fade @DialogCssCandidates" id="candidatesModal" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-xl container-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Service Details</h4>
+                    <button type="button" class="close" @onclick="DialogCancel">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <p><b>Service: @Service?.Category</b></p>
+                    <div><img class="avatar" src="@(Client.Path(user?.imagen ?? ""))" /></div>
+                    <div><p>With @user?.nombre</p></div>
+                </div>
+
+                 <div class="modal-body">
+                    <p><b> Description </b></p>
+                    <div><p>@Service?.Description</p></div>
+                </div>
+
+                <div class="modal-body">
+                    <p><b> Cost of @(string.Format("{0:C} / hour", Service?.CostoPorHora)) </b></p>
+                    <div><p>@Service?.Description</p></div>
+                    <div><p style="color:gray">Remember that the final price may vary according to the registered time, the estimated time is @Service.Time Hour(s)</p></div>
+                </div>
+
+                <div class="modal-footer w-100">
+                    <button type="button" class="btn btn-success w-100" @onclick=HireService>Hire Service</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    public ServiceModel? Service { get; internal set; }
+    public EventHandler<object>? OnReturn { set; get; }
+    User? user; 
+
+    bool showDialog = false;
+    string? DialogCssCandidates => showDialog ? "show" : "hide";
+
+    public async void Show(ServiceModel service)
+    {
+        Service = service;
+        showDialog = true;
+        user = await Client.User.Get(Service.IdUser);
+        this.StateHasChanged();
+    }
+
+    public void onClose()
+    {
+        showDialog = false;
+        this.StateHasChanged();
+    }
+
+    public void DialogCancel()
+    {
+        onClose();
+    }
+
+    public async void ServiceCancel()
+    {
+        onClose();
+    }
+
+    public async void HireService()
+    {
+        OnReturn?.Invoke(this, Service);
+        onClose();
+    }
+}

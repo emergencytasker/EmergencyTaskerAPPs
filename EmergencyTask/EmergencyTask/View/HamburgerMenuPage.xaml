@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  mc:Ignorable="d"
+                  Title="{i18n:Translate MenuHamburguesa}"
+                  x:Class="EmergencyTask.HamburgerMenuPage"
+                  xmlns:i18n="clr-namespace:Plugin.Language"
+                  xmlns:Controls="clr-namespace:EmergencyTask.Control"
+                  xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+                  xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel">
+    
+    <MasterDetailPage.BindingContext>
+        <ViewModel:HamburguerMenuViewModel />
+    </MasterDetailPage.BindingContext>
+
+    <MasterDetailPage.Master>
+        <ContentPage Title="{i18n:Translate Menu}">
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0" Spacing="15" Orientation="Horizontal" BackgroundColor="{StaticResource Accent}">
+                    <StackLayout.Padding>
+                        <OnPlatform x:TypeArguments="Thickness" Default="15" iOS="15,40,15,15" Android="15" />
+                    </StackLayout.Padding>
+                    <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Source="{Binding UserImage}" HorizontalOptions="Start" HeightRequest="60" WidthRequest="60" Aspect="AspectFit" VerticalOptions="Center">
+                        <Controls:ImageLoading.Transformations>
+                            <Transformations:CircleTransformation />
+                        </Controls:ImageLoading.Transformations>
+                    </Controls:ImageLoading>
+                    <StackLayout VerticalOptions="Center">
+                        <Label Text="{Binding UserName}" TextColor="White" FontSize="Large" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation" />
+                        <StackLayout Orientation="Horizontal" Spacing="0">
+                            <Label Text="{Binding Balance}" TextColor="White" FontSize="Default" MaxLines="1" LineBreakMode="TailTruncation" />
+                            <Label Text=" / " TextColor="White" />
+                            <Label Text="{Binding Review}" TextColor="White" FontSize="Default" VerticalTextAlignment="Center" VerticalOptions="Center" />
+                            <Label Text="{StaticResource Star}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Default" TextColor="{StaticResource Yellow}" VerticalTextAlignment="Center" VerticalOptions="Center" />
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+                <ListView Grid.Row="1" ItemsSource="{Binding MenuItems}" SelectedItem="{Binding MenuItem}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="0">
+                                    <Grid Padding="12" BackgroundColor="White">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding Image}" FontFamily="{DynamicResource MaterialIcons}" FontSize="Medium" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                                        <Label Grid.Column="1" Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" MaxLines="1" LineBreakMode="TailTruncation" />
+                                        <Label Grid.Column="2" Text="{StaticResource Arrow}" FontFamily="{DynamicResource MaterialIcons}" VerticalOptions="Center" FontSize="Medium" Rotation="90" />
+                                    </Grid>
+                                    <BoxView Color="LightGray" HorizontalOptions="FillAndExpand" HeightRequest="1" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </ContentPage>
+    </MasterDetailPage.Master>
+</MasterDetailPage>

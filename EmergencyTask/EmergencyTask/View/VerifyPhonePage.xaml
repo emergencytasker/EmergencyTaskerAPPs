@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="#eeeeee"
+             Title="{i18n:Translate VerifyPhone}"
+             x:Class="EmergencyTask.VerifyPhonePage"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors">
+    <ContentPage.BindingContext>
+        <ViewModel:VerifyPhoneViewModel x:Name="ViewModel" />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <!--Verify Phone-->
+            <StackLayout Padding="20,12" IsVisible="{Binding IsVerifyNumberVisible}" Spacing="15">
+                <Frame Margin="0,6">
+                    <StackLayout>
+                        <Label Text="{i18n:Translate MensajeTelefono}" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Frame VerticalOptions="Center">
+                            <StackLayout Orientation="Horizontal" Margin="0">
+                                <Picker HorizontalOptions="Start" FontSize="Small" TextColor="Black" Title="Code" ItemsSource="{Binding Codes}" SelectedItem="{Binding Code}" ItemDisplayBinding="{Binding Text}" />
+                                <Entry Placeholder="{i18n:Translate NumeroTelefonico}" Text="{Binding PhoneUser}" FontSize="Small" Keyboard="Numeric" MaxLength="10" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                                <!-- MAX EU XXX-XXX-XXXX -->
+                            </StackLayout>
+                        </Frame>
+                        <Button Text="{i18n:Translate EnviarCodigo}" Command="{Binding BtnSendCode}" Style="{StaticResource BtnDefault}"/>
+                        <Button Text="{i18n:Translate Saltar}" Command="{Binding BtnContinue}" Style="{StaticResource BtnDefault}" />
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+            <!--End-->
+
+            <!--Verify Code-->
+            <StackLayout Padding="12" IsVisible="{Binding IsVerifyCodeVisible}" Spacing="15">
+                <Label Text="{i18n:Translate Verificacion}" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                <Label Text="{i18n:Translate Gracias}" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                <Label Text="{i18n:Translate EscribeCodigo}" HorizontalTextAlignment="Center"/>
+                <Label Text="{Binding PhoneUser}" HorizontalTextAlignment="Center" TextColor="{StaticResource Accent}"/>
+                <Grid HorizontalOptions="Center" ColumnSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="25"/>
+                    </Grid.ColumnDefinitions>
+                    <Entry Grid.Column="0" x:Name="A" Placeholder="0" PlaceholderColor="Gray" Text="{Binding A}" HorizontalTextAlignment="Center" MaxLength="1" TextColor="Black" Keyboard="Numeric">
+                        <Entry.Behaviors>
+                            <Behaviors:DigitEntryBehavior NextDigit="{x:Reference B}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry Grid.Column="1" x:Name="B" Placeholder="0" PlaceholderColor="Gray" Text="{Binding B}" HorizontalTextAlignment="Center" MaxLength="1" TextColor="Black" Keyboard="Numeric">
+                        <Entry.Behaviors>
+                            <Behaviors:DigitEntryBehavior NextDigit="{x:Reference C}" PrevDigit="{x:Reference A}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry Grid.Column="2" x:Name="C" Placeholder="0" PlaceholderColor="Gray" Text="{Binding C}" HorizontalTextAlignment="Center" MaxLength="1" TextColor="Black" Keyboard="Numeric">
+                        <Entry.Behaviors>
+                            <Behaviors:DigitEntryBehavior NextDigit="{x:Reference D}" PrevDigit="{x:Reference B}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Grid.Column="3" Text="-" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Entry Grid.Column="4" x:Name="D" Placeholder="0" PlaceholderColor="Gray" Text="{Binding D}" HorizontalTextAlignment="Center" MaxLength="1" TextColor="Black" Keyboard="Numeric">
+                        <Entry.Behaviors>
+                            <Behaviors:DigitEntryBehavior NextDigit="{x:Reference E}" PrevDigit="{x:Reference C}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry Grid.Column="5" x:Name="E" Placeholder="0" PlaceholderColor="Gray" Text="{Binding E}" HorizontalTextAlignment="Center" MaxLength="1" TextColor="Black" Keyboard="Numeric">
+                        <Entry.Behaviors>
+                            <Behaviors:DigitEntryBehavior NextDigit="{x:Reference F}" PrevDigit="{x:Reference D}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry Grid.Column="6" x:Name="F" Placeholder="0" PlaceholderColor="Gray" Text="{Binding F}" HorizontalTextAlignment="Center" MaxLength="1" TextColor="Black" Keyboard="Numeric">
+                        <Entry.Behaviors>
+                            <Behaviors:DigitEntryBehavior PrevDigit="{x:Reference E}" BindingContext="{x:Reference ViewModel}" Completed="{Binding BtnVerifyCode}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Button Grid.Row="1" Command="{Binding BtnVerifyCode}" Grid.ColumnSpan="7" Text="{i18n:Translate Verificar}" Style="{StaticResource BtnDefault}" HorizontalOptions="FillAndExpand" />
+                    <Button Grid.Row="2" Command="{Binding BtnContinue}" Grid.ColumnSpan="7" Text="{i18n:Translate Saltar}" Style="{StaticResource BtnDefault}" HorizontalOptions="FillAndExpand" />
+                </Grid>
+                <StackLayout HorizontalOptions="Center" Spacing="10">
+                    <Label Text="{Binding Chronometer}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BtnSendCode}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </StackLayout>
+            <!--End-->
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

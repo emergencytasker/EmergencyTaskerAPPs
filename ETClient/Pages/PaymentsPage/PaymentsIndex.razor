@@ -1,0 +1,305 @@
+﻿@page "/payments"
+@using AKSoftware.Blazor.Utilities;
+@using Stripe;
+
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}
+else if (sesion.Authenticated)
+{
+    <div class="ccard-wrapper">
+        <div class="ccard px-4">
+            <div class=" my-3">
+                <p class="h8">Card number</p>
+                <p class="text-muted ">Payments methods</p>
+            </div>
+
+            <div class="debit-card mb-3">
+                <div class="d-flex flex-column h-100">
+                  
+                        <div class="d-flex position-relative">
+                            <div>
+                                @if (Brand == "visa.png")
+                                {
+                                    <img src="https://www.freepnglogos.com/uploads/visa-inc-logo-png-11.png"  alt="vida" class="visa" />
+                                }
+                                else if (Brand == "master.png")
+                                {
+                                     <img src="https://www.freepnglogos.com/uploads/mastercard-png/mastercard-logo-png-transparent-svg-vector-bie-supply-0.png" alt="master" class="master"/>
+                                }
+
+                                <p class="mt-2 mb-4 text-white fw-bold">@TitularName</p>
+                            </div>
+                        </div>
+                 
+                    <div class="mt-auto fw-bold d-flex align-items-center justify-content-between">
+                        <p>@NumberCard</p>
+                        <p>@ExpiryDate</p>
+                    </div>
+                </div>
+            </div>
+
+            @if (!isCard)
+            {
+                <button class="btn btn-add mb-4" @onclick="onCardAdd">
+                    Add
+                </button>
+            }else
+            {
+                <button class="btn btn-remove mb-4" @onclick="onCardRemove">
+                    Remove
+                </button>
+            }
+        </div>
+    </div>
+
+    <ProcessDialog @ref="@processDialog" />
+    <CreditCardDialog @ref="@creditCardDialog"/>
+    <QuestionDialog @ref=@questionDialog/>
+}
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    SesionModel sesion { set; get; } = new();
+    bool isLoaded;
+
+    ProcessDialog? processDialog;
+    QuestionDialog? questionDialog;
+    CreditCardDialog? creditCardDialog;
+
+    double Balance { get; set; } = 0;
+    public API.Stripe StripeClient { get; set; }
+    public Card Card { get; set; }
+    public string CustomerID { get; set; }
+    string NumberCard { set; get; }
+    string TitularName { set; get;}
+    string ExpiryDate { set; get; }
+    string Brand { set; get; }
+    bool isCard;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (!sesion.Authenticated)
+            {
+                //Redireccionamos a la pantalla de login
+                navigationManager.NavigateTo("/login", true);
+                return;
+            }
+
+            MessagingCenter.Subscribe<PaymentsIndex, double>(this, "Payrequest", (viewmodel, retiro) =>
+            {
+                viewmodel.Balance -= retiro;
+                this.StateHasChanged();
+            }, this);
+
+            isLoaded = true;
+            this.StateHasChanged();
+
+            await GetPayMethod();
+            this.StateHasChanged();
+        }
+    }
+
+    private async Task GetPayMethod()
+    {
+        processDialog.Show();
+
+        if (sesion.User == null)
+        {
+            toastService.ShowError("We cannot show your payment method at this time");
+            processDialog.Close();
+            return;
+        }
+
+        StripeClient = await App.GetStripeAsync();
+
+        if (StripeClient == null)
+        {
+            toastService.ShowError("We cannot show your payment method at this time");
+            processDialog.Close();
+            return;
+        }
+
+        CustomerID = await sesion.User.GetCustomerId();
+
+        if (!string.IsNullOrEmpty(CustomerID))
+        {
+            Card = await StripeClient.GetCustomerPaymethod(CustomerID);
+
+            if (Card != null)
+            {
+                isCard = true;
+                NumberCard = $"**** **** **** {Card.Last4}";
+                TitularName = Card.Name;
+                ExpiryDate = $"{Card.ExpMonth}/{Card.ExpYear.ToString().Remove(0, 2)}";
+                Brand = $"{Card.Brand.Replace(" ", string.Empty).ToLower()}.png";
+            }
+            else
+            {
+                NoCard();
+            }
+        }
+        else
+        {
+            NoCard();
+        }
+
+        await GetBalance();
+
+        processDialog.Close();
+    }
+
+    async Task GetBalance()
+    {
+        if (sesion.User == null) return;
+        Balance = await Client.GetBalance(sesion.User.id);
+    }
+
+    private void NoCard()
+    {
+        isCard = false;
+        NumberCard = "---- ---- ---- ----";
+        TitularName = "No payment";
+        ExpiryDate = "--/--";
+        Brand = "";
+
+        this.StateHasChanged();
+    }
+
+    async void onCardAdd()
+    {
+        creditCardDialog.OnReturn = onCardAddReturn;
+        creditCardDialog.Show();
+    }
+
+    async void onCardRemove()
+    {
+        if (Card == null || string.IsNullOrEmpty(CustomerID)) return;
+
+        processDialog.Show();
+        questionDialog.OnReturn = onQuesttionDialogReturn;
+        questionDialog.Show("Confirm", "The payment method will be eliminated, do you want to continue?");
+    }
+
+    async void onQuesttionDialogReturn(object sender, bool result)
+    {
+        if (!result)
+        {
+            processDialog.Close();
+            return;    
+        }
+
+        if (await StripeClient.DeleteCustomerPaymethod(CustomerID, Card.Id))
+        {
+            toastService.ShowError("Your current payment method has been removed, we will no longer use the card");
+            NoCard();
+        }
+        else
+        {
+            toastService.ShowError("It was not possible to delete the current payment method, try again later");
+        }
+
+        processDialog.Close();
+    }
+
+    async void onCardAddReturn(object sender, CardModel card)
+    {
+        processDialog.Show();
+
+        var modo = await GetVar<string>("modo");
+
+        if (string.IsNullOrEmpty(modo))
+        {
+            toastService.ShowError("We cannot configure the payment method");
+            return;
+        }
+
+        var client = await App.GetStripeAsync();
+
+        if (client == null)
+        {
+            toastService.ShowError("We cannot configure the payment method");
+            processDialog.Close();
+            return;
+        }
+
+        var token = await client.CreateToken(card.Owner, card.Numbers, card.Year, card.Month, card.Cvv);
+        if (string.IsNullOrEmpty(token))
+        {
+            if (client.Error) toastService.ShowError(client.ErrorMessage);
+            else toastService.ShowError("There was an error saving your card, try again later");
+            processDialog.Close();
+            return;
+        }
+
+        var stripeuserindb = (await Client.Stripeuser.Query(new API.ER.Stripeuser
+            {
+                idusuario = sesion.User.id,
+                modo = modo
+            }) ?? new List<API.ER.Stripeuser>()).FirstOrDefault();
+
+        if (stripeuserindb != null && stripeuserindb.id > 0)
+        {
+            var customer = await client.UpdateCustomer(stripeuserindb.customer, sesion.User.email, token);
+            if (string.IsNullOrEmpty(customer))
+            {
+                if (client.Error) toastService.ShowError(client.ErrorMessage);
+                else toastService.ShowError("We cannot update your payment method, try again later");
+            }
+            else
+            {
+                toastService.ShowSuccess("Your payment method has been updated");
+                MessagingCenter.Send(this, "PaymethodAdded");
+                await GetPayMethod();
+            }
+        }
+        else
+        {
+            var customer = await client.CreateCustomer(sesion.User.nombre, sesion.User.email, token, sesion.User.email, sesion.User.telefonoverificado == 1 ? sesion.User.telefono : "");
+            if (string.IsNullOrEmpty(customer))
+            {
+                if (client.Error) toastService.ShowError(client.ErrorMessage);
+                else toastService.ShowError("We cannot add your payment method, try again later");
+                processDialog.Close();
+                this.StateHasChanged();
+                return;
+            }
+
+            var stripeuser = await Client.Stripeuser.Add(new API.ER.Stripeuser
+                {
+                    modo = modo,
+                    customer = customer,
+                    idusuario = sesion.User.id
+                });
+
+            if (stripeuser != null && stripeuser.id > 0)
+            {
+                toastService.ShowSuccess("Your payment method has been added");
+                MessagingCenter.Send(this, "PaymethodAdded");
+                await GetPayMethod();
+                return;
+            }
+            else
+            {
+                toastService.ShowError("There was an error registering your payment method, try again later");
+            }
+        }
+
+        processDialog.Close();
+        this.StateHasChanged();
+    }
+
+    public async Task<T> GetVar<T>(string key)
+    {
+        return await Client.GetVar<T>(key, (int)sesion.User.idperfil);
+    }
+}

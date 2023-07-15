@@ -1,0 +1,60 @@
+﻿@using ETClient.Models;
+@using EmergencyTask.Strings;
+@inject IStringLocalizer<SharedResource> Loc
+
+@if (showDialog)
+{
+    <div class="modal fade @DialogCssClass" id="serviceModal" style="display:block; background-color: rgba(10,10,10,.25);" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Image</h4>
+                    <button type="button" class="close" @onclick="onClose">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <div>
+                        <p>image url</p>
+                    </div>
+                    <div>
+                        <input type="text" @bind-value="urlImage" class="w-100" />
+                    </div>
+                </div>
+
+                <div class="modal-footer w-100">
+                    <button type="button" class="btn btn-primary w-100" @onclick=onInsert>Insert</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    public ServiceModel Service { get; internal set; }
+    public EventHandler<string> OnReturn { set; get; }
+    bool showDialog = false;
+    string urlImage;
+    string? DialogCssClass => showDialog ? "show" : "hide";
+
+    public void onShow()
+    {
+        urlImage = string.Empty;
+        showDialog = true;
+        this.StateHasChanged();
+    }
+
+    public void onClose()
+    {
+        showDialog = false;
+        urlImage = string.Empty;
+        this.StateHasChanged();
+    }
+
+    public void onInsert()
+    {
+        OnReturn?.Invoke(this, urlImage);
+        onClose();
+    }
+}

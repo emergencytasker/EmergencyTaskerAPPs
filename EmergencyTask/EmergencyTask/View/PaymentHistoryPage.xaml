@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{i18n:Translate HistorialPagos}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             x:Class="EmergencyTask.PaymentHistoryPage"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:VieWModel="clr-namespace:EmergencyTask.ViewModel"
+             BackgroundColor="#eeeeee">
+    <ContentPage.BindingContext>
+        <VieWModel:PaymentHistoryViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <CollectionView ItemsSource="{Binding Transactions}" SelectionMode="None" BackgroundColor="Transparent" Margin="12">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout VerticalItemSpacing="6" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="12">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToTransaction}" CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout HorizontalOptions="StartAndExpand">
+                                    <Label Text="{Binding Id, StringFormat='#{0}'}" FontAttributes="Bold" TextColor="Black" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding Descripcion}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" />
+                                    <Label Text="{Binding Fecha}" TextColor="Gray" MaxLines="1" LineBreakMode="TailTruncation" FontSize="Small" />
+                                </StackLayout>
+                                <Label Text="{Binding Cantidad, StringFormat='$ {0} USD'}" FontSize="Medium" TextColor="{Binding Color}" VerticalOptions="Start" VerticalTextAlignment="Start" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

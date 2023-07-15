@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.CostPerHourPopup"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+    <Frame CornerRadius="10" BackgroundColor="White" VerticalOptions="Center" WidthRequest="300" Margin="12">
+        <StackLayout  VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+            <Label Text="{i18n:Translate Tarifas}" FontSize="Large" FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+            <Label Text="{i18n:Translate TiposTarifas}" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+            <Label />
+            <Label Text="{i18n:Translate HorarioDia}" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <TimePicker Time="08:00" VerticalOptions="Center" IsEnabled="False" />
+                <Label Text="-" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold" />
+                <TimePicker Time="20:00" VerticalOptions="Center" IsEnabled="False" />
+            </StackLayout>
+            <Label Text="{i18n:Translate HorarioA}" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+            <Label />
+            <Label Text="{i18n:Translate HorarioNoche}" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <TimePicker Time="20:00" VerticalOptions="Center" IsEnabled="False" />
+                <Label Text="-" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold" />
+                <TimePicker Time="08:00" VerticalOptions="Center" IsEnabled="False" />
+            </StackLayout>
+            <Label Text="{i18n:Translate HorarioB}" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+        </StackLayout>
+    </Frame>
+</Pages:PopupPage>

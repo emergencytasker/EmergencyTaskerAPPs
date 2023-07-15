@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.EvidenceListPage"
+             Title="{i18n:Translate Evidencia}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+             xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             BackgroundColor="#eeeeee">
+    <ContentPage.Content>
+        <Grid>
+            <ListView RowHeight="300" ItemsSource="{Binding Source}" ItemSelected="ListView_ItemSelected" Margin="12">
+                <ListView.Behaviors>
+                    <Behaviors:ListViewBehavior />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Margin="0,6" Padding="0" CornerRadius="10" IsClippedToBounds="True">
+                                <StackLayout>
+                                    <Grid>
+                                        <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" 
+                                                           ErrorPlaceHolder="icon.png"
+                                                           Source="{Binding Image}" Aspect="AspectFill" HorizontalOptions="Center" />
+
+                                        <Frame VerticalOptions="Start" HorizontalOptions="End" BackgroundColor="White" Padding="0" Margin="12">
+                                            <Label Text="{StaticResource Delete}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Black" HorizontalTextAlignment="End" VerticalTextAlignment="Start" FontSize="25" Margin="6">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding TapDelete}" CommandParameter="{Binding .}" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                        </Frame>
+                                    </Grid>
+                                    <Label Text="{Binding Descripcion}" MaxLines="3" HorizontalTextAlignment="Center" Margin="0,0,0,12" />
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button CornerRadius="25" WidthRequest="50" HeightRequest="50" Text="+" TextColor="White" BackgroundColor="{StaticResource Accent}" Command="{Binding AddEvidence}" VerticalOptions="End" HorizontalOptions="End" Margin="12" />
+            <Controls:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

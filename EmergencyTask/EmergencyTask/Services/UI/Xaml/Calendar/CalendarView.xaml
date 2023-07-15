@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Plugin.UI.Xaml.Calendar.CalendarView"
+             xmlns:local="clr-namespace:Plugin.UI.Xaml.Calendar"
+             VerticalOptions="Center" HorizontalOptions="Center">
+    <ContentView.Content>
+        <StackLayout Spacing="0" HorizontalOptions="Center" VerticalOptions="Center">
+            <Label />
+            <Grid HeightRequest="45" ColumnSpacing="12" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="left_black.png" HorizontalOptions="Start" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Down}" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Label Grid.Column="1" x:Name="DateLabel" Text="Nov/2019" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" FontSize="Medium"/>
+                <Image Grid.Column="2" Source="right_black.png" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Up}" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+            <StackLayout x:Name="ViewMonth" Padding="0" Margin="0" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center">
+                <Grid ColumnSpacing="1" RowSpacing="1" HorizontalOptions="Center" VerticalOptions="Center" Margin="0" Padding="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0" Padding="6">
+                        <Label Text="{Binding Monday}" TextColor="{Binding HeaderTextColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="1" Padding="6">
+                        <Label Text="{Binding Tuesday}" TextColor="{Binding HeaderTextColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="2" Padding="6">
+                        <Label Text="{Binding Wednesday}" TextColor="{Binding HeaderTextColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="3" Padding="6">
+                        <Label Text="{Binding Thursday}" TextColor="{Binding HeaderTextColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="4" Padding="6">
+                        <Label Text="{Binding Friday}" TextColor="{Binding HeaderTextColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="5" Padding="6">
+                        <Label Text="{Binding Saturday}" TextColor="{Binding HeaderTextColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="6" Padding="6">
+                        <Label Text="{Binding Sunday}" TextColor="{Binding HeaderTextColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                    </Grid>
+                    <!-- Semana 1 -->
+                    <local:DayView Grid.Row="1" Grid.Column="0" x:Name="_1" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="1" Grid.Column="1" x:Name="_2" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="1" Grid.Column="2" x:Name="_3" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="1" Grid.Column="3" x:Name="_4" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="1" Grid.Column="4" x:Name="_5" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="1" Grid.Column="5" x:Name="_6" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="1" Grid.Column="6" x:Name="_7" BindingContext="{Binding .}" />
+                    <ListView x:Name="ListView1" Grid.Row="2" Grid.ColumnSpan="7" IsVisible="False" HasUnevenRows="True" HeightRequest="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <local:EventCell BindingContext="{Binding .}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!-- Semana 2 -->
+                    <local:DayView Grid.Row="3" Grid.Column="0" x:Name="_8" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="3" Grid.Column="1" x:Name="_9" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="3" Grid.Column="2" x:Name="_10" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="3" Grid.Column="3" x:Name="_11" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="3" Grid.Column="4" x:Name="_12" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="3" Grid.Column="5" x:Name="_13" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="3" Grid.Column="6" x:Name="_14" BindingContext="{Binding .}" />
+                    <ListView  x:Name="ListView3" Grid.Row="4" Grid.ColumnSpan="7" IsVisible="False" HasUnevenRows="True" HeightRequest="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <local:EventCell BindingContext="{Binding .}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!-- Semana 3 -->
+                    <local:DayView Grid.Row="5" Grid.Column="0" x:Name="_15" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="5" Grid.Column="1" x:Name="_16" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="5" Grid.Column="2" x:Name="_17" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="5" Grid.Column="3" x:Name="_18" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="5" Grid.Column="4" x:Name="_19" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="5" Grid.Column="5" x:Name="_20" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="5" Grid.Column="6" x:Name="_21" BindingContext="{Binding .}" />
+                    <ListView  x:Name="ListView5" Grid.Row="6" Grid.ColumnSpan="7" IsVisible="False" HasUnevenRows="True" HeightRequest="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <local:EventCell BindingContext="{Binding .}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!-- Semana 4 -->
+                    <local:DayView Grid.Row="7" Grid.Column="0" x:Name="_22" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="7" Grid.Column="1" x:Name="_23" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="7" Grid.Column="2" x:Name="_24" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="7" Grid.Column="3" x:Name="_25" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="7" Grid.Column="4" x:Name="_26" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="7" Grid.Column="5" x:Name="_27" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="7" Grid.Column="6" x:Name="_28" BindingContext="{Binding .}" />
+                    <ListView x:Name="ListView7" Grid.Row="8" Grid.ColumnSpan="7" IsVisible="False" HasUnevenRows="True" HeightRequest="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <local:EventCell BindingContext="{Binding .}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!-- Semana 5 -->
+                    <local:DayView Grid.Row="9" Grid.Column="0" x:Name="_29" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="9" Grid.Column="1" x:Name="_30" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="9" Grid.Column="2" x:Name="_31" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="9" Grid.Column="3" x:Name="_32" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="9" Grid.Column="4" x:Name="_33" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="9" Grid.Column="5" x:Name="_34" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="9" Grid.Column="6" x:Name="_35" BindingContext="{Binding .}" />
+                    <ListView x:Name="ListView9" Grid.Row="10" Grid.ColumnSpan="7" IsVisible="False" HasUnevenRows="True" HeightRequest="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <local:EventCell BindingContext="{Binding .}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!-- Semana 6 -->
+                    <local:DayView Grid.Row="11" Grid.Column="0" x:Name="_36" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="11" Grid.Column="1" x:Name="_37" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="11" Grid.Column="2" x:Name="_38" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="11" Grid.Column="3" x:Name="_39" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="11" Grid.Column="4" x:Name="_40" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="11" Grid.Column="5" x:Name="_41" BindingContext="{Binding .}" />
+                    <local:DayView Grid.Row="11" Grid.Column="6" x:Name="_42" BindingContext="{Binding .}" />
+                    <ListView x:Name="ListView11" Grid.Row="12" Grid.ColumnSpan="7" IsVisible="False" HasUnevenRows="True" HeightRequest="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <local:EventCell BindingContext="{Binding .}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

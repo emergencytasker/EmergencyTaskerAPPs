@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       x:Class="Plugin.UI.Xaml.Calendar.DayView"
+       WidthRequest="50"
+       HeightRequest="50"
+       VerticalOptions="Center"
+       HorizontalOptions="Center"
+       BackgroundColor="#eeefef" BorderColor="#eeefef"
+       Padding="0"
+       Margin="0"
+       HasShadow="False"
+       CornerRadius="0" IsClippedToBounds="True">
+    <Frame x:Name="FrameDay" BackgroundColor="White" Margin="2" Padding="2" HeightRequest="50" WidthRequest="50" HasShadow="False" CornerRadius="0" IsClippedToBounds="True">
+        <Grid>
+            <StackLayout BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label x:Name="LabelDay" Text="31" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+            </StackLayout>
+            <Grid VerticalOptions="EndAndExpand" ColumnSpacing="1" Padding="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <BoxView x:Name="EventOne" Grid.Column="0" CornerRadius="5" WidthRequest="5" HeightRequest="5" HorizontalOptions="Center" />
+                <BoxView x:Name="EventTwo" Grid.Column="1" CornerRadius="5" WidthRequest="5" HeightRequest="5" HorizontalOptions="Center" />
+                <BoxView x:Name="EventThree" Grid.Column="2" CornerRadius="5" WidthRequest="5" HeightRequest="5" HorizontalOptions="Center" />
+                <BoxView x:Name="EventFour" Grid.Column="3" CornerRadius="5" WidthRequest="5" HeightRequest="5" HorizontalOptions="Center" />
+            </Grid>
+        </Grid>
+    </Frame>
+</Frame>

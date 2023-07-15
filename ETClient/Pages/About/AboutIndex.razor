@@ -1,0 +1,144 @@
+﻿@page "/about"
+@using Newtonsoft.Json;
+@inject NavigationManager NavManager
+
+@if(Mode)
+{
+<BlazoredTextEditor @ref="QuillNative" Placeholder="Enter non HTML format like centering...">
+    <ToolbarContent>
+        <span class="ql-formats">
+            <select class="ql-font">
+                <option selected=""></option>
+                <option value="serif"></option>
+                <option value="monospace"></option>
+            </select>
+            <select class="ql-size">
+                <option value="small"></option>
+                <option selected=""></option>
+                <option value="large"></option>
+                <option value="huge"></option>
+            </select>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-bold"></button>
+            <button class="ql-italic"></button>
+            <button class="ql-underline"></button>
+            <button class="ql-strike"></button>
+        </span>
+        <span class="ql-formats">
+            <select class="ql-color"></select>
+            <select class="ql-background"></select>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-list" value="ordered"></button>
+            <button class="ql-list" value="bullet"></button>
+            <button class="ql-indent" value="-1"></button>
+            <button class="ql-indent" value="+1"></button>
+            <select class="ql-align">
+                <option selected=""></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+            </select>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-link"></button>
+        </span>
+            <span class="ql-formats">
+                <button class="oi oi-image" @onclick="InsertImage"></button>
+            </span>
+
+    </ToolbarContent>
+</BlazoredTextEditor>
+<br />
+
+<button class="btn btn-primary" style="margin:5px;" @onclick="onSave">
+   Save
+</button>
+<br />
+<br />
+
+}else
+{
+@((MarkupString)htmlContent)
+}
+
+<EditorImageDialog @ref="editorImage"/>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "Mode")]
+    public bool Mode { get; set; } = false;
+    BlazoredTextEditor? QuillNative { set; get; }
+    EditorImageDialog? editorImage { set; get; }
+    [Inject] IToastService? toastService { set; get; }
+    string? htmlContent { set; get; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Console.WriteLine($"[MODE] {Mode}");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            LoadContent();
+        }
+    }
+
+    public async void LoadContent()
+    {
+        string file = "wwwroot/json/about.json";
+
+        if (!File.Exists(file))
+        {
+            JsonModel _model = new JsonModel();
+            _model.content = "";
+            string _content = JsonConvert.SerializeObject(_model, Formatting.Indented);
+            File.WriteAllText(file, _content);
+        }
+
+        string content = File.ReadAllText(file);
+        JsonModel? model = JsonConvert.DeserializeObject<JsonModel>(content);
+
+        if (model != null)
+        {
+            htmlContent = model.content;
+            if (Mode)
+            {
+                await Task.Delay(10);
+                await this.QuillNative.LoadHTMLContent(htmlContent);
+            }
+        }
+        StateHasChanged();
+    }
+
+    public async void InsertImage()
+    {
+        editorImage.OnReturn = onReturnImageInsert;
+        editorImage.onShow();
+    }
+
+    async void onReturnImageInsert(object sender, string url)
+    {
+        await this.QuillNative.InsertImage(url);
+        StateHasChanged();
+    }
+
+
+    async Task onSave()
+    {
+        string file = "wwwroot/json/about.json";
+        htmlContent = await this.QuillNative.GetHTML();
+        JsonModel _model = new JsonModel();
+        _model.content = htmlContent;
+        string _content = JsonConvert.SerializeObject(_model, Formatting.Indented);
+        File.WriteAllText(file, _content);
+
+        toastService.ShowSuccess("it has been saved successfully!");
+    }
+}

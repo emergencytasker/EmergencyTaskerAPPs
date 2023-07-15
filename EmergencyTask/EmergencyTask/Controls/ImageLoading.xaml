@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      x:Class="EmergencyTask.Control.ImageLoading"
+      x:Name="Image"
+      xmlns:Lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+      xmlns:FFImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    <Lottie:AnimationView x:Name="LottieLoading" AutoPlay="True" RepeatMode="Infinite" />
+    <FFImage:CachedImage x:Name="FFImage" Source="{Binding Source}" FadeAnimationEnabled="True" FadeAnimationForCachedImages="True" 
+                         Success="FFImage_Success" Error="FFImage_Error" DownloadProgress="FFImage_DownloadProgress" />
+
+</Grid>

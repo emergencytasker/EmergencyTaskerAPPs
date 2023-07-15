@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+		<integer>2</integer>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CFBundleDisplayName</key>
+	<string>Emergency Tasker</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.emergencytasker.client</string>
+	<key>CFBundleVersion</key>
+	<string>27</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>CFBundleName</key>
+	<string>EmergencyTask</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>MaterialIcons.ttf</string>
+	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>The application needs your location continuously to show you quickly on the maps.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The application requires your location to show you on the map of the services.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>The application synchronizes the services of the app in your calendar.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to the camera to take photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs access to microphone.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs access to the photo gallery.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app use yours contacts for invite friends</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Access to apple music is required to recommend the notification tone</string>
+	<key>NSSiriUsageDescription</key>
+	<string>We use siri to allow intuitive searches for the app</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>We use the bluetooth of your iphone to connect with smart devices that help you do a job.</string>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>MinimumOSVersion</key>
+	<string>12.0</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>remote-notification</string>
+	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>22.0.0</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UIMainStoryboardFile</key>
+	<string>LaunchScreen</string>
+</dict>
+</plist>

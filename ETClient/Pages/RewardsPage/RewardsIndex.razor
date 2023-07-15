@@ -1,0 +1,243 @@
+﻿@page "/rewards"
+@using ETClient.API.ER;
+@using ETClient.Commands;
+@inject NavigationManager navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject SesionService sesionService
+
+@if (!isLoaded)
+{
+    <WaitDialog />
+}
+else if (sesion.Authenticated)
+{
+    <div class="container">
+
+        @foreach(var item in Redeems)
+        {
+            <div class="card margin-5 background-accent border-radius-5">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col container-center">
+                            <img src="/media/icon_redraw.png" style="width:64px;height:64px;margin:5px;"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="card-subtitle mb-2 text-white text-start"><b>@item.Title</b></p>
+                        </div>
+                        <div class="container-80">
+                            <p class="card-subtitle mb-2 text-white text-end" style="font-size:24px;"><b>@item.Redeem</b></p>
+                        </div>
+                        <p class="card-subtitle mb-2 text-white text-start">@item.Detail</p>
+                    </div>
+                    <div class="row" style="margin-left:-4px">
+                        <div class="container-auto">
+                            <p class="card-subtitle mb-2 text-white text-start"><b>@item.Now</b></p>
+                        </div>
+                        <div class="container-auto">
+                            <p class="card-subtitle mb-2 text-white text-center"><b>/</b></p>
+                        </div>
+                        <div class="container-auto">
+                            <p class="card-subtitle mb-2 text-white text-end"><b>@item.Goal</b></p>
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar @(string.Format("w-{0}", item.Progress))" role="progressbar" aria-valuenow="@(string.Format("{0}", item.Progress))" aria-valuemin="0" aria-valuemax="100" ></div>
+                    </div>
+
+                    @if (item.IsRedeedRewardVisible)
+                    {
+                        <button class="btn btn-warning w-100" style="margin-top:15px;color:white" @onclick="@(() => onRequestRedraw(item))"><b>Request Reward</b></button>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <ProcessDialog @ref="processDialog" />
+}
+
+@code {
+    [Inject] IToastService? toastService { set; get; }
+    SesionModel sesion { set; get; } = new();
+    bool isLoaded;
+    public List<Rewards> RewardList { get; private set; }
+    public List<Redeem> UserRedeems { get; private set; }
+    public List<RewardTranslate> Translates { get; private set; }
+    public List<RedeemModel> Redeems { set; get; }
+    ProcessDialog? processDialog { set; get; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isLoaded)
+        {
+            sesion = await sesionService.Read(sessionStorage);
+
+            if (!sesion.Authenticated)
+            {
+                //Redireccionamos a la pantalla de login
+                navigationManager.NavigateTo("/login", true);
+                return;
+            }
+
+            var _user = await Client.User.Get(sesion.User.id);
+
+            sesion.User = _user;
+
+            if (!await EnsureApis())
+            {
+                return;
+            }
+
+            var notinuser = RewardList.Where(r =>
+          {
+              var exists = UserRedeems != null && !UserRedeems.Any(ru => ru.idrecompensas == r.id);
+              var need = r.requierereferido == 0 && r.requierereferencia == 0;
+              return exists && need;
+          });
+
+            var addedtome = await AddToUser(notinuser, sesion.User.id);
+            if (addedtome != null) UserRedeems.AddRange(addedtome);
+
+            RenderRedeems(UserRedeems);
+
+            //Guardamos la sesion
+            sesion = await sesionService.Save(sessionStorage, sesion.User);
+
+            isLoaded = true;
+            this.StateHasChanged();
+        }
+
+    }
+
+    /// <summary>
+    /// Agrega recompensas a un id de usuario
+    /// </summary>
+    /// <param name="rewards"></param>
+    /// <param name="idusuario"></param>
+    /// <returns></returns>
+    private async Task<List<Redeem>> AddToUser(IEnumerable<Rewards> rewards, int idusuario, int? idreferencia = null, string codigo = "")
+    {
+        if (rewards == null) return new List<Redeem>(0);
+        if (rewards.Count() == 0) return new List<Redeem>(0);
+        List<Redeem> redeems = new List<Redeem>(rewards.Count());
+        foreach (var item in rewards)
+        {
+            if (UserRedeems == null || UserRedeems.Any(u => u.idrecompensas == item.id)) continue;
+            var redeem = await Client.Redeem.Add(new Redeem
+                {
+                    idrecompensas = item.id,
+                    idusuario = idusuario,
+                    variable = item.variable,
+                    trabajoterminado = item.trabajoterminado,
+                    referencia = idreferencia,
+                    codigo = codigo
+                });
+            if (redeem == null || redeem.id <= 0) continue;
+            redeems.Add(redeem);
+        }
+        return redeems;
+    }
+
+    /// <summary>
+    /// Asignar recompensas
+    /// </summary>
+    /// <param name="recompensausuario"></param>
+    private void RenderRedeems(List<Redeem> recompensausuario)
+    {
+        if (recompensausuario == null || recompensausuario.Count() == 0) return;
+        if (RewardList == null || RewardList.Count() == 0) return;
+        foreach (var item in recompensausuario)
+        {
+            var recompensa = RewardList.FirstOrDefault(r => r.id == item.idrecompensas);
+            if (recompensa == null) continue;
+            var model = GetModel(item, recompensa);
+            if (model == null) continue;
+            AddRedeem(model);
+        }
+    }
+
+    /// <summary>
+    /// Agrega un Redeem
+    /// </summary>
+    /// <param name="redeemmodel"></param>
+    public void AddRedeem(RedeemModel redeemmodel)
+    {
+        if (Redeems == null) Redeems = new List<RedeemModel>();
+        if (Redeems.FirstOrDefault(r => r.IdReward == redeemmodel.IdReward) != null) return;
+        var translate = Translates.FirstOrDefault(t => t.idrecompensa == redeemmodel.IdReward);
+        if (translate != null)
+        {
+            redeemmodel.Title = translate.traduccion;
+            redeemmodel.Detail = translate.descripcion;
+        }
+        Redeems.Add(redeemmodel);
+    }
+
+    /// <summary>
+    /// Verifica que las apis se hayan ejecutado
+    /// </summary>
+    /// <returns></returns>
+    private async Task<bool> EnsureApis()
+    {
+        if (sesion.User == null) return false;
+        RewardList = (await Client.Rewards.Where(new Rewards
+            {
+                idperfil = (int)sesion.User.idperfil
+            })).ToList();
+
+        UserRedeems = (await Client.Redeem.Where(new Redeem
+            {
+                idusuario = sesion.User.id
+            })).ToList();
+
+        Translates = (await Client.GetRewardsTranslate(sesion.User.lenguaje ?? Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName)).ToList();
+        return RewardList != null && RewardList.Count() > 0 && UserRedeems != null;
+    }
+
+    /// <summary>
+    /// Devuelve un redeem model
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="recompensa"></param>
+    /// <param name="validators"></param>
+    /// <returns></returns>
+    private RedeemModel GetModel(Redeem item, Rewards recompensa)
+    {
+        if (item == null) return null;
+        if (recompensa == null) return null;
+        return new RedeemModel
+            {
+                Goal = item.variable,
+                Now = item.realizado,
+                Title = recompensa.nombre,
+                Redeem = $"${recompensa.valor}",
+                IsRedeedRewardVisible = item.reclamada == 0 && item.realizado / item.variable == 1,
+                Id = item.id,
+                IdReward = recompensa.id,
+                Detail = recompensa.descripcion
+            };
+    }
+
+    async void onRequestRedraw(RedeemModel model)
+    {
+        processDialog.Show();
+
+        var update = await Client.Redeem.Update(model.Id, new Dictionary<string, string>
+            {
+                { nameof(Redeem.reclamada), "1" }
+            });
+
+        if (update == null || update.reclamada != 1)
+        {
+            toastService.ShowError("RecompensaInvalida");
+            processDialog.Close();
+            return;
+        }
+
+        toastService.ShowError("VerificandoRecompensa");
+        model.IsRedeedRewardVisible = false;
+        processDialog.Close();
+    }
+}

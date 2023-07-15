@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.CalendarPage"
+             xmlns:UI="clr-namespace:Plugin.UI.Xaml.Calendar"
+             x:Name="Page"
+             xmlns:ViewModels="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             xmlns:i18n="clr-namespace:Plugin.Language" xmlns:Behaviors="clr-namespace:LightForms.Behaviors;assembly=LightForms"
+             Title="{i18n:Translate Calendario}">
+    <TabbedPage.BindingContext>
+        <ViewModels:CalendarViewModel x:Name="ViewModel" />
+    </TabbedPage.BindingContext>
+
+    <ContentPage Title="{i18n:Translate Calendario}" BackgroundColor="#eeeeee" IconImageSource="{OnPlatform Default=null, iOS='calendar.png'}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1" VerticalOptions="FillAndExpand">
+                <UI:CalendarView Grid.Row="0" SelectedDayTextColor="{StaticResource Accent}" DayTextColor="Black" CanSelect="True" IsRestricted="False"
+                                 Sunday="{i18n:Translate Sunday}" Monday="{i18n:Translate Monday}" Tuesday="{i18n:Translate Tuesday}" Wednesday="{i18n:Translate Wednesday}" Thursday="{i18n:Translate Thursday}" Friday="{i18n:Translate Friday}" Saturday="{i18n:Translate Saturday}" HeaderTextColor="{StaticResource Accent}"
+                                 VerticalOptions="Start" HorizontalOptions="Center">
+                    <UI:CalendarView.Behaviors>
+                        <UI:CalendarBehavior BindingContext="{x:Reference ViewModel}" Events="{Binding Events}" SelectedEvent="{Binding SelectedEvent}" SelectedDate="{Binding SelectedDate}" />
+                    </UI:CalendarView.Behaviors>
+                </UI:CalendarView>
+            </Grid>
+            <Control:ProgressView IsVisible="{Binding IsBusy}" Grid.RowSpan="2" />
+        </Grid>
+    </ContentPage>
+
+    <ContentPage Title="{i18n:Translate Lista}" BackgroundColor="#eeeeee" IconImageSource="{OnPlatform Default=null, iOS='list.png'}">
+        <ListView ItemsSource="{Binding Events}" SelectedItem="{Binding Event}" Margin="12">
+            <ListView.Behaviors>
+                <Behaviors:ListViewRemoveSelectionBehavior />
+                <Behaviors:ViewEventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectedEvent}" CommandParameter="{Binding Event}" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame CornerRadius="10" BackgroundColor="White" Padding="0" Margin="0,6">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <BoxView Grid.Column="0" BackgroundColor="{Binding Color}" WidthRequest="12"/>
+                                <StackLayout Grid.Column="1" Padding="12">
+                                    <Label Text="{Binding Title}" TextColor="{StaticResource Accent}" FontAttributes="Bold" FontSize="Medium"/>
+                                    <Label Text="{Binding Detail}" TextColor="Black"/>
+                                    <Label Text="{Binding Status}" TextColor="{Binding Color}" FontAttributes="Bold"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding StartDate,StringFormat='{0:dd MMMM yyyy}'}" TextColor="Black"/>
+                                        <Label Text="{Binding StartHour}" TextColor="Black"/>
+                                        <Label Text=" - " TextColor="Black"/>
+                                        <Label Text="{Binding EndHour}" TextColor="Black"/>
+                                    </StackLayout>
+                                </StackLayout>
+                                <Frame Grid.Column="1" CornerRadius="0" Margin="0" Padding="2" HorizontalOptions="End" Opacity="0.7" VerticalOptions="Start" BackgroundColor="{StaticResource Accent}">
+                                    <Label Text="{Binding Id, StringFormat='# {0}'}" TextColor="White" FontAttributes="Bold"/>
+                                </Frame>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage>
+
+</TabbedPage>

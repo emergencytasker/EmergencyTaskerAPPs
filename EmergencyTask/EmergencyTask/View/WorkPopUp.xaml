@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PopUp:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             xmlns:PopUp="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="EmergencyTask.View.WorkPopUp"
+                 xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel">
+    <PopUp:PopupPage.BindingContext>
+        <ViewModel:WorkViewModel />
+    </PopUp:PopupPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <BoxView BackgroundColor="Black" Opacity="0.5"/>
+            <Grid Padding="12" BackgroundColor="White" Margin="20,0" VerticalOptions="Center">
+                <StackLayout>
+                    <Label Text="{i18n:Translate AgregarTrabajos}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                    <ScrollView>
+                        <StackLayout>
+                            <Label Text="{i18n:Translate Empresa}" TextColor="Gray"/>
+                            <Entry FontSize="Small" Text="{Binding Work.Empresa}"/>
+                            <Label Text="{i18n:Translate Puesto}" TextColor="Gray"/>
+                            <Entry FontSize="Small" Text="{Binding Work.Puesto}" />
+                            <Label Text="{i18n:Translate FechasTrabajo}" TextColor="Gray"/>
+                            <Grid>
+                                <StackLayout Grid.Column="0">
+                                    <Label Text="{i18n:Translate De}" TextColor="Gray" HorizontalTextAlignment="Center"/>
+                                    <DatePicker FontSize="Small" TextColor="Black" HorizontalOptions="Center"
+                                    Date="{Binding Work.Inicio}" />
+                                </StackLayout>
+                                <StackLayout Grid.Column="1">
+                                    <Label Text="{i18n:Translate A}" TextColor="Gray" HorizontalTextAlignment="Center"/>
+                                    <DatePicker FontSize="Small" TextColor="Black" HorizontalOptions="Center"
+                                    Date="{Binding Work.Fin}" />
+                                </StackLayout>
+                            </Grid>
+                            <Label Text="{i18n:Translate Descripcion}" TextColor="Gray"/>
+                            <Editor HeightRequest="80" FontSize="Small" Text="{Binding Work.Descripcion}" />
+                        </StackLayout>
+                    </ScrollView>
+                    <Button Text="{i18n:Translate Guardar}" Style="{StaticResource BtnDefault}" Command="{Binding Save}"/>
+                </StackLayout>
+                <Frame Padding="0" VerticalOptions="Start" HorizontalOptions="End" CornerRadius="0" Margin="0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BtnClose}"/>
+                    </Frame.GestureRecognizers>
+                    <Label Text="{StaticResource Times}" FontFamily="{DynamicResource MaterialIcons}" TextColor="Red" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" FontSize="Large"/>
+                </Frame>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</PopUp:PopupPage>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.ChatListPage"
+             Title="{i18n:Translate Mensajes}"
+             xmlns:i18n="clr-namespace:Plugin.Language"
+             BackgroundColor="#eeeeee"
+             xmlns:Controls="clr-namespace:EmergencyTask.Control"
+                    xmlns:Behaviors="clr-namespace:EmergencyTask.Behaviors"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Control="clr-namespace:EmergencyTask.Control">
+    <ContentPage.BindingContext>
+        <ViewModel:ChatListViewModel/>
+    </ContentPage.BindingContext>
+<ContentPage.Content>
+        <Grid>
+            <StackLayout Padding="12">
+                <ListView ItemsSource="{Binding Source}" SelectedItem="{Binding Chat}" SelectionMode="Single" ItemSelected="ListView_ItemSelected">
+                    <ListView.Behaviors>
+                        <Behaviors:ListViewBehavior />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame Margin="0,6" VerticalOptions="Center">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Controls:ImageLoading LoadingPlaceHolder="ImageLoading.json" ErrorPlaceHolder="icon.png" Grid.Column="0" Source="{Binding ImageUser}" Aspect="AspectFit" HeightRequest="50" WidthRequest="50">
+                                            <Controls:ImageLoading.Transformations>
+                                                <Transformations:CircleTransformation />
+                                            </Controls:ImageLoading.Transformations>
+                                        </Controls:ImageLoading>
+                                        <Grid Grid.Column="1" VerticalOptions="CenterAndExpand">
+                                            <StackLayout Grid.Row="0" Orientation="Horizontal">
+                                                <Label Text="{Binding NameUser}" TextColor="Black" HorizontalOptions="StartAndExpand"/>
+                                                <Label Text="{Binding LastUpdate}" TextColor="Gray" HorizontalTextAlignment="End" FontSize="Micro" HorizontalOptions="EndAndExpand"/>
+                                            </StackLayout>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="60"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Text="{Binding Messenger}" MaxLines="1" LineBreakMode="TailTruncation" TextColor="Black" HorizontalOptions="StartAndExpand"/>
+                                                <Grid Grid.Column="1" HorizontalOptions="EndAndExpand" IsVisible="{Binding IsPenddingVisible}">
+                                                    <BoxView BackgroundColor="{StaticResource Accent}"  CornerRadius="50" HeightRequest="25" WidthRequest="25" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                    <Label Text="{Binding PenddingMessage}" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Micro"/>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <Control:ProgressView IsVisible="{Binding IsBusy}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

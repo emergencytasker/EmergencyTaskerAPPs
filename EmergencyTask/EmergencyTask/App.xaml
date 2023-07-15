@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.App"
+             xmlns:Converters="clr-namespace:Xamarin.Forms.ConvertersPack;assembly=Xamarin.Forms.ConvertersPack">
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <!-- Converters -->
+            <Converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+            <Converters:HasDataConverter x:Key="HasDataConverter" />
+            <!-- End Converters -->
+            
+            <!-- Fonts -->
+            <!-- <Label Text="{StaticResource Play}" FontFamily="{DynamicResource MaterialIcons}" FontSize="30" /> -->
+            <OnPlatform x:Key="MaterialIcons" x:TypeArguments="x:String">
+                <On Platform="iOS" Value="Material Icons" />
+                <On Platform="Android" Value="MaterialIcons.ttf#MaterialIcons" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="FlatIcon" x:TypeArguments="x:String">
+                <On Platform="iOS" Value="FlatIcon" />
+                <On Platform="Android" Value="FlatIcon.ttf#FlatIcon"/>
+            </OnPlatform>
+            <!-- Fonts -->
+            
+            <!-- https://andreinitescu.github.io/IconFont2Code/ -->
+            <!-- Material Icons -->
+            <x:String x:Key="Home">&#xe88a;</x:String>
+            <x:String x:Key="Call">&#xe0b0;</x:String>
+            <x:String x:Key="Time">&#xe01b;</x:String>
+            <x:String x:Key="Info">&#xe001;</x:String>
+            <x:String x:Key="Menu">&#xe5d4;</x:String>
+            <x:String x:Key="Money">&#xe227;</x:String>
+            <x:String x:Key="Email">&#xe0be;</x:String>
+            <x:String x:Key="Key">&#xe0da;</x:String>
+            <x:String x:Key="Task">&#xe1bd;</x:String>
+            <x:String x:Key="User">&#xe7fd;</x:String>
+            <x:String x:Key="Office">&#xe8f9;</x:String>
+            <x:String x:Key="Tool">&#xe869;</x:String>
+            <x:String x:Key="Angular">&#xe5cc;</x:String>
+            <x:String x:Key="Picture">&#xe1bc;</x:String>
+            <x:String x:Key="Save">&#xe161;</x:String>
+            <x:String x:Key="Message">&#xe0cb;</x:String>
+            <x:String x:Key="OpenMail">&#xe151;</x:String>
+            <x:String x:Key="Run">&#xe536;</x:String>
+            <x:String x:Key="Play">&#xe037;</x:String>
+            <x:String x:Key="Pause">&#xe034;</x:String>
+            <x:String x:Key="Stop">&#xe047;</x:String>
+            <x:String x:Key="Delete">&#xe872;</x:String>
+            <x:String x:Key="Messenger">&#xe8af;</x:String>
+            <x:String x:Key="Star">&#xe885;</x:String>
+            <x:String x:Key="Tasker">&#xe886;</x:String>
+            <x:String x:Key="Sun">&#xe3ac;</x:String>
+            <x:String x:Key="Moon">&#xe3a8;</x:String>
+            <x:String x:Key="Pin">&#xe55f;</x:String>
+            <x:String x:Key="Send">&#xe569;</x:String>
+            <x:String x:Key="Gps">&#xe55c;</x:String>
+            <x:String x:Key="Edit">&#xe150;</x:String>
+            <x:String x:Key="Arrow">&#xe316;</x:String>
+            <x:String x:Key="Card">&#xe870;</x:String>
+            <x:String x:Key="Notification">&#xe7f4;</x:String>
+            <x:String x:Key="Portfolio">&#xe8f9;</x:String>
+            <x:String x:Key="Checkboxtrue">&#xe834;</x:String>
+            <x:String x:Key="Checkboxfalse">&#xe835;</x:String>
+            <x:String x:Key="Visa">&#xf100;</x:String>
+            <x:String x:Key="MasterCard">&#xf101;</x:String>
+            <x:String x:Key="Price">&#xe263;</x:String>
+            <x:String x:Key="Calendar">&#xe616;</x:String>
+            <x:String x:Key="Map">&#xe55b;</x:String>
+            <x:String x:Key="Route">&#xe52e;</x:String>
+            <x:String x:Key="Times">&#xe14c;</x:String>
+            <x:String x:Key="Dollar">&#xe53e;</x:String>
+            <x:String x:Key="Plus">&#xe145;</x:String>
+
+            <x:Double x:Key="Latitud">37.370000</x:Double>
+            <x:Double x:Key="Longitud">-122.040000</x:Double>
+
+            <Color x:Key="Background">#000000</Color>
+            <Color x:Key="Accent">#3E69AF</Color>
+            <Color x:Key="Red">#B73025</Color>
+            <Color x:Key="Blue">#3E69AF</Color>
+            <Color x:Key="Yellow">#F2DA46</Color>
+
+            <x:String x:Key="HexAccent">#3E69AF</x:String>
+
+            <Style TargetType="Button" x:Key="BtnDefault">
+                <Setter Property="BackgroundColor" Value="#3E69AF"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontSize" Value="Small"/>
+            </Style>
+            
+            <Style TargetType="Button" x:Key="BtnPrimary">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontSize" Value="Small"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="BorderColor" Value="Black"/>
+            </Style>
+
+            <Style TargetType="Frame">
+                <Setter Property="HasShadow" Value="False"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="IsClippedToBounds" Value="True"/>
+            </Style>
+
+            <Style TargetType="ListView">
+                <Setter Property="HasUnevenRows" Value="True"/>
+                <Setter Property="SeparatorVisibility" Value="None"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Never"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

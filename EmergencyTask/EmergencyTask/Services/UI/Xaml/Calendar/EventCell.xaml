@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Plugin.UI.Xaml.Calendar.EventCell">
+    <Grid Padding="6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Column="0">
+            <Label Text="{Binding StartHour}" TextColor="{Binding Color}" FontSize="Small" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+            <Label Text="{Binding EndHour}" TextColor="{Binding Color}" FontSize="Small" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+        </StackLayout>
+        <StackLayout Grid.Column="1">
+            <Label Text="{Binding Title}" TextColor="{Binding TitleColor}" FontSize="Default" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation" />
+            <Label Text="{Binding Detail}" TextColor="{Binding DetailColor}" FontSize="Small" MaxLines="1" LineBreakMode="TailTruncation" />
+            <StackLayout Orientation="Horizontal" Spacing="5">
+                <BoxView Color="{Binding Color}" CornerRadius="2.5" WidthRequest="5" HeightRequest="5" VerticalOptions="Center" />
+                <Label Text="{Binding Status}" TextColor="{Binding Color}" FontSize="Small" VerticalTextAlignment="Center" VerticalOptions="Center" />
+            </StackLayout>
+        </StackLayout>
+    </Grid>
+</ViewCell>

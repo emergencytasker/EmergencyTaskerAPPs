@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:iOS="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             iOS:Page.UseSafeArea="True"
+             xmlns:Control="clr-namespace:EmergencyTask.Control"
+             xmlns:Xaml="clr-namespace:LightForms.Xaml;assembly=LightForms"
+             xmlns:Behaviors="clr-namespace:LightForms.Behaviors;assembly=LightForms"
+             xmlns:Transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:Lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="EmergencyTask.View.SharePopUp"
+             xmlns:ViewModel="clr-namespace:EmergencyTask.ViewModel"
+             xmlns:Popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+    <Grid>
+        <StackLayout VerticalOptions="End" Margin="12">
+            <Frame Padding="0" Margin="0" CornerRadius="5">
+                <StackLayout Padding="12" BackgroundColor="White" Spacing="12">
+                    <Label Text="Compartir" HorizontalTextAlignment="Center" TextColor="{StaticResource Accent}" FontSize="Medium" FontAttributes="Bold"/>
+                    <BoxView HeightRequest="1" Color="{StaticResource Accent}" />
+                    <CollectionView ItemsSource="{Binding SocialNetworks}" BackgroundColor="Transparent" SelectedItem="{Binding SocialNetwork}" SelectionMode="Single" ItemSizingStrategy="MeasureAllItems" SelectionChangedCommand="{Binding SelectedSocialNetwork}" SelectionChangedCommandParameter="{Binding SocialNetwork}" HeightRequest="85">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Span="1" HorizontalItemSpacing="20" VerticalItemSpacing="12" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="White" VerticalOptions="Center">
+                                    <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" HorizontalOptions="Center"/>
+                                    <Label Text="{Binding Title}" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+            <Button Text="Cancelar" Command="{Binding BtnCancel}" TextColor="White" BackgroundColor="{StaticResource Accent}" CornerRadius="5" />
+        </StackLayout>
+    </Grid>
+</Popup:PopupPage>

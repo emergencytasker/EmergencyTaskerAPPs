@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             HeightRequest="150"
+             WidthRequest="150"
+             x:Class="EmergencyTask.Control.CartaView">
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding Action}" />
+    </ContentView.GestureRecognizers>
+    <ContentView.Content>
+        <Grid>
+            <BoxView BackgroundColor="#eeeeee"/>
+            <StackLayout>
+                <Image Source="{Binding Image}" HeightRequest="100" Aspect="AspectFill" HorizontalOptions="FillAndExpand" />
+                <Label Text="{Binding Title}" TextColor="Gray" FontSize="Small" HorizontalTextAlignment="Center" Margin="10,0" MaxLines="2" LineBreakMode="TailTruncation" />
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EmergencyTask.ChatPage"
+             xmlns:Control="clr-namespace:EmergencyTask.Control">
+
+    <Grid Padding="0" Margin="0">
+        <Grid BackgroundColor="#eeeeee">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ScrollView Grid.Row="0" Padding="12" Margin="0" BackgroundColor="#eeeeee" x:Name="ScrollChatListView">
+                <StackLayout Padding="0" Margin="0" x:Name="ChatListView">
+
+                </StackLayout>
+            </ScrollView>
+            <Frame HeightRequest="50" Grid.Row="1" CornerRadius="25" Padding="0">
+                <Frame.Margin>
+                    <OnPlatform x:TypeArguments="Thickness" Default="12" Android="12" iOS="12,12,12,30" />
+                </Frame.Margin>
+                <Grid Padding="0" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Entry Grid.Column="0" TextColor="Black" Text="{Binding Message}" Margin="15,0,0,0" VerticalOptions="Center" />
+                    <Button Grid.Column="1" Text="{StaticResource Send}" FontFamily="{StaticResource MaterialIcons}" Style="{StaticResource BtnDefault}" CornerRadius="25" Command="{Binding SendMessage}"/>
+                </Grid>
+            </Frame>
+        </Grid>
+        <Control:ProgressView IsVisible="{Binding IsBusy}" />
+    </Grid>
+</ContentPage>
